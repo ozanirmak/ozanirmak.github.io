@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#F0EEE9">
+<title>Pati's World</title>
+<link rel="icon" href="img/logo.webp">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Manrope:wght@500;700;800&display=swap">
+<style>
+:root{--bg:#F0EEE9;--card:#FFFFFF;--raised:#E6E8F2;--ink:#444B6E;--muted:#5E6582;--on:#444B6F;--glass:rgba(255,255,255,.55);--gline:rgba(255,255,255,.7);
+--peach:#FFBE98;--blue:#A9C3EE;--mint:#B8DCC8;--rose:#F4B6BE;--cta:#FF9F73;--coral:#FF8F5E;--vblue:#4F7FE0;--vmint:#2DBE8A;--vbutter:#F2B731;--vrose:#EE5F7B;
+--tPeach:#984B28;--tBlue:#3A5C96;--tGreen:#2C6E4E;--tRose:#A63D52;--tintR:#FBE7EA;--tintG:#DCEFE4;--tintB:#E3EBFA;--tintP:#FFE9DC;--shadow:rgba(68,75,110,.16)}
+[data-theme=dark]{--bg:#1C1F2B;--card:#262A3A;--raised:#30354A;--ink:#ECE9F2;--muted:#A9AEC6;--on:#1C1F2B;--glass:rgba(38,42,58,.55);--gline:rgba(255,255,255,.1);
+--peach:#FFB48C;--blue:#9DB8F0;--mint:#9FD8BC;--rose:#F0A8B4;--vblue:#7EA2F5;--tPeach:#FFB48C;--tBlue:#A9C3F5;--tGreen:#9FD8BC;--tRose:#F5A9B6;--tintR:#3B2830;--tintG:#22382F;--tintB:#26304A;--tintP:#3A2C26;--shadow:rgba(0,0,0,.4)}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.45 Manrope,system-ui,sans-serif;overflow:hidden}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+h1,h2{font-family:Archivo,sans-serif;font-weight:900;letter-spacing:-.02em;line-height:1.02;margin:0}
+h2{font-size:26px}
+.sq{border-radius:22px;corner-shape:squircle}
+.glass{background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--gline)}
+#map{position:fixed;inset:0;z-index:0;background:var(--bg)}
+.leaflet-control-attribution{font-size:10px;background:var(--glass)!important;color:var(--muted)}
+.leaflet-control-attribution a{color:var(--muted)}
+.leaflet-control-zoom{display:none}
+.tl-light{filter:saturate(.75) brightness(1.04) contrast(.95)}
+.tl-dark{filter:invert(1) hue-rotate(190deg) saturate(.55) brightness(.85) contrast(.9)}
+.top{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;right:12px;z-index:5;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.top>*{pointer-events:auto}
+.row{display:flex;gap:8px;align-items:center}
+.brand{flex:1;display:flex;align-items:center;gap:10px;height:48px;padding:0 8px 0 6px;border-radius:999px}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand b{font:900 18px Archivo,sans-serif}
+.brand span{font-size:12px;color:var(--muted);font-weight:700;margin-left:auto;padding-right:8px}
+.av{width:48px;height:48px;border-radius:999px;border:2px solid var(--coral);overflow:hidden;flex:none;padding:0}
+.av img{width:100%;height:100%;display:block}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:36px;padding:0 14px;border-radius:999px;font-weight:800;font-size:13px}
+.chip.on{background:var(--ink);color:var(--bg);border:0}
+.fab{position:fixed;right:12px;z-index:5;width:46px;height:46px;border-radius:999px;display:grid;place-items:center}
+.bottom{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:5;display:flex;flex-direction:column;gap:8px}
+.stat{align-self:center;font-weight:800;font-size:12px;padding:5px 12px;border-radius:999px}
+.dock{padding:6px;border-radius:34px;corner-shape:squircle;display:flex;flex-direction:column;gap:6px;box-shadow:0 10px 30px var(--shadow)}
+.cta{height:54px;border-radius:999px;background:var(--cta);color:var(--on);font:900 18px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.cta.rose{background:var(--vrose);color:#fff}
+.cta.blue{background:var(--blue);color:var(--on)}
+.cta:disabled{opacity:.45}
+.addpt{width:54px;height:54px;flex:none;border-radius:999px;background:var(--blue);color:var(--on);border:2px solid var(--vblue);display:grid;place-items:center}
+.addpt:disabled{opacity:.35;filter:grayscale(1)}
+.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 4px;font-size:11px;font-weight:700;color:var(--muted);position:relative}
+.tab.on{color:var(--tPeach);font-weight:800}
+.dot{position:absolute;top:4px;right:calc(50% - 18px);width:9px;height:9px;border-radius:9px;background:var(--vrose)}
+svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* markers */
+.mk-cat{display:flex;align-items:center;gap:4px;height:30px;padding:0 9px 0 3px;border-radius:999px;background:var(--glass);backdrop-filter:blur(8px);border:2px solid;font:800 12px Manrope,sans-serif;color:var(--ink);white-space:nowrap;width:max-content}
+.mk-cat i{width:22px;height:22px;border-radius:999px;display:block}
+.mk-pt{width:42px;height:42px;border-radius:15px;corner-shape:squircle;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 6px 14px var(--shadow);color:#fff}
+.mk-li{width:48px;height:48px;border-radius:999px;overflow:hidden;border:3px solid;background:var(--card);display:grid;place-items:center}
+.mk-li img{width:100%;height:100%;object-fit:cover}
+.mk-me{width:18px;height:18px;border-radius:99px;background:var(--vblue);border:3px solid #fff;box-shadow:0 0 0 10px rgba(79,127,224,.18)}
+/* sheets */
+.scrim{position:fixed;inset:0;z-index:20;background:rgba(20,22,32,.25);display:none}
+.sheet{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:21;max-height:86vh;overflow-y:auto;border-radius:34px;corner-shape:squircle;padding:10px 18px 18px;display:none;flex-direction:column;gap:14px;background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%);border:1px solid var(--gline);box-shadow:0 -8px 30px var(--shadow);max-width:560px;margin:0 auto}
+.sheet.full{top:calc(8px + env(safe-area-inset-top));max-height:none;background:var(--bg)}
+.open .scrim{display:block}
+.sheet.show{display:flex}
+.grab{align-self:center;width:40px;height:5px;border-radius:9px;background:var(--muted);opacity:.35}
+.hd{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.x{width:44px;height:44px;flex:none;border-radius:999px;background:var(--raised);display:grid;place-items:center}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.grid5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pick{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;border-radius:20px;corner-shape:squircle;border:2px solid transparent;background:var(--raised);font-size:11px;font-weight:700}
+.pick.on{border-color:var(--coral);background:var(--tintP);font-weight:800}
+.pick i{width:30px;height:30px;border-radius:99px;display:block}
+.avp{padding:3px;border-radius:999px;border:3px solid transparent;aspect-ratio:1}
+.avp.on{border-color:var(--coral)}
+.avp img{width:100%;height:100%;border-radius:999px;display:block}
+.step{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 8px 16px;border-radius:22px;corner-shape:squircle;background:var(--raised)}
+.step b{font:900 34px Archivo,sans-serif;color:var(--tPeach);min-width:40px;text-align:center}
+.round{width:46px;height:46px;border-radius:999px;background:var(--card);font:800 22px Manrope,sans-serif}
+.round.p{background:var(--cta);color:var(--on)}
+.tg{display:flex;flex-wrap:wrap;gap:6px}
+.tg button{height:38px;padding:0 13px;border-radius:999px;border:2px solid var(--raised);font-size:13px;font-weight:700}
+.tg button.on{border-color:var(--vblue);background:var(--blue);color:var(--on);font-weight:800}
+input[type=text],textarea{width:100%;padding:12px 14px;border-radius:16px;corner-shape:squircle;border:2px solid var(--raised);background:var(--card);font-size:16px;font-weight:700;outline:none}
+input[type=text]:focus,textarea:focus{border-color:var(--vblue)}
+textarea{min-height:80px;resize:vertical}
+.card{background:var(--card);border-radius:24px;corner-shape:squircle;padding:12px 14px}
+.li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:22px;corner-shape:squircle;background:var(--card);width:100%;text-align:left}
+.li img{width:50px;height:50px;border-radius:999px;object-fit:cover;flex:none}
+.li .t{display:flex;flex-direction:column;gap:2px;flex:1}
+.li b{font-size:15px}.li small{font-size:12px;color:var(--muted);font-weight:700}
+.badge{align-self:flex-start;font-size:10px;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:999px}
+.muted{color:var(--muted);font-size:13px;font-weight:700}
+.chat{display:flex;flex-direction:column;gap:6px;max-height:34vh;overflow-y:auto;padding:4px 0}
+.msg{display:flex;gap:8px;align-items:flex-end}
+.msg img{width:28px;height:28px;border-radius:99px;flex:none}
+.bub{background:var(--raised);padding:8px 12px;border-radius:18px 18px 18px 6px;font-size:14px;font-weight:600;max-width:78%}
+.bub small{display:block;font-size:11px;color:var(--muted);font-weight:800}
+.msg.me{flex-direction:row-reverse}.msg.me .bub{background:var(--tintP);border-radius:18px 18px 6px 18px}
+.send{display:flex;gap:8px}.send input{flex:1}
+.send button{width:50px;flex:none;border-radius:16px;corner-shape:squircle;background:var(--cta);color:var(--on);display:grid;place-items:center}
+.pin-center{position:fixed;left:50%;top:50%;z-index:6;transform:translate(-50%,-100%);display:none;pointer-events:none}
+.picking .pin-center{display:block}
+.picking .top,.picking .bottom{display:none}
+.pickbar{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:7;display:none;flex-direction:column;gap:8px}
+.picking .pickbar{display:flex}
+.toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translateX(-50%);z-index:40;padding:10px 16px;border-radius:999px;font-weight:800;font-size:14px;display:none;max-width:90vw;text-align:center}
+.feat{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:20px;corner-shape:squircle;background:var(--card);font-size:13px;font-weight:700;line-height:1.3}
+.feat span:first-child{width:34px;height:34px;flex:none;border-radius:12px;corner-shape:squircle;display:grid;place-items:center}
+.theme{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px 12px;border-radius:26px;corner-shape:squircle;border:3px solid transparent}
+.theme.on{border-color:var(--coral);box-shadow:0 8px 20px rgba(255,143,94,.25)}
+.theme img{width:72px;height:72px;border-radius:99px}
+.pkg{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:16px 14px 12px;border-radius:24px;corner-shape:squircle;background:var(--card);border:2px solid transparent;text-align:left}
+.pkg.on{border-color:var(--coral);background:var(--tintP)}
+.pkg b{font:900 24px Archivo,sans-serif}
+.empty{padding:22px;text-align:center;color:var(--muted);font-weight:700;font-size:14px}
+@media(min-width:700px){.bottom,.top{max-width:560px;margin:0 auto}}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="pin-center"><svg width="44" height="56" viewBox="0 0 44 56"><path d="M22 54s18-17 18-31A18 18 0 0 0 4 23c0 14 18 31 18 31z" fill="#FF8F5E" stroke="#fff" stroke-width="3"/><circle cx="22" cy="22" r="7" fill="#fff"/></svg></div>
+<div class="pickbar"><div class="stat glass" style="align-self:center">Haritayı kaydır, iğneyi yerine getir</div><button class="cta" id="pickOk">Burayı seç</button><button class="cta blue" id="pickCancel">Vazgeç</button></div>
+
+<div class="top">
+  <div class="row">
+    <div class="brand glass"><img src="img/logo.webp" alt=""><b>Pati's World</b><span id="near">yükleniyor…</span></div>
+    <button class="av" id="meBtn" aria-label="Gönüllü profili"><img id="meImg" src="img/a1.webp" alt=""></button>
+  </div>
+  <div class="chips" id="chips"></div>
+</div>
+<button class="fab glass" id="locBtn" aria-label="Konumuma git" style="top:calc(122px + env(safe-area-inset-top))"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg></button>
+
+<div class="bottom">
+  <div class="dock glass">
+    <div class="row">
+      <button class="cta" id="seeBtn"><svg class="i" viewBox="0 0 24 24"><path d="M4 4l3 4h10l3-4v9a8 8 0 0 1-16 0z"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg>Kedi gördüm</button>
+      <button class="addpt" id="ptBtn" aria-label="Mama noktası ekle"><svg class="i" viewBox="0 0 24 24"><path d="M3 13h18l-2 6H5z"/><path d="M12 3v7M8.5 6.5h7"/></svg></button>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet"></div>
+<div class="toast glass" id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+{
+const SB = supabase.createClient('https://yakbosxpbnevrgfwenbp.supabase.co', 'sb_publishable_5i7fJcrw8hVPWwJdqaQ8IA_v9amok1v');
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS = { get(k, d) { try { const v = localStorage.getItem('pw_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('pw_' + k, JSON.stringify(v)); } catch {} } };
+const AV = i => 'img/a' + (i || 1) + '.webp';
+const AVN = ['Sarman','Smokin','Üç Renk','Pamuk','Siyam','Mavi','Ponpon','Kömür','Kaplumbağa','Zıpzıp'];
+const COLORS = [['Tekir','#C4A383'],['Sarman','#F6BE84'],['Siyah','#55566A'],['Beyaz','#FFFFFF'],['Siyah-beyaz','linear-gradient(90deg,#55566A 50%,#FFFFFF 50%)'],['Gri','#BCC0CB'],['Üç renkli','conic-gradient(#FFFFFF 0 33%,#F6BE84 0 66%,#55566A 0)'],['Diğer','#B9BED3']];
+const colorOf = n => (COLORS.find(c => c[0] === n) || COLORS[7])[1];
+const ESK = [39.7767, 30.5206];
+
+/* identity */
+let me = LS.get('me', null);
+let secret = LS.get('secret', null);
+if (!secret) { secret = crypto.randomUUID() + crypto.randomUUID(); LS.set('secret', secret); }
+let volId = LS.get('vol', null);
+if (!volId) { volId = crypto.randomUUID(); LS.set('vol', volId); }
+const vols = new Map();
+
+/* theme */
+function setTheme(t) { document.documentElement.dataset.theme = t; LS.set('theme', t); document.querySelector('meta[name=theme-color]').content = t === 'dark' ? '#1C1F2B' : '#F0EEE9'; if (tiles) { map.removeLayer(tiles); addTiles(); } }
+document.documentElement.dataset.theme = LS.get('theme', 'light');
+
+/* toast */
+let tt; function toast(m) { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(tt); tt = setTimeout(() => t.style.display = 'none', 2600); }
+
+/* meows: synthesized */
+let ac; function meow(i) {
+  try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(), f = ac.createBiquadFilter();
+  const base = 420 + i * 55, dur = .35 + (i % 4) * .12, now = ac.currentTime;
+  o.type = i % 3 ? 'sawtooth' : 'triangle'; f.type = 'bandpass'; f.frequency.value = 1400 + i * 90; f.Q.value = 2;
+  o.frequency.setValueAtTime(base, now); o.frequency.linearRampToValueAtTime(base * (1.5 + (i % 5) * .1), now + dur * .35); o.frequency.linearRampToValueAtTime(base * .8, now + dur);
+  g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(.35, now + .05); g.gain.linearRampToValueAtTime(0, now + dur);
+  o.connect(f); f.connect(g); g.connect(ac.destination); o.start(now); o.stop(now + dur + .05); } catch {}
+}
+
+/* map */
+const map = L.map('map', { zoomControl: false, attributionControl: true }).setView(ESK, 15);
+let tiles;
+function addTiles() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap', className: dark ? 'tl-dark' : 'tl-light' }).addTo(map);
+}
+addTiles();
+let myPos = null, meMarker = null;
+function locate(fly) {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(p => {
+    myPos = [p.coords.latitude, p.coords.longitude];
+    if (!meMarker) meMarker = L.marker(myPos, { icon: L.divIcon({ className: '', html: '<div class="mk-me"></div>', iconSize: [18, 18] }), interactive: false }).addTo(map); else meMarker.setLatLng(myPos);
+    if (fly) map.setView(myPos, 16);
+  }, () => { if (fly) toast('Konum izni verilmedi, haritadan seçebilirsin'); }, { enableHighAccuracy: true, timeout: 9000 });
+}
+$('#locBtn').onclick = () => locate(true);
+const fuzz = ([a, b]) => [a + (Math.random() - .5) * .0022, b + (Math.random() - .5) * .0028];
+
+/* data */
+let D = { sightings: [], points: [], listings: [], members: [] };
+let filter = 'hepsi';
+const layer = L.layerGroup().addTo(map);
+async function loadVols(ids) {
+  const need = [...new Set(ids)].filter(i => i && !vols.has(i)); if (!need.length) return;
+  const { data } = await SB.from('volunteers').select('id,nick,avatar,meow').in('id', need); (data || []).forEach(v => vols.set(v.id, v));
+}
+async function load() {
+  const [s, p, l] = await Promise.all([
+    SB.from('sightings').select('*').order('created_at', { ascending: false }).limit(400),
+    SB.from('points').select('*').limit(400),
+    SB.from('listings').select('*').eq('status', 'acik').order('created_at', { ascending: false }).limit(200)]);
+  if (s.error) { toast('Bağlantı sorunu, tekrar deneniyor'); return; }
+  D.sightings = s.data || []; D.points = p.data || []; D.listings = l.data || [];
+  await loadVols([...D.points.map(x => x.founder_id), ...D.listings.map(x => x.volunteer_id)]);
+  draw();
+}
+function fresh(t) { if (!t) return ['#EE5F7B', 'hiç']; const h = (Date.now() - new Date(t)) / 36e5; if (h < 24) return ['#2DBE8A', 'bugün']; if (h < 72) return ['#F2B731', Math.floor(h / 24) + ' gün']; return ['#EE5F7B', Math.floor(h / 24) + ' gün boş']; }
+const ICON = { bowl: '<path d="M3 11h18l-2 7H5z"/><path d="M8 11c0-3 2-5 4-5s4 2 4 5"/>', drop: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', heart: '<path d="M12 20s-7-4.4-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.6 12 20 12 20z"/>', search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/>', map: '<path d="M9 4l-6 2v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/>', chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>', user: '<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4-6 8-6s7 2 8 6"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>', send: '<path d="M4 12l16-8-6 16-2-7z"/>', play: '<path d="M7 4l13 8-13 8z" fill="currentColor"/>', group: '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c.6-2.8 2.6-4 5-4s4.4 1.2 5 4M11 19c.6-2.8 2.6-4 5-4s4.4 1.2 5 4"/>', home: '<path d="M3 10l9-6 9 6"/><path d="M5 10v10h14V10"/>' };
+const ic = (n, s = 22) => `<svg class="i" style="width:${s}px;height:${s}px" viewBox="0 0 24 24">${ICON[n]}</svg>`;
+function draw() {
+  layer.clearLayers();
+  const show = k => filter === 'hepsi' || filter === k;
+  if (show('kedi')) D.sightings.forEach(s => {
+    const c = colorOf(s.color), ring = s.injured ? '#EE5F7B' : (c.startsWith('#') ? c : '#B9BED3');
+    const lab = s.injured ? 'yaralı' : s.count + (s.kitten ? ' · yavru' : '');
+    L.marker([s.lat, s.lng], { icon: L.divIcon({ className: '', html: `<div class="mk-cat" style="border-color:${ring}"><i style="background:${c};${s.color === 'Beyaz' ? 'box-shadow:inset 0 0 0 1px #D3D7E5' : ''}"></i>${lab}</div>`, iconSize: null, iconAnchor: [20, 15] }) })
+      .on('click', () => toast(`${s.count} ${s.color.toLowerCase()} kedi · ${ago(s.created_at)}${s.eartip ? ' · kısır' : ''}`)).addTo(layer);
+  });
+  if (show('mama')) D.points.forEach(p => {
+    const [c, t] = p.kind === 'su' ? ['#4F7FE0', 'su'] : fresh(p.last_fed);
+    L.marker([p.lat, p.lng], { icon: L.divIcon({ className: '', html: `<div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div class="mk-pt" style="background:${c}">${ic(p.kind === 'su' ? 'drop' : 'bowl')}</div><span class="mk-cat" style="height:22px;padding:0 8px;border-color:transparent;font-size:11px">${t}</span></div>`, iconSize: [80, 70], iconAnchor: [40, 24] }) }).on('click', () => openPoint(p.id)).addTo(layer);
+  });
+  D.listings.forEach(l => {
+    if (!show(l.kind) || l.lat == null) return;
+    const col = l.kind === 'kayip' ? '#EE5F7B' : '#FF8F5E';
+    L.marker([l.lat, l.lng], { icon: L.divIcon({ className: '', html: `<div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div class="mk-li" style="border-color:${col}">${l.photo_url ? `<img src="${esc(l.photo_url)}" alt="">` : `<span style="color:${col}">${ic(l.kind === 'kayip' ? 'search' : 'heart')}</span>`}</div><span style="font:800 10px Manrope;background:${col};color:#fff;padding:1px 7px;border-radius:99px">${l.kind === 'kayip' ? 'KAYIP' : 'YUVA'}</span></div>`, iconSize: [60, 70], iconAnchor: [30, 26] }) }).on('click', () => openListing(l.id)).addTo(layer);
+  });
+  const lost = D.listings.filter(l => l.kind === 'kayip').length;
+  $('#near').innerHTML = `${D.sightings.length} kedi · ${lost ? `<b style="color:var(--tRose)">${lost} kayıp</b>` : D.points.length + ' nokta'}`;
+}
+function ago(t) { const m = (Date.now() - new Date(t)) / 6e4; if (m < 60) return Math.max(1, Math.round(m)) + ' dk önce'; if (m < 1440) return Math.round(m / 60) + ' sa önce'; return Math.round(m / 1440) + ' gün önce'; }
+
+/* chips + tabs */
+const CH = [['hepsi', 'Hepsi'], ['kedi', 'Kediler'], ['mama', 'Mama · su'], ['kayip', 'Kayıp'], ['sahiplen', 'Sahiplen']];
+function chips() { $('#chips').innerHTML = CH.map(([k, t]) => `<button class="chip ${filter === k ? 'on' : 'glass'}" data-k="${k}" style="${k === 'kayip' && filter !== k ? 'color:var(--tRose)' : ''}">${t}</button>`).join(''); }
+$('#chips').onclick = e => { const b = e.target.closest('[data-k]'); if (!b) return; filter = b.dataset.k; chips(); draw(); };
+const TB = [['harita', 'Harita', 'map'], ['kayip', 'Kayıp', 'search'], ['sahiplen', 'Sahiplen', 'heart'], ['mesaj', 'Mesajlar', 'chat'], ['gonullu', 'Gönüllü', 'user']];
+function tabs(on = 'harita') { $('#tabs').innerHTML = TB.map(([k, t, i]) => `<button class="tab ${on === k ? 'on' : ''}" data-t="${k}">${ic(i)}${t}${k === 'mesaj' && LS.get('unread', 0) ? '<span class="dot"></span>' : ''}</button>`).join(''); }
+$('#tabs').onclick = e => { const b = e.target.closest('[data-t]'); if (!b) return; const t = b.dataset.t; if (t === 'harita') return closeSheet(); ({ kayip: () => openList('kayip'), sahiplen: () => openList('sahiplen'), mesaj: openInbox, gonullu: () => openProfile() })[t](); tabs(t); };
+
+/* sheet */
+let onClose = null;
+function sheet(html, full) { const s = $('#sheet'); s.className = 'sheet show' + (full ? ' full' : ''); s.innerHTML = (full ? '' : '<span class="grab"></span>') + html; document.body.classList.add('open'); s.scrollTop = 0; }
+function closeSheet() { $('#sheet').className = 'sheet'; document.body.classList.remove('open'); if (onClose) { onClose(); onClose = null; } tabs(); }
+$('#scrim').onclick = closeSheet;
+const head = (t) => `<div class="hd"><h2>${t}</h2><button class="x" data-close aria-label="Kapat">${ic('x', 18)}</button></div>`;
+$('#sheet').addEventListener('click', e => { if (e.target.closest('[data-close]')) closeSheet(); });
+
+/* location pick */
+let pickCb = null;
+function pickLocation(cb) { pickCb = cb; $('#sheet').className = 'sheet'; document.body.classList.remove('open'); document.body.classList.add('picking'); if (myPos) map.setView(myPos, 17); }
+$('#pickOk').onclick = () => { document.body.classList.remove('picking'); const c = map.getCenter(); const cb = pickCb; pickCb = null; cb && cb([c.lat, c.lng]); };
+$('#pickCancel').onclick = () => { document.body.classList.remove('picking'); pickCb = null; tabs(); };
+
+/* profile */
+function needProfile(next) { if (me) return next(); openProfile(next); }
+function openProfile(next) {
+  let av = me?.avatar || 1, mw = me?.meow || null;
+  const mine = { s: D.sightings.filter(s => s.volunteer_id === volId).length, p: D.points.filter(p => p.founder_id === volId).length };
+  sheet(`${head(me ? 'Gönüllü profilin' : 'Gönüllü ol')}
+  ${me ? '' : '<p class="muted" style="margin:0">Sokakta seni bu kediyle tanıyacaklar. Gerçek adın hiçbir yerde görünmez.</p>'}
+  <div><div class="lbl" style="margin-bottom:8px">Avatar *</div><div class="grid5" id="avs">${AVN.map((n, i) => `<button class="avp ${av === i + 1 ? 'on' : ''}" data-a="${i + 1}" aria-label="${n}"><img src="${AV(i + 1)}" alt=""></button>`).join('')}</div></div>
+  <div><label class="lbl" for="nick">Takma isim *</label><input type="text" id="nick" maxlength="24" value="${esc(me?.nick || '')}" placeholder="ör. Pamukpati" style="margin-top:8px"></div>
+  <div><div class="lbl" style="margin-bottom:8px">Miyavın (isteğe bağlı)</div><div class="grid5" id="mws">${Array.from({ length: 10 }, (_, i) => `<button class="pick ${mw === i + 1 ? 'on' : ''}" data-m="${i + 1}" style="padding:10px 0">${ic('play', 16)}${i + 1}</button>`).join('')}</div></div>
+  ${me ? `<div class="grid2"><div class="card"><b style="font:900 26px Archivo">${mine.s}</b><div class="muted">kedi kaydı</div></div><div class="card"><b style="font:900 26px Archivo">${mine.p}</b><div class="muted">kurduğun nokta</div></div></div>
+  <div><div class="lbl" style="margin-bottom:8px">Tema</div><div class="grid2">${themeCards()}</div></div>` : ''}
+  <button class="cta" id="saveMe">${me ? 'Kaydet' : 'Gönüllü ol'}</button>`);
+  $('#avs').onclick = e => { const b = e.target.closest('[data-a]'); if (!b) return; av = +b.dataset.a; document.querySelectorAll('#avs .avp').forEach(x => x.classList.toggle('on', x === b)); };
+  $('#mws').onclick = e => { const b = e.target.closest('[data-m]'); if (!b) return; mw = +b.dataset.m; meow(mw); document.querySelectorAll('#mws .pick').forEach(x => x.classList.toggle('on', x === b)); };
+  bindTheme();
+  $('#saveMe').onclick = async () => {
+    const nick = $('#nick').value.trim(); if (nick.length < 2) return toast('Takma isim en az 2 harf olmalı');
+    $('#saveMe').disabled = true;
+    const { error } = await SB.rpc('join_volunteer', { p_vol: volId, p_secret: secret, p_nick: nick, p_avatar: av, p_meow: mw });
+    $('#saveMe').disabled = false;
+    if (error) return toast('Kaydedilemedi: ' + error.message);
+    me = { nick, avatar: av, meow: mw }; LS.set('me', me); vols.set(volId, { id: volId, ...me }); $('#meImg').src = AV(av);
+    if (mw) meow(mw); toast('Hoş geldin ' + nick); closeSheet(); next && next();
+  };
+}
+const themeCards = () => { const t = document.documentElement.dataset.theme; return `<button class="theme ${t !== 'dark' ? 'on' : ''}" data-th="light" style="background:#FFFFFF;color:#444B6E"><img src="img/a4.webp" alt=""><b style="font:900 17px Archivo">Pamuk</b><small style="color:#5E6582;font-weight:700">Açık tema</small></button><button class="theme ${t === 'dark' ? 'on' : ''}" data-th="dark" style="background:#1C1F2B;color:#ECE9F2"><img src="img/a8.webp" alt=""><b style="font:900 17px Archivo">Kömür</b><small style="color:#A9AEC6;font-weight:700">Koyu tema</small></button>`; };
+function bindTheme() { document.querySelectorAll('[data-th]').forEach(b => b.onclick = () => { setTheme(b.dataset.th); document.querySelectorAll('[data-th]').forEach(x => x.classList.toggle('on', x === b)); }); }
+$('#meBtn').onclick = () => { openProfile(); tabs('gonullu'); };
+
+/* kedi gördüm */
+$('#seeBtn').onclick = () => needProfile(openSee);
+function openSee(pos) {
+  let color = 'Tekir', count = 1; const fl = { kitten: false, eartip: false, injured: false };
+  const where = pos || myPos;
+  sheet(`${head('Kaç kedi, <span style="color:var(--tPeach)">hangi renk?</span>')}
+  <div class="grid4" id="cols">${COLORS.map(([n, c]) => `<button class="pick ${n === color ? 'on' : ''}" data-c="${n}"><i style="background:${c};${n === 'Beyaz' ? 'box-shadow:inset 0 0 0 1px #D3D7E5' : ''}"></i>${n}</button>`).join('')}</div>
+  <div class="step"><span class="lbl">Sayı</span><div class="row" style="gap:16px"><button class="round" id="minus" aria-label="Azalt">−</button><b id="cnt">1</b><button class="round p" id="plus" aria-label="Artır">+</button></div></div>
+  <div><div class="lbl" style="margin-bottom:8px">Durum (isteğe bağlı)</div><div class="tg" id="fl"><button data-f="kitten">Yavru var</button><button data-f="eartip">Kulak kesik (kısır)</button><button data-f="injured" style="color:var(--tRose)">Yaralı / hasta</button></div></div>
+  <button class="li" id="where" style="background:var(--raised)">${ic('map')}<span class="t"><b>${where ? 'Şu anki konumun' : 'Haritanın ortası'}</b><small>Haritada değiştirmek için dokun · 150 m bulanık kaydedilir</small></span></button>
+  <button class="cta" id="addSee">Haritaya ekle</button>`);
+  $('#cols').onclick = e => { const b = e.target.closest('[data-c]'); if (!b) return; color = b.dataset.c; document.querySelectorAll('#cols .pick').forEach(x => x.classList.toggle('on', x === b)); };
+  $('#minus').onclick = () => { count = Math.max(1, count - 1); $('#cnt').textContent = count; };
+  $('#plus').onclick = () => { count = Math.min(30, count + 1); $('#cnt').textContent = count; };
+  $('#fl').onclick = e => { const b = e.target.closest('[data-f]'); if (!b) return; fl[b.dataset.f] = !fl[b.dataset.f]; b.classList.toggle('on', fl[b.dataset.f]); };
+  $('#where').onclick = () => pickLocation(p => openSee(p));
+  $('#addSee').onclick = async () => {
+    const c = map.getCenter(), at = fuzz(where || [c.lat, c.lng]); $('#addSee').disabled = true;
+    const { error } = await SB.rpc('add_sighting', { p_vol: volId, p_secret: secret, p_lat: at[0], p_lng: at[1], p_color: color, p_count: count, p_kitten: fl.kitten, p_eartip: fl.eartip, p_injured: fl.injured });
+    if (error) { $('#addSee').disabled = false; return toast('Eklenemedi: ' + error.message); }
+    LS.set('seen', true); $('#ptBtn').disabled = false; toast('Teşekkürler! Kediler haritada'); closeSheet(); load();
+    if (fl.injured) setTimeout(() => toast('Yaralı kedi için Mesajlar › Acil kanalına yazabilirsin'), 2800);
+  };
+}
+
+/* mama noktası */
+$('#ptBtn').disabled = !LS.get('seen', false);
+$('#ptBtn').onclick = () => needProfile(() => openNewPoint());
+function openNewPoint(pos) {
+  let kind = 'mama'; const where = pos || myPos;
+  sheet(`${head('Mama noktası aç')}
+  <p class="muted" style="margin:0">Kurucu sen olursun. Diğer gönüllüler katılıp nöbet paylaşabilir.</p>
+  <div><label class="lbl" for="pname">Noktanın adı</label><input type="text" id="pname" maxlength="40" placeholder="ör. Fırın arkası mama kabı" style="margin-top:8px"></div>
+  <div class="tg" id="kind"><button class="on" data-k="mama">Mama kabı</button><button data-k="su">Su kabı</button></div>
+  <button class="li" id="where" style="background:var(--raised)">${ic('map')}<span class="t"><b>${pos ? 'Seçtiğin yer' : where ? 'Şu anki konumun' : 'Haritanın ortası'}</b><small>Haritada değiştirmek için dokun</small></span></button>
+  <button class="cta" id="addPt">Noktayı aç</button>`);
+  $('#kind').onclick = e => { const b = e.target.closest('[data-k]'); if (!b) return; kind = b.dataset.k; document.querySelectorAll('#kind button').forEach(x => x.classList.toggle('on', x === b)); };
+  $('#where').onclick = () => pickLocation(p => openNewPoint(p));
+  $('#addPt').onclick = async () => {
+    const name = $('#pname').value.trim(); if (name.length < 2) return toast('Noktaya bir ad ver');
+    const c = map.getCenter(), at = where || [c.lat, c.lng]; $('#addPt').disabled = true;
+    const { data, error } = await SB.rpc('add_point', { p_vol: volId, p_secret: secret, p_lat: at[0], p_lng: at[1], p_name: name, p_kind: kind });
+    if (error) { $('#addPt').disabled = false; return toast('Açılamadı: ' + error.message); }
+    addRoom('point:' + data); toast('Mama noktası açıldı'); await load(); openPoint(data);
+  };
+}
+async function openPoint(id) {
+  const p = D.points.find(x => x.id === id); if (!p) return;
+  const { data: mem } = await SB.from('point_members').select('volunteer_id').eq('point_id', id);
+  const ids = (mem || []).map(m => m.volunteer_id); await loadVols([p.founder_id, ...ids]);
+  const isMem = ids.includes(volId), [c, t] = p.kind === 'su' ? ['#4F7FE0', ''] : fresh(p.last_fed);
+  const f = vols.get(p.founder_id);
+  sheet(`${head(esc(p.name))}
+  ${p.kind === 'mama' ? `<span class="badge" style="background:${c}33;color:var(--ink);font-size:13px;padding:5px 12px">Son mama: ${p.last_fed ? ago(p.last_fed) : 'hiç'}</span>` : '<span class="badge" style="background:var(--tintB);color:var(--tBlue);font-size:13px;padding:5px 12px">Su noktası</span>'}
+  <div class="li"><div style="display:flex">${ids.slice(0, 4).map((v, i) => `<img src="${AV(vols.get(v)?.avatar)}" alt="" style="width:40px;height:40px;margin-left:${i ? -12 : 0}px;border:2px solid var(--card)">`).join('')}</div><span class="t"><b>Kurucu gönüllü: ${esc(f?.nick || '?')}</b><small>${ids.length} gönüllü bu noktaya bakıyor</small></span>${isMem ? '' : `<button class="chip" id="join" style="border:2px solid var(--vblue);color:var(--tBlue)">Katıl</button>`}</div>
+  ${p.kind === 'mama' ? `<button class="cta" id="fed">${ic('bowl')}Mama koydum</button>` : `<button class="cta blue" id="fed">${ic('drop')}Suyu tazeledim</button>`}
+  <div><div class="lbl" style="margin-bottom:6px">${ic('group', 16)} Birlikte besleme sohbeti</div>${chatBox()}</div>
+  <button class="li" id="don" style="border:2px solid var(--blue)"><span style="width:44px;height:44px;border-radius:16px;background:var(--blue);color:var(--on);display:grid;place-items:center">${ic('home')}</span><span class="t"><b>Barınağa mama bağışla</b><small>Paket seç, senin adına barınağa teslim edilsin</small></span></button>`);
+  if (!isMem) $('#join').onclick = () => needProfile(async () => { const { error } = await SB.rpc('join_point', { p_vol: volId, p_secret: secret, p_point: id }); if (error) return toast(error.message); addRoom('point:' + id); toast('Noktaya katıldın'); openPoint(id); });
+  $('#fed').onclick = () => needProfile(async () => { const { error } = await SB.rpc('feed_point', { p_vol: volId, p_secret: secret, p_point: id }); if (error) return toast(error.message); toast('Eline sağlık! Herkes gördü'); await load(); openPoint(id); });
+  $('#don').onclick = openDonate;
+  bindChat('point:' + id);
+}
+
+/* bağış */
+function openDonate() {
+  const P = [['2 kg', 'Mini', 'Bir kediye 1 hafta'], ['5 kg', 'Orta', 'Bir koloniye 1 hafta'], ['15 kg', 'Büyük', 'Barınağa 1 ay'], ['24 adet', 'Yaş mama kolisi', 'Hasta ve yavrular için']];
+  let sel = 1;
+  sheet(`${head('Barınağa <span style="color:var(--tPeach)">mama gönder</span>')}
+  <p class="muted" style="margin:0">Paketi seç ve öde. Mama senin adına anlaşmalı barınağa teslim edilir, teslim fotoğrafı sana mesaj olarak gelir.</p>
+  <div class="grid2" id="pk">${P.map(([kg, a, n], i) => `<button class="pkg ${i === sel ? 'on' : ''}" data-i="${i}">${i === 1 ? '<span class="badge" style="position:absolute;top:-9px;left:12px;background:var(--coral);color:#1C1F2B">En çok seçilen</span>' : ''}<b>${kg}</b><span style="font-weight:800;font-size:13px">${a}</span><small class="muted" style="font-size:12px">${n}</small></button>`).join('')}</div>
+  <button class="cta" disabled>Ödeme yakında açılıyor</button>
+  <p class="muted" style="margin:0;text-align:center;font-size:12px">Anlaşmalı barınak ve ödeme altyapısı kurulunca bu düğme açılacak.</p>`);
+  $('#pk').onclick = e => { const b = e.target.closest('[data-i]'); if (!b) return; document.querySelectorAll('.pkg').forEach(x => x.classList.toggle('on', x === b)); };
+}
+
+/* chat */
+const addRoom = room => { const r = LS.get('rooms', []); if (!r.includes(room)) LS.set('rooms', [room, ...r].slice(0, 50)); };
+let chatSub = null;
+const chatBox = () => `<div class="chat" id="chat"><div class="empty">Yükleniyor…</div></div><form class="send" id="sendF"><input type="text" id="msgIn" maxlength="500" placeholder="Mesaj yaz…" autocomplete="off"><button aria-label="Gönder">${ic('send', 20)}</button></form>`;
+async function bindChat(room) {
+  if (chatSub) SB.removeChannel(chatSub);
+  const render = async (rows) => {
+    await loadVols(rows.map(r => r.volunteer_id)); const el = $('#chat'); if (!el) return;
+    el.innerHTML = rows.length ? rows.map(r => { const v = vols.get(r.volunteer_id); return `<div class="msg ${r.volunteer_id === volId ? 'me' : ''}"><img src="${AV(v?.avatar)}" alt=""><div class="bub"><small>${esc(v?.nick || '?')} · ${ago(r.created_at)}</small>${esc(r.body)}</div></div>`; }).join('') : '<div class="empty">İlk mesajı sen yaz</div>';
+    el.scrollTop = el.scrollHeight;
+  };
+  let rows = (await SB.from('messages').select('*').eq('room', room).order('created_at').limit(100)).data || [];
+  render(rows);
+  chatSub = SB.channel('room-' + room).on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: 'room=eq.' + room }, pl => { rows.push(pl.new); render(rows); }).subscribe();
+  onClose = () => { if (chatSub) SB.removeChannel(chatSub); chatSub = null; };
+  $('#sendF').onsubmit = e => { e.preventDefault(); needProfile(async () => {
+    const body = $('#msgIn').value.trim(); if (!body) return; $('#msgIn').value = '';
+    const { error } = await SB.rpc('send_message', { p_vol: volId, p_secret: secret, p_room: room, p_body: body });
+    if (error) toast('Gönderilemedi'); else addRoom(room);
+  }); };
+}
+
+/* listings */
+function openList(kind) {
+  const L2 = D.listings.filter(l => l.kind === kind);
+  const lost = kind === 'kayip';
+  sheet(`${head(lost ? 'Kaybolan kedini <span style="color:var(--tRose)">beraber bulalım</span>' : 'Yuva arayan <span style="color:var(--tPeach)">kediler</span>')}
+  <p class="muted" style="margin:0">${lost ? 'İlan ver, yakındaki gönüllüler görsün ve sana yazsın.' : 'Sahiplendirme ücretsizdir. Gönüllüyle mesajlaşıp tanışın.'}</p>
+  <button class="cta ${lost ? 'rose' : ''}" id="newL">${lost ? 'Kayıp ilanı ver' : 'Yuva arayan kedi ekle'}</button>
+  <div style="display:flex;flex-direction:column;gap:8px">${L2.length ? L2.map(l => { const d = myPos && l.lat != null ? dist(myPos, [l.lat, l.lng]) : null; return `<button class="li" data-l="${l.id}">${l.photo_url ? `<img src="${esc(l.photo_url)}" alt="">` : `<img src="${AV(vols.get(l.volunteer_id)?.avatar)}" alt="">`}<span class="t"><b>${esc(l.name)}</b><small>${esc(l.info || '')}</small><small>${ago(l.created_at)}${d != null ? ' · ' + d : ''}</small></span></button>`; }).join('') : `<div class="empty">${lost ? 'Şu an açık kayıp ilanı yok' : 'Şu an yuva arayan kedi yok'}</div>`}</div>`, true);
+  $('#newL').onclick = () => needProfile(() => newListing(kind));
+  $('#sheet').querySelectorAll('[data-l]').forEach(b => b.onclick = () => openListing(+b.dataset.l));
+}
+function dist(a, b) { const R = 6371e3, r = x => x * Math.PI / 180, dl = r(b[0] - a[0]), dn = r(b[1] - a[1]); const h = Math.sin(dl / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dn / 2) ** 2; const m = 2 * R * Math.asin(Math.sqrt(h)); return m < 1000 ? Math.round(m / 50) * 50 + ' m' : (m / 1000).toFixed(1).replace('.', ',') + ' km'; }
+function newListing(kind, pos, draft = {}) {
+  const lost = kind === 'kayip'; let file = draft.file || null;
+  sheet(`${head(lost ? 'Kayıp ilanı' : 'Yuva arayan kedi')}
+  <label class="li" for="ph" style="background:var(--raised);cursor:pointer">${ic('home')}<span class="t"><b id="phT">${file ? 'Fotoğraf seçildi' : 'Fotoğraf ekle'}</b><small>Net bir yüz fotoğrafı bulunmasını kolaylaştırır</small></span><input type="file" id="ph" accept="image/*" style="display:none"></label>
+  <div><label class="lbl" for="ln">Adı</label><input type="text" id="ln" maxlength="30" value="${esc(draft.name || '')}" style="margin-top:8px"></div>
+  <div><label class="lbl" for="li">${lost ? 'Görünüş, tasma, ne zaman kayboldu' : 'Yaş, aşı, kısırlık, karakter'}</label><textarea id="li" maxlength="200" style="margin-top:8px">${esc(draft.info || '')}</textarea></div>
+  <button class="li" id="where" style="background:var(--raised)">${ic('map')}<span class="t"><b>${pos ? 'Seçtiğin yer' : lost ? 'Son görüldüğü yeri seç' : 'Konum: şu anki yerin'}</b><small>Haritada yaklaşık gösterilir</small></span></button>
+  <button class="cta ${lost ? 'rose' : ''}" id="pub">İlanı yayınla</button>`);
+  $('#ph').onchange = e => { file = e.target.files[0] || null; $('#phT').textContent = file ? 'Fotoğraf seçildi' : 'Fotoğraf ekle'; };
+  const keep = () => ({ name: $('#ln').value, info: $('#li').value, file });
+  $('#where').onclick = () => { const d = keep(); pickLocation(p => newListing(kind, p, d)); };
+  $('#pub').onclick = async () => {
+    const name = $('#ln').value.trim(); if (!name) return toast('Kedinin adını yaz');
+    const c = map.getCenter(), at = fuzz(pos || myPos || [c.lat, c.lng]); $('#pub').disabled = true; let url = null;
+    if (file) { const blob = await shrink(file); const path = volId + '/' + Date.now() + '.jpg'; const up = await SB.storage.from('photos').upload(path, blob, { contentType: 'image/jpeg' }); if (up.error) { $('#pub').disabled = false; return toast('Fotoğraf yüklenemedi'); } url = SB.storage.from('photos').getPublicUrl(path).data.publicUrl; }
+    const { data, error } = await SB.rpc('add_listing', { p_vol: volId, p_secret: secret, p_kind: kind, p_name: name, p_info: $('#li').value.trim(), p_lat: at[0], p_lng: at[1], p_photo: url });
+    if (error) { $('#pub').disabled = false; return toast('Yayınlanamadı: ' + error.message); }
+    addRoom((lost ? 'lost:' : 'adopt:') + data); toast(lost ? 'İlan yayında, gönüllüler görüyor' : 'İlan yayında'); await load(); openListing(data);
+  };
+}
+function shrink(file) { return new Promise(res => { const img = new Image(); img.onload = () => { const s = Math.min(1, 1000 / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = img.width * s; c.height = img.height * s; c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); c.toBlob(b => res(b), 'image/jpeg', .82); }; img.src = URL.createObjectURL(file); }); }
+async function openListing(id) {
+  const l = D.listings.find(x => x.id === id); if (!l) return; await loadVols([l.volunteer_id]);
+  const v = vols.get(l.volunteer_id), lost = l.kind === 'kayip', mine = l.volunteer_id === volId;
+  sheet(`${head(esc(l.name))}
+  <span class="badge" style="background:${lost ? 'var(--tintR)' : 'var(--tintP)'};color:${lost ? 'var(--tRose)' : 'var(--tPeach)'};font-size:12px;padding:4px 10px">${lost ? 'KAYIP' : 'YUVA ARIYOR'} · ${ago(l.created_at)}</span>
+  ${l.photo_url ? `<img src="${esc(l.photo_url)}" alt="${esc(l.name)}" class="sq" style="width:100%;max-height:260px;object-fit:cover">` : ''}
+  ${l.info ? `<p style="margin:0;font-weight:600">${esc(l.info)}</p>` : ''}
+  <div class="li"><img src="${AV(v?.avatar)}" alt=""><span class="t"><b>${esc(v?.nick || '?')}</b><small>İlanı veren gönüllü</small></span>${l.lat != null ? `<button class="chip glass" id="show">Haritada</button>` : ''}</div>
+  <div><div class="lbl" style="margin-bottom:6px">${lost ? 'Gördüysen yaz' : 'Tanışmak için yaz'}</div>${chatBox()}</div>
+  ${mine ? `<button class="cta blue" id="close">${lost ? 'Bulundu, ilanı kapat' : 'Yuva buldu, ilanı kapat'}</button>` : ''}`);
+  if ($('#show')) $('#show').onclick = () => { closeSheet(); map.setView([l.lat, l.lng], 17); };
+  if (mine) $('#close').onclick = async () => { const { error } = await SB.rpc('close_listing', { p_vol: volId, p_secret: secret, p_id: id }); if (error) return toast(error.message); toast(lost ? 'Ne güzel! Kavuşmanıza sevindik' : 'Harika, yeni yuvası hayırlı olsun'); closeSheet(); load(); };
+  bindChat((lost ? 'lost:' : 'adopt:') + id);
+}
+
+/* inbox */
+async function openInbox() {
+  LS.set('unread', 0);
+  const mine = LS.get('rooms', []);
+  const fixed = ['acil', 'genel'];
+  const last = {};
+  const { data } = await SB.from('messages').select('room,body,created_at,volunteer_id').order('created_at', { ascending: false }).limit(300);
+  (data || []).forEach(m => { if (!last[m.room]) last[m.room] = m; });
+  const rooms = [...new Set([...fixed, ...mine, ...Object.keys(last)])];
+  await loadVols(Object.values(last).map(m => m.volunteer_id));
+  const name = r => { if (r === 'acil') return ['Acil · yaralı kediler', 'ACİL', 'var(--tintR)', 'var(--tRose)']; if (r === 'genel') return ['Mahalle sohbeti', 'GÖNÜLLÜLER', 'var(--tintB)', 'var(--tBlue)'];
+    const [k, id] = r.split(':'); if (k === 'point') { const p = D.points.find(x => x.id == id); return [p ? p.name : 'Mama noktası', 'BİRLİKTE BESLEME', 'var(--tintG)', 'var(--tGreen)']; }
+    const l = D.listings.find(x => x.id == id); return [l ? l.name : 'İlan', k === 'lost' ? 'KAYIP' : 'SAHİPLENDİRME', k === 'lost' ? 'var(--tintR)' : 'var(--tintP)', k === 'lost' ? 'var(--tRose)' : 'var(--tPeach)']; };
+  sheet(`${head('Mesajlar')}
+  <div style="display:flex;flex-direction:column;gap:8px">${rooms.map(r => { const [n, tag, bg, c] = name(r), m = last[r], v = m && vols.get(m.volunteer_id); return `<button class="li" data-r="${esc(r)}"><img src="${AV(v?.avatar || (r === 'acil' ? 9 : 4))}" alt=""><span class="t"><b>${esc(n)}</b><span class="badge" style="background:${bg};color:${c}">${tag}</span><small>${m ? esc((v?.nick || '?') + ': ' + m.body) : 'Henüz mesaj yok'}</small></span></button>`; }).join('')}</div>
+  <p class="muted" style="margin:0;text-align:center;font-size:12px">Mahalledeki son sohbetler ve yazdığın odalar burada toplanır.</p>`, true);
+  $('#sheet').querySelectorAll('[data-r]').forEach(b => b.onclick = () => openRoom(b.dataset.r));
+}
+function openRoom(room) {
+  const [k, id] = room.split(':');
+  if (k === 'point') return openPoint(+id);
+  if (k === 'lost' || k === 'adopt') return openListing(+id);
+  sheet(`${head(room === 'acil' ? 'Acil · yaralı kediler' : 'Mahalle sohbeti')}${room === 'acil' ? '<p class="muted" style="margin:0">Yaralı ya da hasta kediyi yaz, yakındaki gönüllüler yardıma gelsin. Acil durumda belediye veteriner hattını da ara.</p>' : ''}${chatBox()}`);
+  bindChat(room);
+}
+
+/* onboarding */
+function onboard() {
+  sheet(`<div style="display:flex;flex-direction:column;align-items:center;gap:12px;max-width:440px;margin:0 auto;width:100%">
+  <img src="img/logo.webp" alt="Pati's World" style="width:150px;height:auto">
+  <p style="margin:0;text-align:center;font-weight:700;color:var(--muted)">Mahallenin kedilerini haritada bul, <b style="color:var(--ink)">gönüllülerle birlikte besle.</b></p>
+  <div style="display:flex;flex-direction:column;gap:6px;width:100%">
+    <div class="feat"><span style="background:var(--tintR);color:var(--tRose)">${ic('search', 18)}</span><span><b style="color:var(--tRose)">Kaybolan kedini beraber bulalım:</b> ilan ver, yakındaki gönüllüler haber versin</span></div>
+    <div class="feat"><span style="background:var(--tintG);color:var(--tGreen)">${ic('group', 18)}</span><span><b style="color:var(--tGreen)">Birlikte besleyin:</b> mama ve su noktalarını paylaşın</span></div>
+    <div class="feat"><span style="background:var(--tintB);color:var(--tBlue)">${ic('chat', 18)}</span><span><b style="color:var(--tBlue)">Gönüllülerle mesajlaşın</b>, acil durumu hemen duyurun</span></div>
+    <div class="feat"><span style="background:var(--tintP);color:var(--tPeach)">${ic('heart', 18)}</span><span><b style="color:var(--tPeach)">Sahiplen:</b> yuva arayan kedilerle tanış</span></div>
+  </div>
+  <div class="lbl">Temanı seç</div>
+  <div class="grid2" style="width:100%">${themeCards()}</div>
+  <button class="cta" id="go">Başla</button></div>`, true);
+  bindTheme();
+  $('#go').onclick = () => { LS.set('onb', true); closeSheet(); locate(true); };
+}
+
+/* realtime map refresh */
+let rt; SB.channel('map').on('postgres_changes', { event: '*', schema: 'public', table: 'points' }, () => { clearTimeout(rt); rt = setTimeout(load, 600); })
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'sightings' }, () => { clearTimeout(rt); rt = setTimeout(load, 600); })
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'listings' }, p => { clearTimeout(rt); rt = setTimeout(load, 600); if (p.eventType === 'INSERT' && p.new.kind === 'kayip' && p.new.volunteer_id !== volId) toast('Yakında yeni kayıp ilanı: ' + p.new.name); })
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => { if (p.new.volunteer_id !== volId && LS.get('rooms', []).includes(p.new.room) && !chatSub) { LS.set('unread', 1); tabs(); } })
+  .subscribe();
+
+if (me) $('#meImg').src = AV(me.avatar);
+chips(); tabs(); load();
+if (!LS.get('onb', false)) onboard(); else locate(true);
+}
+</script>
+</body>
+</html>
