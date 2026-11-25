@@ -4,7 +4,7 @@
 <title>miyhav Pati Koşusu</title>
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Pati Koşusu"><link rel="apple-touch-icon" href="icon.png"><link rel="icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
 /* VOICE: tatlı, oyunbaz, miyhav'ın sıcak pastel dünyası
    IDEA: Eskişehir mahallesinde, Odunpazarı evleri önünde koşan taçlı turuncu kedi
@@ -12,10 +12,10 @@
    COLOUR and TYPE: Pastel Bulut (bulut zemin, şeftali CTA, pudra mavi), Nunito
    LAYOUT: dikeyde oyun üstte, büyük ZIPLA / EĞİL tuşları altta; yatayda tuşlar köşelerde */
 :root{color-scheme:light dark;
---bg:light-dark(#F0EEE9,#1C1F2B);--card:light-dark(#FFFFFF,#262A3A);--raised:light-dark(#E6E8F2,#30354A);
---ink:light-dark(#444B6E,#ECE9F2);--muted:light-dark(#5E6582,#A9AEC6);
---peach:light-dark(#FFBE98,#FFB48C);--blue:light-dark(#A9C3EE,#9DB8F0);--mint:light-dark(#B8DCC8,#9FD8BC);
---cta:#FF9F73;--glass:light-dark(rgba(255,255,255,.55),rgba(38,42,58,.55));--onpastel:#1C1F2B}
+--bg:light-dark(#FFFFFF,#16120F);--card:light-dark(#FFFFFF,#221C18);--raised:light-dark(#F6F1EC,#2E2621);
+--ink:light-dark(#1C1714,#F5EEE7);--muted:light-dark(#6B5E55,#B9ACA1);
+--peach:light-dark(#FFE8DC,#4A2A1A);--blue:light-dark(#E9F0FF,#1F2A44);--mint:light-dark(#DDF5F0,#123F38);
+--cta:#FF6A2B;--glass:rgba(28,23,20,.55);--onpastel:#1C1714}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.45 Nunito,system-ui,sans-serif;overflow:hidden;touch-action:none}
@@ -33,7 +33,7 @@ canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 #ach{position:fixed;left:50%;top:21%;z-index:9;background:var(--card);border-radius:28px;corner-shape:squircle;padding:8px 13px 7px;text-align:center;box-shadow:0 12px 28px rgba(28,31,43,.28);pointer-events:none;min-width:120px;transform:translate(-50%,-50%)}
 #ach.hide{display:none}#ach.go{animation:achA 2.6s ease-out forwards}
 #ach img{width:54px;height:54px;display:block;margin:0 auto 3px}
-#ach b{display:block;font:900 9px Nunito,system-ui,sans-serif;color:#984B28}#ach span{display:block;font:900 14px Nunito,system-ui,sans-serif;color:var(--ink)}#ach em{font-size:10px;max-width:180px;display:block;font-style:normal;font-weight:800;color:var(--muted)}
+#ach b{display:block;font:900 10px Nunito,system-ui,sans-serif;color:#B8460F}#ach span{display:block;font:900 14px Nunito,system-ui,sans-serif;color:var(--ink)}#ach em{font-size:10px;max-width:180px;display:block;font-style:normal;font-weight:800;color:var(--muted)}
 @keyframes achA{0%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(-8deg)}12%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(2deg)}22%{transform:translate(-50%,-50%) scale(1) rotate(0)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-62%) scale(.95)}}
 .card{max-height:calc(100dvh - 32px);overflow:auto}
 .nohint .tip{visibility:hidden}
@@ -41,23 +41,23 @@ canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 .srow label small{display:block;font-weight:600;font-size:12px;color:var(--muted)}
 .sw{flex:none;width:52px;height:30px;border-radius:99px;border:0;background:var(--raised);position:relative;cursor:pointer}
 .sw::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.sw[aria-pressed=true]{background:#2DBE8A}.sw[aria-pressed=true]::after{left:25px}
-.srow input[type=range]{width:48%;accent-color:#FF9F73;height:30px}
-.seg{display:flex;gap:4px;flex:none}.seg button{border:0;border-radius:10px;padding:7px 9px;background:var(--raised);font:800 13px Nunito,system-ui,sans-serif;color:var(--ink);cursor:pointer}.seg button.on{background:#FF9F73;color:#1C1F2B}
-.pill{font-size:13px;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:14px;corner-shape:squircle;padding:3px 9px;font:800 14px Nunito,system-ui,sans-serif;display:flex;gap:5px;align-items:center;color:var(--ink);white-space:nowrap}
+.sw[aria-pressed=true]{background:#12A28C}.sw[aria-pressed=true]::after{left:25px}
+.srow input[type=range]{width:48%;accent-color:#FF6A2B;height:30px}
+.seg{display:flex;gap:4px;flex:none}.seg button{border:0;border-radius:10px;padding:7px 9px;background:var(--raised);font:800 13px Nunito,system-ui,sans-serif;color:var(--ink);cursor:pointer}.seg button.on{background:#FF6A2B;color:#1C1714}
+.pill{font-size:13px;background:var(--glass);color:#fff!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:14px;corner-shape:squircle;padding:3px 9px;font:800 14px Nunito,system-ui,sans-serif;display:flex;gap:5px;align-items:center;white-space:nowrap}
 .pill img{width:18px;height:18px;object-fit:contain}
 .grow{flex:1}
 #bPause{position:fixed;top:calc(8px + env(safe-area-inset-top));right:8px;pointer-events:auto;border:0;min-width:40px;min-height:34px;justify-content:center;cursor:pointer}
-#combo{display:none;background:rgba(255,159,115,.85);color:var(--onpastel)}
+#combo{display:none;background:#FF6A2B;color:#1C1714!important}
 #pw{display:none}
 #below{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:10px 12px max(12px,env(safe-area-inset-bottom));background:var(--bg)}
 .tip{color:var(--muted);font-size:13px;line-height:1.35;text-align:center;margin:0}
 #controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:10px;height:86px;padding-bottom:4px}
-#controls button{border:0;border-radius:26px;corner-shape:squircle;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:900 17px Nunito,system-ui,sans-serif;letter-spacing:.02em;color:var(--onpastel);cursor:pointer;touch-action:none;transition:transform .06s}
+#controls button{border:0;border-radius:22px;font-family:Fredoka,Nunito,sans-serif!important;corner-shape:squircle;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:900 17px Nunito,system-ui,sans-serif;letter-spacing:.02em;color:var(--onpastel);cursor:pointer;touch-action:none;transition:transform .06s}
 #controls svg{width:30px;height:30px}
-#bDuck{background:linear-gradient(#C3D6F5,#A9C3EE);box-shadow:0 4px 0 #7F9DCC,0 8px 18px rgba(68,75,110,.18)}
-#bJump{background:linear-gradient(#FFD1B5,#FFBE98);box-shadow:0 4px 0 #E39669,0 8px 18px rgba(68,75,110,.18)}
-#controls button.down{transform:translateY(4px);box-shadow:0 0 0 transparent,0 3px 8px rgba(68,75,110,.15)}
+#bDuck{background:#1C1714;color:#fff!important;box-shadow:0 5px 0 #000,0 10px 20px rgba(0,0,0,.18)}
+#bJump{background:#FF6A2B;color:#1C1714;box-shadow:0 5px 0 #C2410C,0 10px 20px rgba(194,65,12,.25)}
+#controls button.down{transform:translateY(5px);box-shadow:0 0 0 transparent,0 3px 8px rgba(68,75,110,.15)}
 button:focus-visible{outline:3px solid var(--cta);outline-offset:2px}
 body.land #stage{height:100dvh}body.land #runB{display:none}
 #runB{flex:1;min-height:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px 2px;align-content:center;justify-items:center}
@@ -78,37 +78,37 @@ body.land #controls svg{width:18px;height:18px}
 .bdg img{width:46px;height:46px}.bdg.off img{filter:grayscale(1);opacity:.4}.bdg.off{color:var(--muted)}
 .bdg i{position:absolute;top:0;right:calc(50% - 32px);font-style:normal;background:#EE5F7B;color:#fff;border-radius:10px;padding:0 6px;font-size:12px}.bdg i:empty{display:none}
 .chip{background:var(--raised);border-radius:12px;corner-shape:squircle;padding:3px 10px;font-size:12px;font-weight:800;color:var(--muted)}
-.chip.on{background:var(--mint);color:var(--onpastel)}
+.chip.on{background:var(--mint);color:var(--ink)}
 .picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 4px}
-.pick{border:0;border-radius:24px;corner-shape:squircle;background:var(--raised);padding:14px 8px 10px;cursor:pointer;color:#1C1F2B;font:900 20px Nunito,system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 4px 0 rgba(68,75,110,.15)}
+.pick{border:0;border-radius:22px;background:var(--raised);padding:14px 8px 10px;cursor:pointer;color:#1C1714;font:600 22px Fredoka,Nunito,sans-serif;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 4px 0 rgba(68,75,110,.15)}
 .pick:active{transform:translateY(3px)}
 .pick img{width:100%;max-width:130px}
-.pick.cat{background:linear-gradient(#FFE3D0,#FFD1B5)}.pick.dog{background:linear-gradient(#E3EBF9,#C3D6F5)}
-.pick span{font-size:13px;font-weight:600;color:#5E6582}
+.pick.cat{background:#FFE8DC}.pick.dog{background:#E9F0FF}
+.pick span{font:800 13px Nunito,sans-serif;color:#6B5E55}
 #pLives img{width:17px;height:17px}
 .ov{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(28,31,43,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:5}
 .ov.hide{display:none}
-.card{background:var(--card);border-radius:32px;corner-shape:squircle;padding:22px 22px 18px;width:min(360px,100%);text-align:center;box-shadow:0 20px 50px rgba(28,31,43,.25)}
+.card{background:var(--card);border-radius:28px;corner-shape:squircle;padding:22px 22px 18px;width:min(360px,100%);text-align:center;box-shadow:0 20px 50px rgba(28,31,43,.25)}
 .card img.hero{width:150px;display:block;margin:0 auto 6px;animation:bob 1s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @media(prefers-reduced-motion:reduce){.card img.hero{animation:none}}
-.card h1{font:700 34px/1.05 Nunito,system-ui,sans-serif;margin:4px 0 6px;text-wrap:balance}
+.card h1{font:600 32px/1.05 Fredoka,Nunito,sans-serif;margin:4px 0 6px;text-wrap:balance}
 .card p{margin:0 0 12px;color:var(--muted)}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 14px}
 .stats div{background:var(--raised);border-radius:16px;corner-shape:squircle;padding:8px 4px}
-.stats b{display:block;font:700 22px Nunito,system-ui,sans-serif;color:var(--ink)}
+.stats b{display:block;font:600 22px Fredoka,Nunito,sans-serif;color:var(--ink)}
 .stats span{font-size:13px;color:var(--muted)}
-.new{color:light-dark(#2C6E4E,#9FD8BC);font-weight:800;margin-bottom:10px;display:none}
-.big{width:100%;min-height:52px;border:0;border-radius:20px;corner-shape:squircle;background:var(--cta);color:var(--onpastel);font:700 22px Nunito,system-ui,sans-serif;cursor:pointer}
+.new{color:light-dark(#0B5247,#7FDCC9);font-weight:800;margin-bottom:10px;display:none}
+.big{width:100%;min-height:56px;border:0;border-radius:16px;background:var(--cta);color:#1C1714;font:600 22px Fredoka,Nunito,sans-serif;cursor:pointer;box-shadow:0 5px 0 #C2410C}.big:active{transform:translateY(4px);box-shadow:0 1px 0 #C2410C}
 .row{display:flex;gap:8px;margin-top:10px}
-.small{flex:1;min-height:44px;border:0;border-radius:16px;corner-shape:squircle;background:var(--raised);color:var(--ink);font:800 14px Nunito,sans-serif;cursor:pointer}
+.small{flex:1;min-height:44px;border:0;border-radius:14px;display:flex;align-items:center;justify-content:center;text-decoration:none;corner-shape:squircle;background:var(--raised);color:var(--ink);font:800 14px Nunito,sans-serif;cursor:pointer}
 .bh{font:900 15px Nunito,system-ui,sans-serif;margin:4px 0 8px;text-align:left}.bh small{font-weight:600;font-size:12px;color:var(--muted);margin-left:6px}
 .bdg,#runB span{cursor:pointer}
 .more{display:flex;align-items:center;justify-content:center;gap:6px;margin:-4px auto 10px;border:0;background:var(--raised);color:var(--ink);font:800 13px Nunito,system-ui,sans-serif;border-radius:14px;padding:6px 14px;min-height:36px;cursor:pointer}.more svg{transition:transform .25s}.more[aria-expanded=true] svg{transform:rotate(180deg)}
 .rulesBtn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:0;background:none;color:var(--muted);font:800 13px Nunito,system-ui,sans-serif;cursor:pointer;min-height:32px}.rulesBtn b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--raised);color:var(--ink);font-size:12px}
 #rules{text-align:left;font-size:13px;color:var(--muted);background:var(--raised);border-radius:16px;padding:10px 14px;margin-top:6px}#rules p{margin:0 0 6px}#rules ul{margin:0;padding-left:18px}
 .keys{font-size:13px;color:var(--muted);margin:12px 0 0}
-#toast{position:fixed;left:50%;top:calc(64px + env(safe-area-inset-top));transform:translate(-50%,-20px);opacity:0;transition:.35s;background:var(--mint);color:var(--onpastel);font:700 16px Nunito,system-ui,sans-serif;padding:8px 16px;border-radius:16px;corner-shape:squircle;z-index:9;pointer-events:none;white-space:nowrap}
+#toast{position:fixed;left:50%;top:calc(64px + env(safe-area-inset-top));transform:translate(-50%,-20px);opacity:0;transition:.35s;background:#1C1714;color:#FFD35C;border-radius:999px!important;font:700 16px Nunito,system-ui,sans-serif;padding:8px 16px;border-radius:16px;corner-shape:squircle;z-index:9;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 </style></head><body>
 <div id="app">
@@ -143,6 +143,7 @@ body.land #controls svg{width:18px;height:18px}
  <button class="rulesBtn" id="bRules" aria-expanded="false"><b>?</b> Kurallar</button>
  <div id="rules" hidden><p>Engellerden zıpla, minibüs ve dolmuşun altından eğilerek geç. Kışın buzda zıplanmaz, sadece kayılır.</p><ul><li>Yerdeki mama 5, havadaki mama 10 puan</li><li>Kıl payı geçiş 10, buzu değmeden aşmak 15, her gün doğumu 20 puan</li><li>Her çarpışma 1 can ve 50 puan götürür</li><li>3 canla başlarsın; her kalp ve her 5 kelebek +1 can</li><li>Balık mıknatıs, taç kalkan verir</li><li>Yavru olarak başlarsın, her 300 metrede büyürsün</li><li>Sol üstteki mesafe liderlik listesinde yarışır</li></ul></div>
  <div class="row"><button class="small" id="bSound">Ses: Açık</button><button class="small" id="bSet">Ayarlar</button></div>
+ <div class="row"><a class="small" href="../miyhav/?intro=0">miyhav'a dön</a></div>
 </div></div>
 <div class="ov" id="sel" style="z-index:7"><div class="card">
  <h1>Kahramanını seç</h1>
