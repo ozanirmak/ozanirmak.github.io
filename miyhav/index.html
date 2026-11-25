@@ -488,7 +488,7 @@ class Component extends DCLogic {
       play: () => { const pl = st.plays ?? 3; if (pl > 0) { set({ plays: pl - 1 }); toast('Koşu başladı · kalan hak ' + (pl - 1)); } },
       goGame: () => go('oyun'), showSticker: !showSplash && screen !== 'oyun', stickerOpen: !st.stickerMin, stickerMin: !!st.stickerMin, hideSticker: () => set({ stickerMin: true }), showStickerBtn: () => set({ stickerMin: false }),
       showGameTut: screen === 'oyun' && !st.gameTutDone && !showSplash, closeGameTut: () => set({ gameTutDone: true }),
-      gameTips: ['Zıplamak için ekrana dokun ya da ZIPLA tuşuna bas; basılı tutarsan daha yükseğe zıplarsın', 'Eğilmek için aşağı kaydır ya da EĞİL tuşuna bas', 'Araba gelmeden korna çalar ve kırmızı ünlem yanar: hemen eğil', 'Su birikintisi, çöp kutusu ve kutuların üstünden zıpla', 'Mama ve kalp topla; ' + (isCat ? 'balık' : 'kemik') + ' sana güç verir', 'Her 100 metre 1 Mama Puan; günde 3 koşu hakkın var'],
+      gameTips: ['Zıplamak için ekrana dokun ya da ZIPLA tuşuna bas; basılı tutarsan daha yükseğe zıplarsın', 'Eğilmek için aşağı kaydır ya da EĞİL tuşuna bas', 'Araba gelmeden korna çalar ve kırmızı ünlem yanar: hemen eğil', 'Su birikintisi, çukur, çöp yığını ve kutuların üstünden zıpla', 'Mama ve kalp topla; ' + (isCat ? 'balık' : 'kemik') + ' sana güç verir', 'Her 100 metre 1 Mama Puan; günde 3 koşu hakkın var'],
       runners: [...data].map((x) => ({ x, m: 300 + Math.floor(seed(x.i, 9) * 1700) })).sort((a, b) => b.m - a.m).slice(0, 10).map((o, k) => ({ ...pack(o.x), m: o.m.toLocaleString('tr-TR'), place: k + 1, placeColor: k < 3 ? 'color: #B4470C' : 'color: #6B5E55' })),
       capFull: dayPts >= 200,
       shareWa: () => share('WhatsApp'), shareIg: () => share('Instagram'),
