@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#FFFFFF">
 <title>miyhav</title>
 <link rel="icon" href="img/logo_simge.webp">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
 <style>
 html,body{margin:0;height:100%;background:#F4EFEA;overflow:hidden}
 #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
@@ -22,11 +22,11 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="padding: 44px 16px 0; height: 96px; box-sizing: border-box; display: flex; align-items: center; gap: 8px; flex: none">
 <div style="flex: 1; min-width: 0; display: flex; align-items: center">
 <sc-if value="{{isHome}}" hint-placeholder-val="{{ true }}"><img src="img/logo_yatay.webp" alt="miyhav" style="height: 38px; width: auto; display: block"></sc-if>
-<sc-if value="{{notHome}}" hint-placeholder-val="{{ false }}"><span style="font-family: Fredoka, sans-serif; font-size: 26px; font-weight: 600; color: #1C1714">{{screenTitle}}</span></sc-if>
+<sc-if value="{{notHome}}" hint-placeholder-val="{{ false }}"><span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 26px; color: #1C1714">{{screenTitle}}</span></sc-if>
 </div>
 <button onClick="{{goShop}}" aria-label="Pati Puan" style="display: inline-flex; align-items: center; gap: 5px; height: 36px; padding: 0 12px 0 6px; border-radius: 999px; border: 0; cursor: pointer; background: #FFE4E6; color: #8E1B26; font: 900 15px Nunito, sans-serif"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{pati}}</button>
 <button onClick="{{goShop}}" aria-label="Mama Puan" style="display: inline-flex; align-items: center; gap: 5px; height: 36px; padding: 0 12px 0 6px; border-radius: 999px; border: 0; cursor: pointer; background: #FFF3CF; color: #5C4300; font: 900 15px Nunito, sans-serif"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC23D"></circle><circle cx="12" cy="12" r="7.5" fill="#FFB000"></circle><g fill="#FFF4CC"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{coins}}</button>
-<button onClick="{{toggleHelp}}" aria-label="Bu sayfa ne işe yarar?" style="width: 40px; height: 40px; border-radius: 999px; border: 0; background: #F6F1EC; color: #1C1714; font: 700 17px Fredoka, sans-serif; cursor: pointer; flex: none">?</button>
+<button onClick="{{toggleHelp}}" aria-label="Bu sayfa ne işe yarar?" style="width: 40px; height: 40px; border-radius: 999px; border: 0; background: #F6F1EC; color: #1C1714; font: 900 17px Nunito, sans-serif; cursor: pointer; flex: none">?</button>
 </div>
 <sc-if value="{{showModeRow}}" hint-placeholder-val="{{ true }}">
 <div style="padding: 4px 16px 0; height: 44px; box-sizing: border-box; display: flex; align-items: center; gap: 8px; flex: none">
@@ -65,7 +65,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 </button>
 </sc-for>
 </div>
-<sc-if value="{{ch.ad}}" hint-placeholder-val="{{ true }}"><div style="margin: 2px 0; height: 250px; background: #F6F1EC; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #6B5E55"><span style="font-size: 10px; font-weight: 900; letter-spacing: .6px; padding: 2px 6px; border-radius: 6px; background: #EFE6DD">REKLAM</span><span style="font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 600">300×250 kare reklam alanı</span></div></sc-if>
+<sc-if value="{{ch.ad}}" hint-placeholder-val="{{ true }}"><div style="margin: 2px 0; height: 250px; background: #F6F1EC; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #6B5E55"><span style="font-size: 10px; font-weight: 900; letter-spacing: .6px; padding: 2px 6px; border-radius: 6px; background: #EFE6DD">REKLAM</span><span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px">300×250 kare reklam alanı</span></div></sc-if>
 </sc-for>
 </sc-if>
 <sc-if value="{{isFoto}}" hint-placeholder-val="{{ false }}">
@@ -73,13 +73,13 @@ button,a{-webkit-tap-highlight-color:transparent}
 <button onClick="{{goAkis}}" aria-label="Geri" style="position: absolute; top: 12px; left: 12px; width: 44px; height: 44px; border-radius: 999px; border: 0; background: rgba(255,255,255,.9); cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1714" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
 </div>
 <div style="padding: 14px 16px 0; display: flex; align-items: center; gap: 8px">
-<button onClick="{{sel.profile}}" style="border: 0; background: none; padding: 0; font-family: Fredoka, sans-serif; font-size: 26px; font-weight: 600; color: #1C1714; cursor: pointer">{{sel.name}}</button>
+<button onClick="{{sel.profile}}" style="border: 0; background: none; padding: 0; font-family: Nunito, sans-serif; font-weight: 900; font-size: 26px; color: #1C1714; cursor: pointer">{{sel.name}}</button>
 <sc-for list="{{sel.badges}}" as="b" hint-placeholder-count="2"><button onClick="{{b.tap}}" aria-label="{{b.label}} başarımı" style="border: 0; padding: 0; background: none; cursor: pointer; flex: none"><span style="position: relative; display: block; width: 36px; height: 36px; overflow: hidden; border-radius: 999px; {{b.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{b.bl}}; top: {{b.bt}}"></span></button></sc-for>
 </div>
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px 16px 0; text-align: center">
-<div style="padding: 10px 4px; border-radius: 14px; background: #F6F1EC"><div style="font-family: Fredoka, sans-serif; font-size: 18px; font-weight: 600">{{sel.views}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">görüntülenme</div></div>
-<div style="padding: 10px 4px; border-radius: 14px; background: #F6F1EC"><div style="font-family: Fredoka, sans-serif; font-size: 18px; font-weight: 600">{{sel.visits}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">profil ziyareti</div></div>
-<div style="padding: 10px 4px; border-radius: 14px; background: #F6F1EC"><div style="font-family: Fredoka, sans-serif; font-size: 18px; font-weight: 600">#{{sel.rank}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">haftalık sıra</div></div>
+<div style="padding: 10px 4px; border-radius: 14px; background: #F6F1EC"><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 18px">{{sel.views}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">görüntülenme</div></div>
+<div style="padding: 10px 4px; border-radius: 14px; background: #F6F1EC"><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 18px">{{sel.visits}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">profil ziyareti</div></div>
+<div style="padding: 10px 4px; border-radius: 14px; background: #F6F1EC"><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 18px">#{{sel.rank}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">haftalık sıra</div></div>
 </div>
 <div style="display: flex; gap: 8px; overflow-x: auto; padding: 14px 16px 2px">
 <sc-for list="{{reactions}}" as="r" hint-placeholder-count="6">
@@ -94,20 +94,20 @@ button,a{-webkit-tap-highlight-color:transparent}
 </sc-if>
 <sc-if value="{{isDuello}}" hint-placeholder-val="{{ false }}">
 <div style="padding: 12px 16px 10px; display: flex; align-items: center; gap: 10px">
-<div style="flex: 1"><div style="font-family: Fredoka, sans-serif; font-size: 21px; font-weight: 600">Hangisi daha tatlı?</div><div style="font-size: 12px; font-weight: 800; color: #6B5E55">{{duelHint}}</div></div>
+<div style="flex: 1"><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 21px">Hangisi daha tatlı?</div><div style="font-size: 12px; font-weight: 800; color: #6B5E55">{{duelHint}}</div></div>
 <span style="display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 999px; background: #DDF5F0; color: #0B5247; font-size: 13px; font-weight: 900">{{votes}} / 15 oy</span>
 </div>
 <sc-if value="{{hasVotes}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 4px; position: relative">
 <button onClick="{{voteA}}" aria-label="{{a.name}} için oy ver" style="border: 0; padding: 0; position: relative; height: 250px; overflow: hidden; background: #F6F1EC; cursor: pointer; display: block; width: 100%"><sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{a.pl}}; top: {{a.pt}}"></sc-if><sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{a.pl}}; top: {{a.pt}}"></sc-if><span style="position: absolute; left: 12px; bottom: 12px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.94); font: 900 15px Nunito, sans-serif; color: #1C1714">{{a.name}}</span></button>
-<div style="position: absolute; left: 50%; top: 252px; transform: translate(-50%, -50%); z-index: 2; width: 72px; height: 72px; border-radius: 999px; padding: 6px; box-sizing: border-box; border: 4px solid #FFFFFF; background: conic-gradient(#12A28C {{ringDeg}}deg, #E9E1DA 0deg); display: flex; box-shadow: 0 6px 16px rgba(0,0,0,.18)"><div style="flex: 1; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-family: Fredoka, sans-serif; font-size: 17px; font-weight: 700; {{vsStyle}}">VS</div></div>
+<div style="position: absolute; left: 50%; top: 252px; transform: translate(-50%, -50%); z-index: 2; width: 72px; height: 72px; border-radius: 999px; padding: 6px; box-sizing: border-box; border: 4px solid #FFFFFF; background: conic-gradient(#12A28C {{ringDeg}}deg, #E9E1DA 0deg); display: flex; box-shadow: 0 6px 16px rgba(0,0,0,.18)"><div style="flex: 1; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-family: Nunito, sans-serif; font-weight: 900; font-size: 17px; {{vsStyle}}">VS</div></div>
 <button onClick="{{voteB}}" aria-label="{{b.name}} için oy ver" style="border: 0; padding: 0; position: relative; height: 250px; overflow: hidden; background: #F6F1EC; cursor: pointer; display: block; width: 100%"><sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{b.pl}}; top: {{b.pt}}"></sc-if><sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{b.pl}}; top: {{b.pt}}"></sc-if><span style="position: absolute; left: 12px; bottom: 12px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.94); font: 900 15px Nunito, sans-serif; color: #1C1714">{{b.name}}</span></button>
 </div>
 </sc-if>
 <sc-if value="{{noVotes}}" hint-placeholder-val="{{ false }}">
 <div style="margin: 8px 16px; padding: 24px 18px; border-radius: 24px; background: #F6F1EC; text-align: center">
 <img src="img/tac_ikili.webp" alt="" style="width: 190px; height: auto">
-<div style="font-family: Fredoka, sans-serif; font-size: 22px; font-weight: 600; margin-top: 8px">Patiler biraz dinleniyor</div>
+<div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 22px; margin-top: 8px">Patiler biraz dinleniyor</div>
 <div style="font-size: 14px; font-weight: 700; color: #4A3F38; line-height: 1.45; margin-top: 6px">Bu turun oy hakların bitti. 12 dakikada 1 yeni hak dolar, 3 saatte hepsi yenilenir.</div>
 <div style="margin-top: 14px"><button onClick="{{goOdul}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #1C1714; color: #FFFFFF">Sandıklara bak</button></div>
 </div>
@@ -122,8 +122,8 @@ button,a{-webkit-tap-highlight-color:transparent}
 <sc-for list="{{podium}}" as="p" hint-placeholder-count="3">
 <button onClick="{{p.open}}" aria-label="{{p.name}} profilini aç" style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer">
 <div style="position: relative; overflow: hidden; border-radius: 999px; box-sizing: border-box; {{p.ring}}"><sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{p.l}}; top: {{p.t}}"></sc-if><sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{p.l}}; top: {{p.t}}"></sc-if></div>
-<span style="font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 600; color: #1C1714">{{p.name}}</span>
-<span style="display: flex; align-items: center; justify-content: center; border-radius: 16px 16px 0 0; width: 104px; font-family: Fredoka, sans-serif; font-size: 26px; font-weight: 700; {{p.block}}">{{p.place}}</span>
+<span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px; color: #1C1714">{{p.name}}</span>
+<span style="display: flex; align-items: center; justify-content: center; border-radius: 16px 16px 0 0; width: 104px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 26px; {{p.block}}">{{p.place}}</span>
 </button>
 </sc-for>
 </div>
@@ -131,7 +131,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="display: flex; flex-direction: column; padding: 8px 16px 20px">
 <sc-for list="{{rest}}" as="r" hint-placeholder-count="6">
 <button onClick="{{r.open}}" style="border: 0; border-bottom: 1px solid #EFE6DD; background: #FFFFFF; padding: 8px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; font-family: Nunito, sans-serif">
-<span style="width: 24px; font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 600; color: #6B5E55">{{r.place}}</span>
+<span style="width: 24px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px; color: #6B5E55">{{r.place}}</span>
 <div style="width: 48px; height: 48px; border-radius: 999px; position: relative; overflow: hidden; flex: none; background: #F6F1EC"><sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if><sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if></div>
 <span style="flex: 1; font-size: 15px; font-weight: 900; color: #1C1714">{{r.name}}</span>
 <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 900; color: #1C1714"><svg width="12" height="12" viewBox="0 0 24 24" fill="#FF5A7A" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg>{{r.hearts}}</span>
@@ -142,7 +142,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 <sc-if value="{{isOyun}}" hint-placeholder-val="{{ false }}">
 <div style="margin: 14px 16px 0; border-radius: 24px; background: #FF6A2B; overflow: hidden; position: relative; padding: 18px 16px 16px">
 <div style="display: flex; align-items: center; gap: 12px">
-<div style="flex: 1"><div style="font-family: Fredoka, sans-serif; font-size: 26px; font-weight: 700; color: #1C1714; line-height: 1.05">Pati Koşusu</div><div style="font-size: 13px; font-weight: 800; color: #3A1A08; margin-top: 4px">Zıpla, eğil, mama ve kalp topla.</div>
+<div style="flex: 1"><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 26px; color: #1C1714; line-height: 1.05">Pati Koşusu</div><div style="font-size: 13px; font-weight: 800; color: #3A1A08; margin-top: 4px">Zıpla, eğil, mama ve kalp topla.</div>
 <div style="display: inline-flex; margin-top: 8px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.9); color: #1C1714; font-size: 12px; font-weight: 900">Bugün {{plays}} / 3 koşu hakkı</div></div>
 <img src="img/tac_ikili.webp" alt="" style="width: 132px; height: auto; flex: none; background: #FFFFFF; border-radius: 18px; padding: 4px">
 </div>
@@ -155,14 +155,14 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="padding: 12px; border-radius: 16px; background: #FFF3CF; color: #5C4300"><div style="font-size: 11px; font-weight: 900">PUAN KURALI</div><div style="font-size: 13px; font-weight: 800; line-height: 1.35; margin-top: 2px">100 m = 1 Mama Puan. Koşu başına 15, günde 45.</div></div>
 <div style="padding: 12px; border-radius: 16px; background: #FFE4E6; color: #8E1B26"><div style="font-size: 11px; font-weight: 900">HAFTANIN KOŞUCUSU</div><div style="font-size: 13px; font-weight: 800; line-height: 1.35; margin-top: 2px">1.: 15 Pati Puan + çerçeve. İlk 3: oyuncak.</div></div>
 </div>
-<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600; color: #1C1714">Haftanın koşucuları</span><span style="font-size: 12px; font-weight: 900; color: #6B5E55">Sen: 742 m · 9.</span></div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px; color: #1C1714">Haftanın koşucuları</span><span style="font-size: 12px; font-weight: 900; color: #6B5E55">Sen: 742 m · 9.</span></div>
 <div style="display: flex; flex-direction: column; padding: 0 16px 20px">
 <sc-for list="{{runners}}" as="r" hint-placeholder-count="8">
 <button onClick="{{r.profile}}" style="border: 0; border-bottom: 1px solid #EFE6DD; background: #FFFFFF; padding: 8px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; font-family: Nunito, sans-serif">
-<span style="width: 24px; font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 600; {{r.placeColor}}">{{r.place}}</span>
+<span style="width: 24px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px; {{r.placeColor}}">{{r.place}}</span>
 <div style="width: 48px; height: 48px; border-radius: 999px; position: relative; overflow: hidden; flex: none; background: #F6F1EC"><sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if><sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if></div>
 <span style="flex: 1; font-size: 15px; font-weight: 900; color: #1C1714">{{r.name}}</span>
-<span style="font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 600; color: #1C1714">{{r.m}} m</span>
+<span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px; color: #1C1714">{{r.m}} m</span>
 </button>
 </sc-for>
 </div>
@@ -170,18 +170,18 @@ button,a{-webkit-tap-highlight-color:transparent}
 <sc-if value="{{isOdul}}" hint-placeholder-val="{{ false }}">
 <div style="margin: 12px 16px 0; padding: 18px 16px 16px; border-radius: 24px; background: #1C1714; color: #FFFFFF">
 <div style="display: flex; align-items: center; gap: 12px"><svg width="40" height="40" viewBox="0 0 24 24" fill="#FF6A2B" aria-hidden="true"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 1.5-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z"></path></svg>
-<div><div style="font-family: Fredoka, sans-serif; font-size: 24px; font-weight: 600">{{streak}} günlük seri</div><div style="font-size: 13px; font-weight: 700; color: #E9DED5">7. günde 100 Mama Puan + 3 Pati Puan</div></div></div>
+<div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 24px">{{streak}} günlük seri</div><div style="font-size: 13px; font-weight: 700; color: #E9DED5">7. günde 100 Mama Puan + 3 Pati Puan</div></div></div>
 <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; margin-top: 14px">
-<sc-for list="{{days}}" as="d" hint-placeholder-count="7"><div style="border-radius: 12px; padding: 8px 0; text-align: center; {{d.style}}"><div style="font-size: 11px; font-weight: 900">{{d.label}}</div><div style="font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 700; margin-top: 2px">{{d.reward}}</div></div></sc-for>
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7"><div style="border-radius: 12px; padding: 8px 0; text-align: center; {{d.style}}"><div style="font-size: 11px; font-weight: 900">{{d.label}}</div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px; margin-top: 2px">{{d.reward}}</div></div></sc-for>
 </div>
 <div style="margin-top: 14px"><button onClick="{{claim}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; {{claimStyle}}">{{claimText}}</button></div>
 </div>
-<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600; color: #1C1714">Saatli sandıklar</span></div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px; color: #1C1714">Saatli sandıklar</span></div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 16px">
 <button onClick="{{claimNoon}}" style="border: 0; border-radius: 18px; padding: 14px 12px; text-align: left; cursor: pointer; font-family: Nunito, sans-serif; {{noonStyle}}"><div style="font-size: 24px">🌤️</div><div style="font-size: 15px; font-weight: 900; margin-top: 4px">Öğlen Sandığı</div><div style="font-size: 12px; font-weight: 800; margin-top: 2px">{{noonText}}</div></button>
 <div style="border-radius: 18px; padding: 14px 12px; background: #F6F1EC; color: #6B5E55"><div style="font-size: 24px">🌙</div><div style="font-size: 15px; font-weight: 900; margin-top: 4px; color: #1C1714">Akşam Sandığı</div><div style="font-size: 12px; font-weight: 800; margin-top: 2px">19:00–22:00 · +30 Mama</div></div>
 </div>
-<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600; color: #1C1714">Günün görevleri</span></div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px; color: #1C1714">Günün görevleri</span></div>
 <div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px">
 <sc-for list="{{quests}}" as="q" hint-placeholder-count="5">
 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #F6F1EC">
@@ -192,12 +192,12 @@ button,a{-webkit-tap-highlight-color:transparent}
 </sc-for>
 </div>
 <div style="margin: 16px 16px 0; padding: 16px; border-radius: 20px; background: #FFE4E6; color: #8E1B26">
-<div style="display: flex; align-items: center; gap: 8px; font-family: Fredoka, sans-serif; font-size: 18px; font-weight: 600"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>Pati Puan nasıl kazanılır?</div>
+<div style="display: flex; align-items: center; gap: 8px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 18px"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>Pati Puan nasıl kazanılır?</div>
 <div style="display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin-top: 10px; font-size: 13px; font-weight: 800">
 <span>Yeni bir rozet kazan</span><b>+5</b><span>7 günlük seriyi tamamla</span><b>+3</b><span>Günün tüm görevlerini bitir</span><b>+1</b><span>Haftalık ilk 10'a gir</span><b>+10</b><span>Davet ettiğin arkadaş patisini yüklesin</span><b>+5</b>
 </div>
 </div>
-<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600; color: #1C1714">Başarımlar</span><span style="font-size: 13px; font-weight: 900; color: #6B5E55">{{earnedCount}} / 21</span></div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 16px 10px"><span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px; color: #1C1714">Başarımlar</span><span style="font-size: 13px; font-weight: 900; color: #6B5E55">{{earnedCount}} / 21</span></div>
 <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px 6px; padding: 0 16px 24px">
 <sc-for list="{{achAll}}" as="b" hint-placeholder-count="21">
 <button onClick="{{b.tap}}" aria-label="{{b.label}} başarımı" style="border: 0; background: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px"><span style="position: relative; display: block; width: 58px; height: 58px; overflow: hidden; border-radius: 999px; {{b.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{b.bl}}; top: {{b.bt}}"></span><span style="font-size: 10px; font-weight: 900; color: #1C1714; text-align: center; line-height: 1.15">{{b.label}}</span></button>
@@ -206,8 +206,8 @@ button,a{-webkit-tap-highlight-color:transparent}
 </sc-if>
 <sc-if value="{{isDukkan}}" hint-placeholder-val="{{ false }}">
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px 16px 0">
-<div style="padding: 14px; border-radius: 20px; background: #FFE4E6; color: #8E1B26"><div style="font-size: 11px; font-weight: 900">PATİ PUAN · premium</div><div style="display: flex; align-items: center; gap: 6px; font-family: Fredoka, sans-serif; font-size: 28px; font-weight: 700; margin-top: 2px"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{pati}}</div></div>
-<div style="padding: 14px; border-radius: 20px; background: #FFF3CF; color: #5C4300"><div style="font-size: 11px; font-weight: 900">MAMA PUAN · günlük</div><div style="display: flex; align-items: center; gap: 6px; font-family: Fredoka, sans-serif; font-size: 28px; font-weight: 700; margin-top: 2px"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC23D"></circle><circle cx="12" cy="12" r="7.5" fill="#FFB000"></circle><g fill="#FFF4CC"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{coins}}</div></div>
+<div style="padding: 14px; border-radius: 20px; background: #FFE4E6; color: #8E1B26"><div style="font-size: 11px; font-weight: 900">PATİ PUAN · premium</div><div style="display: flex; align-items: center; gap: 6px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 28px; margin-top: 2px"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{pati}}</div></div>
+<div style="padding: 14px; border-radius: 20px; background: #FFF3CF; color: #5C4300"><div style="font-size: 11px; font-weight: 900">MAMA PUAN · günlük</div><div style="display: flex; align-items: center; gap: 6px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 28px; margin-top: 2px"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC23D"></circle><circle cx="12" cy="12" r="7.5" fill="#FFB000"></circle><g fill="#FFF4CC"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{coins}}</div></div>
 </div>
 <div style="margin: 8px 16px 0; padding: 12px 14px; border-radius: 16px; background: #F6F1EC">
 <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 900"><span>Bugün kazandığın Mama Puan</span><span style="color: #6B5E55">{{today}} / 200</span></div>
@@ -216,7 +216,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="font-size: 12px; font-weight: 700; color: #6B5E55; margin-top: 6px">Puan parayla satılmaz. Bu sayfada reklam yok.</div>
 </div>
 <sc-for list="{{shop}}" as="sec" hint-placeholder-count="5">
-<div style="padding: 20px 16px 10px; font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600">{{sec.title}}</div>
+<div style="padding: 20px 16px 10px; font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px">{{sec.title}}</div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 16px">
 <sc-for list="{{sec.items}}" as="it" hint-placeholder-count="4">
 <div style="border-radius: 18px; background: #FFFFFF; border: 1px solid #EFE6DD; overflow: hidden; display: flex; flex-direction: column">
@@ -240,13 +240,13 @@ button,a{-webkit-tap-highlight-color:transparent}
 <span style="position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%); padding: 2px 10px; border-radius: 999px; background: #1C1714; color: #FFD35C; font-size: 12px; font-weight: 900; border: 2px solid #FFFFFF; white-space: nowrap">Sv. {{level}}</span>
 </div>
 <div style="flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center">
-<div><div style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600">{{pr.views}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">görüntülenme</div></div>
-<div><div style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600">{{pr.visits}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">ziyaret</div></div>
-<div><div style="font-family: Fredoka, sans-serif; font-size: 19px; font-weight: 600">{{pr.fans}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">hayran</div></div>
+<div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px">{{pr.views}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">görüntülenme</div></div>
+<div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px">{{pr.visits}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">ziyaret</div></div>
+<div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 19px">{{pr.fans}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">hayran</div></div>
 </div>
 </div>
 <div style="padding: 16px 16px 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap">
-<span style="font-family: Fredoka, sans-serif; font-size: 26px; font-weight: 600; margin-right: 2px">{{pr.name}}</span>
+<span style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 26px; margin-right: 2px">{{pr.name}}</span>
 <sc-for list="{{pr.badges}}" as="b" hint-placeholder-count="3"><button onClick="{{b.tap}}" aria-label="{{b.label}} başarımı" style="border: 0; padding: 0; background: none; cursor: pointer; flex: none"><span style="position: relative; display: block; width: 44px; height: 44px; overflow: hidden; border-radius: 999px; {{b.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{b.bl}}; top: {{b.bt}}"></span></button></sc-for>
 </div>
 <div style="padding: 2px 16px 0; font-size: 13px; font-weight: 700; color: #6B5E55">{{pr.meta}} · <svg width="12" height="12" viewBox="0 0 24 24" fill="#FF5A7A" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg> {{pr.hearts}} kalp</div>
@@ -291,7 +291,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 <span aria-hidden="true" style="position: absolute; top: -9px; left: 16px; z-index: 2; width: 36px; height: 15px; border-radius: 2px; background: rgba(255,232,160,.9); transform: rotate(7deg); box-shadow: 0 1px 2px rgba(0,0,0,.15)"></span>
 <button onClick="{{goGame}}" aria-label="Pati Koşusu oyununu aç" style="width: 66px; padding: 10px 0; border: 4px solid #FFFFFF; border-radius: 22px; background: #FF6A2B; color: #1C1714; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 7px 16px rgba(60,30,10,.28), 0 0 0 1px rgba(0,0,0,.06)">
 <span style="width: 46px; height: 46px; border-radius: 999px; overflow: hidden; background: #FFFFFF; border: 2px solid #FFD35C; display: block"><img src="img/tac_ikili.webp" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(1.35)"></span>
-<span style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: Fredoka, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .5px">Pati Koşusu</span>
+<span style="writing-mode: vertical-rl; transform: rotate(180deg); font-family: Nunito, sans-serif; font-weight: 900; font-size: 15px; letter-spacing: .5px">Pati Koşusu</span>
 <span style="min-width: 24px; height: 24px; border-radius: 999px; background: #1C1714; color: #FFD35C; font: 900 12px Nunito, sans-serif; display: flex; align-items: center; justify-content: center">{{plays}}</span>
 </button>
 <button onClick="{{hideSticker}}" aria-label="Etiketi küçült" style="position: absolute; left: -18px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 999px; border: 3px solid #FFFFFF; background: #1C1714; color: #FFD35C; font: 900 18px Nunito, sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(0,0,0,.25)">›</button>
@@ -305,7 +305,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="position: absolute; inset: 0; z-index: 40; background: rgba(15,10,8,.45); display: flex; align-items: flex-end">
 <div style="width: 100%; background: #FFFFFF; border-radius: 28px 28px 0 0; padding: 10px 20px 34px">
 <div style="width: 40px; height: 5px; border-radius: 99px; background: #EFE6DD; margin: 0 auto 14px"></div>
-<div style="display: flex; align-items: center; gap: 10px"><img src="img/logo_simge.webp" alt="" style="width: 44px; height: 44px"><div style="font-family: Fredoka, sans-serif; font-size: 22px; font-weight: 600">{{helpTitle}}</div></div>
+<div style="display: flex; align-items: center; gap: 10px"><img src="img/logo_simge.webp" alt="" style="width: 44px; height: 44px"><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 22px">{{helpTitle}}</div></div>
 <div style="font-size: 15px; font-weight: 700; color: #4A3F38; line-height: 1.5; margin: 10px 0 16px">{{helpText}}</div>
 <button onClick="{{toggleHelp}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #1C1714; color: #FFFFFF">Anladım</button>
 </div>
@@ -316,7 +316,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="width: 100%; background: #FFFFFF; border-radius: 28px 28px 0 0; padding: 10px 20px 30px">
 <div style="width: 40px; height: 5px; border-radius: 99px; background: #EFE6DD; margin: 0 auto 8px"></div>
 <img src="img/tac_ikili.webp" alt="" style="display: block; width: 160px; height: auto; margin: 0 auto">
-<div style="font-family: Fredoka, sans-serif; font-size: 22px; font-weight: 600; text-align: center; margin-top: 4px">Pati Koşusu nasıl oynanır?</div>
+<div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 22px; text-align: center; margin-top: 4px">Pati Koşusu nasıl oynanır?</div>
 <div style="display: flex; flex-direction: column; gap: 8px; margin: 14px 0 16px">
 <sc-for list="{{gameTips}}" as="li" hint-placeholder-count="6"><div style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; font-weight: 800; line-height: 1.35"><span style="width: 8px; height: 8px; border-radius: 99px; background: #FF6A2B; margin-top: 6px; flex: none"></span><span>{{li}}</span></div></sc-for>
 </div>
@@ -327,11 +327,11 @@ button,a{-webkit-tap-highlight-color:transparent}
 <sc-if value="{{showSplash}}" hint-placeholder-val="{{ false }}">
 <div style="position: absolute; inset: 0; z-index: 60; background: #FF6A2B; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; box-sizing: border-box">
 <div style="width: 170px; height: 170px; border-radius: 44px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 40px rgba(120,40,0,.3)"><img src="img/logo_simge.webp" alt="" style="width: 140px; height: 140px"></div>
-<div style="font-family: Fredoka, sans-serif; font-size: 44px; font-weight: 700; color: #1C1714; margin-top: 18px; letter-spacing: -1px">miyhav</div>
+<div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 44px; color: #1C1714; margin-top: 18px; letter-spacing: -1px">miyhav</div>
 <div style="font-size: 15px; font-weight: 800; color: #3A1A08">Patini yarıştır, kalp topla</div>
 <div style="position: absolute; left: 32px; right: 32px; bottom: 56px; padding: 14px; border-radius: 20px; background: rgba(255,255,255,.92); text-align: center">
 <div style="font-size: 11px; font-weight: 900; color: #6B5E55; letter-spacing: .6px">BU HAFTANIN SPONSORU</div>
-<div style="margin-top: 8px; height: 56px; border-radius: 14px; border: 2px dashed #D8C8BA; display: flex; align-items: center; justify-content: center; font-family: Fredoka, sans-serif; font-size: 16px; font-weight: 600; color: #6B5E55">[SPONSOR LOGOSU]</div>
+<div style="margin-top: 8px; height: 56px; border-radius: 14px; border: 2px dashed #D8C8BA; display: flex; align-items: center; justify-content: center; font-family: Nunito, sans-serif; font-weight: 900; font-size: 16px; color: #6B5E55">[SPONSOR LOGOSU]</div>
 </div>
 </div>
 </sc-if>
@@ -342,14 +342,14 @@ button,a{-webkit-tap-highlight-color:transparent}
 <div style="position: absolute; left: 16px; right: 16px; background: #FFFFFF; border-radius: 22px; padding: 16px; {{tut.card}}">
 <div style="display: flex; gap: 4px; margin-bottom: 8px"><sc-for list="{{tutDots}}" as="d" hint-placeholder-count="4"><span style="height: 4px; flex: 1; border-radius: 99px; {{d}}"></span></sc-for></div>
 <sc-if value="{{tut.hasImg}}" hint-placeholder-val="{{ false }}"><img src="img/tac_ikili.webp" alt="Taç takmış kedi ve köpek" style="display: block; width: 200px; height: auto; margin: 2px auto 6px"></sc-if>
-<div style="font-family: Fredoka, sans-serif; font-size: 20px; font-weight: 600">{{tut.title}}</div>
+<div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 20px">{{tut.title}}</div>
 <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px"><sc-for list="{{tut.list}}" as="li" hint-placeholder-count="4"><div style="display: flex; align-items: flex-start; gap: 8px; font-size: 14px; font-weight: 800; line-height: 1.35"><span style="width: 8px; height: 8px; border-radius: 99px; background: #FF6A2B; margin-top: 6px; flex: none"></span><span>{{li}}</span></div></sc-for></div>
 <div style="margin-top: 12px"><button onClick="{{nextTut}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #1C1714; color: #FFFFFF">{{tut.btn}}</button></div>
 </div>
 </div>
 </sc-if>
-<sc-if value="{{showWelcome}}" hint-placeholder-val="{{ false }}"><div style="position: absolute; inset: 0; z-index: 56; background: rgba(15,10,8,.6); display: flex; align-items: center; justify-content: center; padding: 24px"><div style="width: 100%; background: #FFFFFF; border-radius: 28px; padding: 26px 20px 18px; text-align: center"><div style="width: 140px; height: 140px; margin: 0 auto; position: relative; overflow: hidden; border-radius: 999px"><img src="img/rozet_sprite2.webp" alt="İlk Pati" style="position: absolute; width: 500%; height: 500%; max-width: none; left: 0; top: 0"></div><div style="font-family: Fredoka, sans-serif; font-size: 28px; font-weight: 600; margin-top: 12px">Hoş geldin!</div><div style="font-size: 15px; font-weight: 700; color: #4A3F38; margin: 6px 0 18px">İlk Pati rozeti ve 10 Mama Puan senin.</div><button onClick="{{closeWelcome}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #FFC23D; color: #3D2B00">Başlayalım</button></div></div></sc-if>
-<sc-if value="{{hasBadge}}" hint-placeholder-val="{{ false }}"><div style="position: absolute; inset: 0; z-index: 56; background: rgba(15,10,8,.6); display: flex; align-items: center; justify-content: center; padding: 24px"><div style="width: 100%; background: #FFFFFF; border-radius: 28px; padding: 26px 20px 18px; text-align: center"><div style="width: 140px; height: 140px; margin: 0 auto; position: relative; overflow: hidden; border-radius: 999px; {{bd.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="{{bd.label}}" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{bd.bl}}; top: {{bd.bt}}"></div><div style="display: inline-block; margin-top: 12px; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 900; {{bd.tierStyle}}">{{bd.tier}}</div><div style="font-family: Fredoka, sans-serif; font-size: 26px; font-weight: 600; margin-top: 8px">{{bd.label}}</div><div style="font-size: 15px; font-weight: 700; color: #4A3F38; line-height: 1.45; margin-top: 6px">{{bd.how}}</div><div style="font-size: 13px; font-weight: 800; color: #6B5E55; margin: 10px 0 16px">{{bd.status}} · Kullanıcıların %{{bd.pct}}'i sahip</div><button onClick="{{closeBadge}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #1C1714; color: #FFFFFF">Harika</button></div></div></sc-if>
+<sc-if value="{{showWelcome}}" hint-placeholder-val="{{ false }}"><div style="position: absolute; inset: 0; z-index: 56; background: rgba(15,10,8,.6); display: flex; align-items: center; justify-content: center; padding: 24px"><div style="width: 100%; background: #FFFFFF; border-radius: 28px; padding: 26px 20px 18px; text-align: center"><div style="width: 140px; height: 140px; margin: 0 auto; position: relative; overflow: hidden; border-radius: 999px"><img src="img/rozet_sprite2.webp" alt="İlk Pati" style="position: absolute; width: 500%; height: 500%; max-width: none; left: 0; top: 0"></div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 28px; margin-top: 12px">Hoş geldin!</div><div style="font-size: 15px; font-weight: 700; color: #4A3F38; margin: 6px 0 18px">İlk Pati rozeti ve 10 Mama Puan senin.</div><button onClick="{{closeWelcome}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #FFC23D; color: #3D2B00">Başlayalım</button></div></div></sc-if>
+<sc-if value="{{hasBadge}}" hint-placeholder-val="{{ false }}"><div style="position: absolute; inset: 0; z-index: 56; background: rgba(15,10,8,.6); display: flex; align-items: center; justify-content: center; padding: 24px"><div style="width: 100%; background: #FFFFFF; border-radius: 28px; padding: 26px 20px 18px; text-align: center"><div style="width: 140px; height: 140px; margin: 0 auto; position: relative; overflow: hidden; border-radius: 999px; {{bd.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="{{bd.label}}" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{bd.bl}}; top: {{bd.bt}}"></div><div style="display: inline-block; margin-top: 12px; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 900; {{bd.tierStyle}}">{{bd.tier}}</div><div style="font-family: Nunito, sans-serif; font-weight: 900; font-size: 26px; margin-top: 8px">{{bd.label}}</div><div style="font-size: 15px; font-weight: 700; color: #4A3F38; line-height: 1.45; margin-top: 6px">{{bd.how}}</div><div style="font-size: 13px; font-weight: 800; color: #6B5E55; margin: 10px 0 16px">{{bd.status}} · Kullanıcıların %{{bd.pct}}'i sahip</div><button onClick="{{closeBadge}}" style="width: 100%; min-height: 52px; border: 0; border-radius: 16px; font: 900 16px Nunito, sans-serif; cursor: pointer; background: #1C1714; color: #FFFFFF">Harika</button></div></div></sc-if>
 </div>
 </template>
 <script>

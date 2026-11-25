@@ -4,7 +4,7 @@
 <title>miyhav Pati Koşusu</title>
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Pati Koşusu"><link rel="apple-touch-icon" href="icon.png"><link rel="icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
 /* VOICE: tatlı, oyunbaz, miyhav'ın sıcak pastel dünyası
    IDEA: Eskişehir mahallesinde, Odunpazarı evleri önünde koşan taçlı turuncu kedi
@@ -53,7 +53,7 @@ canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 #below{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:10px 12px max(12px,env(safe-area-inset-bottom));background:var(--bg)}
 .tip{color:var(--muted);font-size:13px;line-height:1.35;text-align:center;margin:0}
 #controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:10px;height:86px;padding-bottom:4px}
-#controls button{border:0;border-radius:22px;font-family:Fredoka,Nunito,sans-serif!important;corner-shape:squircle;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:900 17px Nunito,system-ui,sans-serif;letter-spacing:.02em;color:var(--onpastel);cursor:pointer;touch-action:none;transition:transform .06s}
+#controls button{border:0;border-radius:22px;corner-shape:squircle;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:900 17px Nunito,system-ui,sans-serif;letter-spacing:.02em;color:var(--onpastel);cursor:pointer;touch-action:none;transition:transform .06s}
 #controls svg{width:30px;height:30px}
 #bDuck{background:#1C1714;color:#fff!important;box-shadow:0 5px 0 #000,0 10px 20px rgba(0,0,0,.18)}
 #bJump{background:#FF6A2B;color:#1C1714;box-shadow:0 5px 0 #C2410C,0 10px 20px rgba(194,65,12,.25)}
@@ -80,7 +80,7 @@ body.land #controls svg{width:18px;height:18px}
 .chip{background:var(--raised);border-radius:12px;corner-shape:squircle;padding:3px 10px;font-size:12px;font-weight:800;color:var(--muted)}
 .chip.on{background:var(--mint);color:var(--ink)}
 .picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 4px}
-.pick{border:0;border-radius:22px;background:var(--raised);padding:14px 8px 10px;cursor:pointer;color:#1C1714;font:600 22px Fredoka,Nunito,sans-serif;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 4px 0 rgba(68,75,110,.15)}
+.pick{border:0;border-radius:22px;background:var(--raised);padding:14px 8px 10px;cursor:pointer;color:#1C1714;font:900 22px Nunito,system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 4px 0 rgba(68,75,110,.15)}
 .pick:active{transform:translateY(3px)}
 .pick img{width:100%;max-width:130px}
 .pick.cat{background:#FFE8DC}.pick.dog{background:#E9F0FF}
@@ -92,14 +92,14 @@ body.land #controls svg{width:18px;height:18px}
 .card img.hero{width:150px;display:block;margin:0 auto 6px;animation:bob 1s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @media(prefers-reduced-motion:reduce){.card img.hero{animation:none}}
-.card h1{font:600 32px/1.05 Fredoka,Nunito,sans-serif;margin:4px 0 6px;text-wrap:balance}
+.card h1{font:900 32px/1.05 Nunito,system-ui,sans-serif;margin:4px 0 6px;text-wrap:balance}
 .card p{margin:0 0 12px;color:var(--muted)}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 14px}
 .stats div{background:var(--raised);border-radius:16px;corner-shape:squircle;padding:8px 4px}
-.stats b{display:block;font:600 22px Fredoka,Nunito,sans-serif;color:var(--ink)}
+.stats b{display:block;font:900 22px Nunito,system-ui,sans-serif;color:var(--ink)}
 .stats span{font-size:13px;color:var(--muted)}
 .new{color:light-dark(#0B5247,#7FDCC9);font-weight:800;margin-bottom:10px;display:none}
-.big{width:100%;min-height:56px;border:0;border-radius:16px;background:var(--cta);color:#1C1714;font:600 22px Fredoka,Nunito,sans-serif;cursor:pointer;box-shadow:0 5px 0 #C2410C}.big:active{transform:translateY(4px);box-shadow:0 1px 0 #C2410C}
+.big{width:100%;min-height:56px;border:0;border-radius:16px;background:var(--cta);color:#1C1714;font:900 22px Nunito,system-ui,sans-serif;cursor:pointer;box-shadow:0 5px 0 #C2410C}.big:active{transform:translateY(4px);box-shadow:0 1px 0 #C2410C}
 .row{display:flex;gap:8px;margin-top:10px}
 .small{flex:1;min-height:44px;border:0;border-radius:14px;display:flex;align-items:center;justify-content:center;text-decoration:none;corner-shape:squircle;background:var(--raised);color:var(--ink);font:800 14px Nunito,sans-serif;cursor:pointer}
 .bh{font:900 15px Nunito,system-ui,sans-serif;margin:4px 0 8px;text-align:left}.bh small{font-weight:600;font-size:12px;color:var(--muted);margin-left:6px}
@@ -110,6 +110,8 @@ body.land #controls svg{width:18px;height:18px}
 .keys{font-size:13px;color:var(--muted);margin:12px 0 0}
 #toast{position:fixed;left:50%;top:calc(64px + env(safe-area-inset-top));transform:translate(-50%,-20px);opacity:0;transition:.35s;background:#1C1714;color:#FFD35C;border-radius:999px!important;font:700 16px Nunito,system-ui,sans-serif;padding:8px 16px;border-radius:16px;corner-shape:squircle;z-index:9;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+.card,.hud,.hud2,#below,#ach,#toast{zoom:1.1}
+.hud{right:44px;gap:3px}#pScore{width:96px!important}#pPts{width:60px!important}
 </style></head><body>
 <div id="app">
  <div id="stage"><canvas id="c"></canvas>
@@ -450,7 +452,7 @@ let jumpHeld=false,duckHeld=false,jumpBuf=0,swipeDuck=false;
 let auraT=0;const cat={snow:0,slip:false,y:GY,vy:0,ground:true,coy:0,duck:false,sq:0,inv:0,anim:0,hold:0,blinkT:2};
 
 function resize(){const vw=innerWidth,vh=innerHeight,land=vw>vh*1.15;document.body.classList.toggle('land',land);const sh=Math.max(120,stage.clientHeight),sw=Math.max(200,stage.clientWidth);
- if(land){H=150;W=Math.round(H*sw/sh)}else{W=210;H=Math.max(150,Math.round(W*sh/sw))}
+ if(land){H=136;W=Math.round(H*sw/sh)}else{W=191;H=Math.max(136,Math.round(W*sh/sw))}
  GY=H-18;if(cat.ground)cat.y=GY;
  let z=Math.min({'düşük':3,'dengeli':6,'yüksek':10}[SETS.q]||10,Math.max(2,sh*(devicePixelRatio||1)/H));z=Math.min(z,Math.sqrt(5e6/(W*H)));
  const rebuild=Math.abs(z-Z)>.4||!SP.run;Z=z;C.width=Math.round(W*Z);C.height=Math.round(H*Z);
