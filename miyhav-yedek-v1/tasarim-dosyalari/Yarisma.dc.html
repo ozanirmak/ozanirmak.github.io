@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Patimo — Yarışmaya katıl</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#B4470C}a:hover{color:#2B1E16}
+.ph{width:390px;height:844px;background:#FFF7EE;font-family:Nunito,sans-serif;color:#2B1E16;position:relative;overflow:hidden;box-sizing:border-box}
+.d{font-family:Fredoka,sans-serif}
+.ib{width:44px;height:44px;border:0;border-radius:16px;background:#fff;color:#2B1E16;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1.5px #EADBCB}
+.btn{min-height:52px;border:0;border-radius:999px;padding:0 18px;font:800 16px Nunito,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.pri{background:#FF7A3D;color:#2B1608}
+.mut{color:#6B5A4E}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;background:#fff;font:700 13px Nunito,sans-serif;color:#2B1E16;border:0;box-shadow:inset 0 0 0 1.5px #EADBCB;cursor:pointer}
+.chip.on{background:#2B1E16;color:#FFF7EE;box-shadow:none}
+.pick{position:relative;height:112px;border-radius:22px;border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font:700 11px Nunito,sans-serif}
+.lock{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:10px;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;color:#86621A}
+</style>
+</helmet>
+<div class="ph">
+<div style="display: flex; align-items: center; gap: 12px; padding: 52px 20px 8px">
+<button class="ib" aria-label="Geri"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<div class="d" style="font-size: 22px; font-weight: 600">Yarışmaya katıl</div>
+</div>
+
+<div style="margin: 10px 20px 0; padding: 18px; border-radius: 28px; background: #FFE3D2; display: flex; gap: 14px; align-items: center">
+<div style="width: 56px; height: 56px; border-radius: 20px; background: #FF7A3D; color: #2B1608; display: flex; align-items: center; justify-content: center; flex: none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></div>
+<div>
+<div style="font-size: 12px; font-weight: 800; color: #8A3A0E; letter-spacing: .4px">BU HAFTANIN TEMASI</div>
+<div class="d" style="font-size: 22px; font-weight: 600; margin-top: 2px">En uykucu pati</div>
+<div style="font-size: 13px; color: #5C3A22; margin-top: 2px">Oylama Pazar 21:00'de kapanır</div>
+</div>
+</div>
+
+<div style="padding: 18px 20px 0">
+<div style="font-size: 13px; font-weight: 800; color: #6B5A4E">LİG</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px">
+<button class="chip on">Eskişehir</button>
+<button class="chip on">Köpek</button>
+<button class="chip on">Yetişkin</button>
+<button class="chip">Sokak dostları</button>
+</div>
+</div>
+
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 20px 20px 0">
+<div class="d" style="font-size: 18px; font-weight: 600">Fotoğrafını seç</div>
+<div class="mut" style="font-size: 13px; font-weight: 700">1 / 1 seçildi</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 12px 20px 0">
+<button class="pick" style="background: #FFD9C2; color: #7A4A2A; box-shadow: 0 0 0 3px #FFF7EE, 0 0 0 6px #FF7A3D" aria-label="Fotoğraf 1, seçildi"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="6" cy="10" r="2.2"></circle><circle cx="10" cy="6.5" r="2.2"></circle><circle cx="14" cy="6.5" r="2.2"></circle><circle cx="18" cy="10" r="2.2"></circle></svg>Fotoğraf 1<span style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 999px; background: #FF7A3D; color: #2B1608; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span></button>
+<button class="pick" style="background: #D5F2EC; color: #1E5E55" aria-label="Fotoğraf 2"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="6" cy="10" r="2.2"></circle><circle cx="10" cy="6.5" r="2.2"></circle><circle cx="14" cy="6.5" r="2.2"></circle><circle cx="18" cy="10" r="2.2"></circle></svg>Fotoğraf 2</button>
+<button class="pick" style="background: #FFE9B0; color: #6E4E0A" aria-label="Fotoğraf 3"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="6" cy="10" r="2.2"></circle><circle cx="10" cy="6.5" r="2.2"></circle><circle cx="14" cy="6.5" r="2.2"></circle><circle cx="18" cy="10" r="2.2"></circle></svg>Fotoğraf 3</button>
+<button class="pick" style="background: #E9E0F7; color: #4F3E7A" aria-label="Fotoğraf 4, premium"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="6" cy="10" r="2.2"></circle><circle cx="10" cy="6.5" r="2.2"></circle><circle cx="14" cy="6.5" r="2.2"></circle><circle cx="18" cy="10" r="2.2"></circle></svg>Fotoğraf 4<span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="3"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span></button>
+<button class="pick" style="background: #FDE1E3; color: #7A2E3D" aria-label="Fotoğraf 5, premium"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="6" cy="10" r="2.2"></circle><circle cx="10" cy="6.5" r="2.2"></circle><circle cx="14" cy="6.5" r="2.2"></circle><circle cx="18" cy="10" r="2.2"></circle></svg>Fotoğraf 5<span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="3"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span></button>
+<button class="pick" style="background: #FFD9C2; color: #7A4A2A" aria-label="Fotoğraf 6"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="6" cy="10" r="2.2"></circle><circle cx="10" cy="6.5" r="2.2"></circle><circle cx="14" cy="6.5" r="2.2"></circle><circle cx="18" cy="10" r="2.2"></circle></svg>Fotoğraf 6</button>
+</div>
+
+<div style="margin: 16px 20px 0; padding: 14px 16px; border-radius: 22px; background: #FFF1C9; display: flex; gap: 12px; align-items: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#86621A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"></path></svg>
+<div style="font-size: 13px; line-height: 1.4; color: #4A3608"><b>Premium:</b> 3 fotoğraflık albümle katıl. Albüm tek giriş sayılır, kazanma şansını artırmaz.</div>
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 30px; background: #FFF7EE; box-shadow: 0 -1px 0 #F0E2D3">
+<div class="mut" style="font-size: 12px; text-align: center; margin-bottom: 10px">Katılım ücretsiz · Kazananı oylar ve jüri belirler · Kura yok</div>
+<button class="btn pri" style="width: 100%">Yarışmaya gir</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

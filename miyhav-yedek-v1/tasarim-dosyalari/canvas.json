@@ -1,0 +1,117 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Acilis.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "Açılış · sponsor",
+      "w": 390,
+      "x": -470,
+      "y": 0
+    },
+    "Duello.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Düello · köpekler",
+      "w": 390,
+      "x": 940,
+      "y": 0
+    },
+    "Dukkan.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Dükkan · kediler",
+      "w": 390,
+      "x": -470,
+      "y": 964
+    },
+    "Foto.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Fotoğraf · kediler",
+      "w": 390,
+      "x": 470,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Akış + tutorial · kediler",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    "Odul.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Günlük ödül · köpekler",
+      "w": 390,
+      "x": 470,
+      "y": 964
+    },
+    "Profil.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Profil · köpekler",
+      "w": 390,
+      "x": 940,
+      "y": 964
+    },
+    "Siralama.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Sıralama · kediler",
+      "w": 390,
+      "x": 0,
+      "y": 964
+    },
+    "Oyun.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Pati Koşusu · köpekler",
+      "w": 390,
+      "x": 1410,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-24T14:30:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "t1": {
+      "kind": "title1",
+      "maxW": 1800,
+      "text": "miyhav — oynanabilir prototip",
+      "w": 240,
+      "x": -470,
+      "y": -300
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Acilis.dc.html",
+    "Dukkan.dc.html",
+    "Foto.dc.html",
+    "Duello.dc.html",
+    "Siralama.dc.html",
+    "Odul.dc.html",
+    "Profil.dc.html",
+    "Oyun.dc.html"
+  ],
+  "pages": [],
+  "title": "miyhav"
+}

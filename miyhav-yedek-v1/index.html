@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>miyhav</title>
+<link rel="icon" href="img/logo_simge.webp">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#F4EFEA;overflow:hidden}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#app{width:390px;height:844px;transform-origin:center center;flex:none;box-shadow:0 10px 40px rgba(0,0,0,.12);border-radius:0;overflow:hidden;background:#fff}
+@media (min-width:600px){#app{border-radius:36px}}
+button,a{-webkit-tap-highlight-color:transparent}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="app"></div></div>
+<template id="tpl">
+<div style="width: 390px; height: 844px; background: #FFFFFF; color: #1F1A17; font-family: Nunito, sans-serif; display: flex; flex-direction: column; position: relative; overflow: hidden">
+
+<div style="padding: 46px 16px 6px; display: flex; align-items: center; gap: 8px">
+<div style="flex: 1; display: flex; align-items: center"><img src="img/logo_yatay.webp" alt="miyhav" style="height: 42px; width: auto; display: block"></div>
+<button onClick="{{goShop}}" aria-label="Pati Puan, premium hediyeler" style="display: inline-flex; align-items: center; gap: 4px; height: 34px; padding: 0 10px 0 6px; border-radius: 999px; border: 0; cursor: pointer; background: #FFE3E5; color: #8E1B26; font: 900 15px Nunito, sans-serif"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{pati}}</button>
+<button onClick="{{goShop}}" aria-label="Mama Puan, dükkana git" style="display: inline-flex; align-items: center; gap: 4px; height: 34px; padding: 0 10px 0 6px; border-radius: 999px; border: 0; cursor: pointer; background: #FFF4CC; color: #5C4300; font: 900 15px Nunito, sans-serif"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC83D"></circle><circle cx="12" cy="12" r="7.5" fill="#FFB000"></circle><g fill="#FFF4CC"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{coins}}</button>
+</div>
+
+<div style="padding: 4px 16px 8px; display: flex; align-items: center; gap: 8px">
+<div style="flex: 1; display: flex; background: #F4EFEA; border-radius: 14px; padding: 3px">
+<button onClick="{{toCat}}" style="flex: 1; min-height: 38px; border: 0; border-radius: 11px; font: 800 14px Nunito, sans-serif; cursor: pointer; {{catTab}}">Kediler</button>
+<button onClick="{{toDog}}" style="flex: 1; min-height: 38px; border: 0; border-radius: 11px; font: 800 14px Nunito, sans-serif; cursor: pointer; {{dogTab}}">Köpekler</button>
+</div>
+<button onClick="{{toggleHelp}}" aria-label="Bu sayfa ne işe yarar?" style="width: 44px; height: 44px; border-radius: 999px; border: 0; background: #F4EFEA; color: #1F1A17; font: 800 18px Fredoka, sans-serif; cursor: pointer">?</button>
+</div>
+
+<sc-if value="{{showHelp}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 152px; left: 16px; right: 16px; z-index: 20; background: #1F1A17; color: #FFFFFF; border-radius: 20px; padding: 16px 16px 14px; box-shadow: 0 12px 30px rgba(0,0,0,.25)">
+<div style="display: flex; align-items: center; gap: 10px"><img src="img/logo_simge.webp" alt="" style="width: 40px; height: 40px; border-radius: 12px; background: #FFFFFF"><div style="font-family: Fredoka, sans-serif; font-size: 18px; font-weight: 600">{{helpTitle}}</div></div>
+<div style="font-size: 14px; line-height: 1.45; margin-top: 6px; color: #F1E9E2">{{helpText}}</div>
+<button onClick="{{toggleHelp}}" style="margin-top: 10px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #FF8A4C; color: #2B1405; font: 900 14px Nunito, sans-serif; cursor: pointer">Anladım</button>
+</div>
+</sc-if>
+
+<div style="flex: 1; overflow-y: auto; overflow-x: hidden">
+
+<sc-if value="{{isAkis}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px">
+<sc-for list="{{stars}}" as="s" hint-placeholder-count="6">
+<button onClick="{{s.open}}" aria-label="{{s.name}} profilini aç" style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: none">
+<div style="width: 70px; height: 70px; border-radius: 999px; padding: 3px; box-sizing: border-box; background: #F26A2E"><div style="width: 64px; height: 64px; border-radius: 999px; border: 3px solid #FFFFFF; box-sizing: border-box; position: relative; overflow: hidden; background: #F4EFEA">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{s.l}}; top: {{s.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{s.l}}; top: {{s.t}}"></sc-if>
+</div></div>
+<span style="font-size: 12px; font-weight: 800; color: #1F1A17">{{s.name}}</span>
+</button>
+</sc-for>
+</div>
+<div style="margin: 0 16px 10px; padding: 10px 12px; border-radius: 16px; background: #E3F6F2; color: #0B5247; font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg><span>Bugün {{me.name}}'in fotoğraflarına {{todayViews}} kişi baktı</span></div>
+<sc-for list="{{chunks}}" as="ch" hint-placeholder-count="2">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px">
+<sc-for list="{{ch.items}}" as="item" hint-placeholder-count="12">
+<button onClick="{{item.open}}" aria-label="{{item.name}} fotoğrafını aç" style="border: 0; padding: 0; position: relative; aspect-ratio: 1; overflow: hidden; background: #F4EFEA; cursor: pointer">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{item.l}}; top: {{item.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{item.l}}; top: {{item.t}}"></sc-if>
+<span style="position: absolute; left: 5px; bottom: 5px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 999px; background: rgba(20,14,10,.62); color: #FFFFFF; font-size: 11px; font-weight: 900"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path></svg>{{item.views}}</span>
+<span style="position: absolute; right: 5px; bottom: 5px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 999px; background: rgba(20,14,10,.62); color: #FFFFFF; font-size: 11px; font-weight: 900"><svg width="12" height="12" viewBox="0 0 24 24" fill="#FF5A7A" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg>{{item.hearts}}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ch.ad}}" hint-placeholder-val="{{ true }}"><div style="margin: 2px 0; height: 250px; background: #F4EFEA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #6B5E55"><span style="font-size: 11px; font-weight: 900; letter-spacing: .5px">REKLAM</span><span style="font: 600 16px Fredoka, sans-serif">300×250 kare reklam alanı</span></div></sc-if>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{isFoto}}" hint-placeholder-val="{{ false }}">
+<div style="position: relative; width: 390px; height: 390px; overflow: hidden; background: #F4EFEA">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="{{sel.name}}" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{sel.l}}; top: {{sel.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="{{sel.name}}" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{sel.l}}; top: {{sel.t}}"></sc-if>
+<button onClick="{{goAkis}}" aria-label="Geri" style="position: absolute; top: 12px; left: 12px; width: 44px; height: 44px; border-radius: 999px; border: 0; background: rgba(255,255,255,.85); cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F1A17" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<div style="position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(20,14,10,.62); color: #FFFFFF; font-size: 13px; font-weight: 900"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path></svg>{{sel.views}} görüntülenme</div>
+</div>
+<div style="padding: 12px 16px 0; display: flex; align-items: center; gap: 10px">
+<button onClick="{{sel.profile}}" style="border: 0; background: none; padding: 0; font-family: Fredoka, sans-serif; font-size: 24px; font-weight: 600; color: #1F1A17; cursor: pointer">{{sel.name}}</button>
+<sc-for list="{{sel.badges}}" as="b" hint-placeholder-count="2"><button onClick="{{b.tap}}" aria-label="{{b.label}} başarımı" style="width: 36px; height: 36px; border-radius: 999px; border: 0; padding: 0; cursor: pointer; background: none; flex: none"><span style="position: relative; display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 999px"><img src="img/rozet_sprite2.webp" alt="" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{b.bl}}; top: {{b.bt}}"></span></button></sc-for>
+<div style="flex: 1"></div>
+<span style="font-size: 13px; font-weight: 800; color: #6B5E55">{{sel.visits}} profil ziyareti</span>
+</div>
+<div style="display: flex; gap: 8px; padding: 14px 16px 0; flex-wrap: wrap">
+<sc-for list="{{reactions}}" as="r" hint-placeholder-count="6">
+<button onClick="{{r.tap}}" aria-label="{{r.label}} tepkisi ver" style="min-height: 44px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font: 900 14px Nunito, sans-serif; color: #1F1A17; {{r.style}}"><span style="font-size: 20px">{{r.e}}</span>{{r.n}}</button>
+</sc-for>
+</div>
+<div style="padding: 12px 16px 0; font-size: 13px; font-weight: 700; color: #6B5E55">Bu fotoğrafa bugün {{sel.today}} kişi bastı · Haftanın sıralamasında {{sel.rank}}.</div>
+<div style="margin: 14px 16px 18px; padding: 14px; border-radius: 20px; background: #FAF6F2">
+<div style="font: 600 17px Fredoka, sans-serif">Paylaş, oy topla</div>
+<div style="font-size: 13px; font-weight: 700; color: #6B5E55; margin-top: 2px">Arkadaşların bağlantıdan oy verir. İlk paylaşımına +20 puan ve Sosyal Pati rozeti.</div>
+<div style="display: flex; gap: 8px; margin-top: 10px">
+<button onClick="{{shareWa}}" style="flex: 1; min-height: 46px; border: 0; border-radius: 14px; background: #1E7A45; color: #FFFFFF; font: 900 14px Nunito, sans-serif; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>WhatsApp</button>
+<button onClick="{{shareIg}}" style="flex: 1; min-height: 46px; border: 0; border-radius: 14px; background: #C13584; color: #FFFFFF; font: 900 14px Nunito, sans-serif; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle></svg>Instagram</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isDuello}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 16px 8px; display: flex; align-items: center; gap: 10px">
+<div style="font-family: Fredoka, sans-serif; font-size: 22px; font-weight: 600; flex: 1">Hangisi daha tatlı?</div>
+<span style="display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 999px; background: #E3F6F2; color: #0B5247; font-size: 13px; font-weight: 900">{{votes}} / 15 oy</span>
+</div>
+<sc-if value="{{hasVotes}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 6px; position: relative">
+<button onClick="{{voteA}}" aria-label="{{a.name}} için oy ver" style="border: 0; padding: 0; position: relative; height: 262px; overflow: hidden; background: #F4EFEA; cursor: pointer">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{a.pl}}; top: {{a.pt}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{a.pl}}; top: {{a.pt}}"></sc-if>
+<span style="position: absolute; left: 12px; bottom: 12px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.92); font: 900 16px Nunito, sans-serif; color: #1F1A17">{{a.name}}</span>
+</button>
+<div style="position: absolute; left: 50%; top: 265px; transform: translate(-50%, -50%); z-index: 2; width: 70px; height: 70px; border-radius: 999px; padding: 6px; box-sizing: border-box; border: 4px solid #FFFFFF; background: conic-gradient(#19A38F {{ringDeg}}deg, #E9E1DA 0deg); display: flex"><div style="flex: 1; border-radius: 999px; display: flex; align-items: center; justify-content: center; font: 700 17px Fredoka, sans-serif; {{vsStyle}}">VS</div></div>
+<button onClick="{{voteB}}" aria-label="{{b.name}} için oy ver" style="border: 0; padding: 0; position: relative; height: 262px; overflow: hidden; background: #F4EFEA; cursor: pointer">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{b.pl}}; top: {{b.pt}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 3900px; height: 1950px; max-width: none; left: {{b.pl}}; top: {{b.pt}}"></sc-if>
+<span style="position: absolute; left: 12px; bottom: 12px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.92); font: 900 16px Nunito, sans-serif; color: #1F1A17">{{b.name}}</span>
+</button>
+</div>
+<div style="padding: 8px 16px 0; font-size: 12px; font-weight: 800; color: #6B5E55">{{duelHint}}</div>
+</sc-if>
+<sc-if value="{{noVotes}}" hint-placeholder-val="{{ false }}">
+<div style="margin: 8px 16px; padding: 22px 18px; border-radius: 26px; background: #FAF6F2; text-align: center">
+<img src="img/tac_ikili.webp" alt="" style="width: 200px; height: auto">
+<div style="font: 600 22px Fredoka, sans-serif; margin-top: 8px">Patiler biraz dinleniyor</div>
+<div style="font-size: 14px; font-weight: 700; color: #4A3F38; line-height: 1.45; margin-top: 6px">Bu turun oy hakların bitti. 12 dakikada 1 yeni hak doluyor; 3 saatte hepsi yenilenir. Akşam Sandığı 19:00'da açılıyor.</div>
+<button onClick="{{goOdul}}" style="margin-top: 14px; width: 100%; min-height: 48px; border: 0; border-radius: 999px; background: #1F1A17; color: #FFFFFF; font: 900 15px Nunito, sans-serif; cursor: pointer">Sandıklara bak</button>
+</div>
+</sc-if>
+<div style="padding: 12px 16px 0">
+<div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 900"><span>Seviye {{level}} · {{levelName}}</span><span style="color: #6B5E55">{{xpIn}} / 100 XP</span></div>
+<div style="height: 12px; border-radius: 99px; background: #F4EFEA; margin-top: 6px; overflow: hidden"><div style="height: 100%; border-radius: 99px; background: #19A38F; width: {{xpPct}}"></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{isSira}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 0 16px; font-family: Fredoka, sans-serif; font-size: 22px; font-weight: 600">Haftanın yıldızları</div>
+<div style="display: flex; align-items: flex-end; justify-content: center; gap: 10px; padding: 14px 16px 6px">
+<sc-for list="{{podium}}" as="p" hint-placeholder-count="3">
+<button onClick="{{p.open}}" aria-label="{{p.name}} profilini aç" style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer">
+<div style="position: relative; overflow: hidden; border-radius: 999px; box-sizing: border-box; {{p.ring}}">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{p.l}}; top: {{p.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{p.l}}; top: {{p.t}}"></sc-if>
+</div>
+<span style="font: 700 16px Fredoka, sans-serif; color: #1F1A17">{{p.name}}</span>
+<span style="display: flex; align-items: center; justify-content: center; border-radius: 16px 16px 0 0; width: 100px; font: 700 26px Fredoka, sans-serif; {{p.block}}">{{p.place}}</span>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 6px 16px 16px">
+<div style="padding: 12px 14px; border-radius: 16px; background: #FFEDE3; color: #8A2E05; font-size: 14px; font-weight: 900">Sen 14. sıradasın · 3. olmak için 86 kalp daha</div>
+<sc-for list="{{rest}}" as="r" hint-placeholder-count="5">
+<button onClick="{{r.open}}" style="border: 0; background: #FFFFFF; padding: 6px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; font-family: Nunito, sans-serif">
+<span style="width: 24px; font: 700 16px Fredoka, sans-serif; color: #6B5E55">{{r.place}}</span>
+<div style="width: 52px; height: 52px; border-radius: 16px; position: relative; overflow: hidden; flex: none; background: #F4EFEA">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if>
+</div>
+<span style="flex: 1; font-size: 16px; font-weight: 900; color: #1F1A17">{{r.name}}</span>
+<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 900; color: #1F1A17"><svg width="15" height="15" viewBox="0 0 24 24" fill="#FF5A7A" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg>{{r.hearts}}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isOdul}}" hint-placeholder-val="{{ false }}">
+<div style="margin: 0 16px; padding: 16px; border-radius: 24px; background: #1F1A17; color: #FFFFFF">
+<div style="display: flex; align-items: center; gap: 10px"><svg width="34" height="34" viewBox="0 0 24 24" fill="#FF8A4C" aria-hidden="true"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 1.5-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z"></path></svg><div><div style="font: 600 22px Fredoka, sans-serif">{{streak}} günlük seri</div><div style="font-size: 13px; color: #E9DED5">Yarın gelirsen seri 13'e çıkar</div></div></div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; margin-top: 14px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<div style="border-radius: 12px; padding: 8px 0; text-align: center; {{d.style}}"><div style="font-size: 11px; font-weight: 900">{{d.label}}</div><div style="font: 700 15px Fredoka, sans-serif; margin-top: 2px">{{d.reward}}</div></div>
+</sc-for>
+</div>
+<button onClick="{{claim}}" style="margin-top: 14px; width: 100%; min-height: 50px; border: 0; border-radius: 999px; font: 900 16px Nunito, sans-serif; cursor: pointer; {{claimStyle}}">{{claimText}}</button>
+</div>
+<div style="padding: 16px 16px 6px; font: 600 18px Fredoka, sans-serif">Günün görevleri</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px">
+<sc-for list="{{quests}}" as="q" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #FAF6F2">
+<span style="width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex: none; {{q.bg}}">{{q.icon}}</span>
+<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 900">{{q.title}}</div><div style="height: 8px; border-radius: 99px; background: #EDE5DD; margin-top: 6px; overflow: hidden"><div style="height: 100%; border-radius: 99px; background: #19A38F; width: {{q.pct}}"></div></div></div>
+<span style="font-size: 13px; font-weight: 900; color: #5C4300; background: #FFF4CC; padding: 4px 10px; border-radius: 999px">+{{q.coins}}</span>
+</div>
+</sc-for>
+</div>
+<div style="padding: 0 16px 6px; font: 600 18px Fredoka, sans-serif">Saatli sandıklar</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 16px 16px">
+<button onClick="{{claimNoon}}" style="border: 0; border-radius: 18px; padding: 14px 12px; text-align: left; cursor: pointer; font-family: Nunito, sans-serif; {{noonStyle}}"><div style="font-size: 22px">🌤️</div><div style="font-size: 14px; font-weight: 900; margin-top: 4px">Öğlen Sandığı</div><div style="font-size: 12px; font-weight: 800; margin-top: 2px">{{noonText}}</div></button>
+<div style="border-radius: 18px; padding: 14px 12px; background: #EDE5DD; color: #6B5E55"><div style="font-size: 22px">🌙</div><div style="font-size: 14px; font-weight: 900; margin-top: 4px; color: #1F1A17">Akşam Sandığı</div><div style="font-size: 12px; font-weight: 800; margin-top: 2px">19:00–22:00 · +30 Mama Puan</div></div>
+</div>
+<div style="margin: 0 16px 16px; padding: 14px; border-radius: 20px; background: #FFE3E5; color: #8E1B26">
+<div style="display: flex; align-items: center; gap: 8px; font: 600 18px Fredoka, sans-serif"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>Pati Puan nasıl kazanılır?</div>
+<div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px; font-size: 13px; font-weight: 800; line-height: 1.35">
+<span>• Yeni bir rozet kazan: +5</span><span>• 7 günlük seriyi tamamla: +3</span><span>• Günün tüm görevlerini bitir: +1</span><span>• Haftalık sıralamada ilk 10'a gir: +10</span><span>• Davet ettiğin arkadaş patisini yüklesin: +5</span>
+</div>
+<div style="font-size: 12px; font-weight: 800; margin-top: 8px">Pati Puan premium hediyeleri açar: baskılı kupa, 3D anahtarlık, poster, 3D figür indirimi.</div>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 4px 16px 8px"><span style="font: 600 18px Fredoka, sans-serif">Başarımlar</span><span style="font-size: 13px; font-weight: 900; color: #6B5E55">{{earnedCount}} / 21</span></div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 0 16px 20px">
+<sc-for list="{{achAll}}" as="b" hint-placeholder-count="21">
+<button onClick="{{b.tap}}" aria-label="{{b.label}} başarımı" style="border: 0; background: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px">
+<span style="position: relative; display: block; width: 60px; height: 60px; overflow: hidden; border-radius: 999px; {{b.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{b.bl}}; top: {{b.bt}}"></span>
+<span style="font-size: 10px; font-weight: 900; color: #1F1A17; text-align: center; line-height: 1.15">{{b.label}}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isDukkan}}" hint-placeholder-val="{{ false }}">
+<div style="margin: 0 16px; padding: 18px; border-radius: 24px; background: #FFF4CC">
+<div style="display: flex; gap: 10px; margin: -4px 0 10px"><div style="flex: 1; padding: 10px 12px; border-radius: 16px; background: #FFE3E5; color: #8E1B26"><div style="font-size: 12px; font-weight: 900">PATİ PUAN · premium</div><div style="display: flex; align-items: center; gap: 6px; font: 700 26px Fredoka, sans-serif"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F0525E"></circle><circle cx="12" cy="12" r="7.5" fill="#D62F3C"></circle><g fill="#FFE3E5"><ellipse cx="12" cy="14" rx="3" ry="2.4"></ellipse><circle cx="8.6" cy="10.6" r="1.3"></circle><circle cx="11" cy="8.6" r="1.3"></circle><circle cx="13.4" cy="8.6" r="1.3"></circle><circle cx="15.6" cy="10.6" r="1.3"></circle></g></svg>{{pati}}</div></div></div>
+<div style="font-size: 13px; font-weight: 900; color: #5C4300">MAMA PUANIN</div>
+<div style="font: 700 40px Fredoka, sans-serif; color: #3D2B00; line-height: 1.1">{{coins}}</div>
+<div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 900; color: #5C4300; margin-top: 6px"><span>Bugün kazandığın</span><span>{{today}} / 200</span></div>
+<div style="height: 8px; border-radius: 99px; background: #FFE69A; margin-top: 4px; overflow: hidden"><div style="height: 100%; border-radius: 99px; background: #FFB000; width: {{todayPct}}"></div></div>
+<sc-if value="{{capFull}}" hint-placeholder-val="{{ false }}"><div style="margin-top: 8px; padding: 10px 12px; border-radius: 14px; background: #FFFFFF; color: #4A3F38; font-size: 13px; font-weight: 800">Bugünlük doldun, aferin! Yarın yeni puanlar seni bekliyor. Şimdilik akışta gezinmeye ve kalp bırakmaya devam edebilirsin.</div></sc-if>
+<div style="font-size: 12px; font-weight: 800; color: #5C4300; margin-top: 4px">Günlük tavan gece yarısı sıfırlanır. Puan parayla satılmaz. Bu sayfada reklam yok.</div>
+</div>
+<sc-for list="{{shop}}" as="sec" hint-placeholder-count="4">
+<div style="padding: 18px 16px 8px; font: 600 18px Fredoka, sans-serif">{{sec.title}}</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 0 16px">
+<sc-for list="{{sec.items}}" as="it" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 20px; background: #FAF6F2">
+<span style="width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex: none; overflow: hidden; {{it.bg}}"><sc-if value="{{it.isFig}}"><img src="img/ikon_figur.webp" alt="" style="width: 56px; height: 56px"></sc-if><sc-if value="{{it.isMama}}"><img src="img/ikon_mama.webp" alt="" style="width: 56px; height: 56px"></sc-if><sc-if value="{{it.isInd}}"><img src="img/ikon_indirim.webp" alt="" style="width: 56px; height: 56px"></sc-if><sc-if value="{{it.isEmoji}}">{{it.icon}}</sc-if></span>
+<div style="flex: 1; min-width: 0">
+<div style="font-size: 15px; font-weight: 900">{{it.title}}</div>
+<div style="font-size: 12px; font-weight: 700; color: #6B5E55; margin-top: 1px">{{it.sub}}</div>
+<div style="height: 6px; border-radius: 99px; background: #EDE5DD; margin-top: 6px; overflow: hidden"><div style="height: 100%; border-radius: 99px; background: #FFB000; width: {{it.pct}}"></div></div>
+</div>
+<button onClick="{{it.buy}}" style="min-width: 76px; min-height: 44px; padding: 0 10px; border: 0; border-radius: 14px; cursor: pointer; font: 900 13px Nunito, sans-serif; line-height: 1.1; {{it.btnStyle}}">{{it.btn}}</button>
+</div>
+</sc-for>
+</div>
+</sc-for>
+<div style="margin: 16px; padding: 14px; border-radius: 18px; background: #E3F6F2; color: #0B5247; font-size: 13px; font-weight: 800; line-height: 1.4">Kupon ve oyuncaklar Cüzdan'a düşer. Kupa, anahtarlık ve poster baskıcı firmadan, figür miyhav atölyesinden kargolanır.</div>
+</sc-if>
+
+<sc-if value="{{isOyun}}" hint-placeholder-val="{{ false }}">
+<div style="margin: 0 16px; padding: 16px; border-radius: 24px; background: #1F1A17; color: #FFFFFF; display: flex; align-items: center; gap: 12px">
+<img src="img/tac_ikili.webp" alt="" style="width: 96px; height: auto; flex: none; background: #FFFFFF; border-radius: 16px; padding: 4px">
+<div style="flex: 1; min-width: 0"><div style="font: 600 24px Fredoka, sans-serif">Pati Koşusu</div><div style="font-size: 13px; font-weight: 800; color: #E9DED5">Zıpla, eğil, mama ve kalp topla.</div><div style="display: inline-flex; margin-top: 6px; padding: 3px 10px; border-radius: 999px; background: #FFD35C; color: #3D2B00; font-size: 12px; font-weight: 900">Bugün {{plays}} / 3 koşu hakkı</div></div>
+</div>
+<div style="padding: 12px 16px 0">
+<sc-if value="{{canPlay}}" hint-placeholder-val="{{ true }}"><a href="https://ozanirmak.github.io/patikosusu/" target="_blank" onClick="{{play}}" style="display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 999px; background: #FFC83D; color: #3D2B00; font: 900 17px Nunito, sans-serif; text-decoration: none">Koşmaya başla</a></sc-if>
+<sc-if value="{{noPlays}}" hint-placeholder-val="{{ false }}"><div style="padding: 14px; border-radius: 18px; background: #FAF6F2; text-align: center; font-size: 14px; font-weight: 800; color: #4A3F38">Bugünkü 3 koşunu yaptın. Patiler dinleniyor; yeni haklar gece yarısı geliyor.</div></sc-if>
+</div>
+<div style="margin: 12px 16px 0; padding: 12px 14px; border-radius: 18px; background: #FFF4CC; color: #5C4300; font-size: 13px; font-weight: 800; line-height: 1.4">Her 100 metre = 1 Mama Puan. Koşu başına en çok 15, günde en çok 45. Günlük 200 tavanına dahildir.</div>
+<div style="margin: 12px 16px 0; padding: 14px; border-radius: 20px; background: #FFE3E5; color: #8E1B26">
+<div style="font: 600 17px Fredoka, sans-serif">Haftanın Koşucusu ödülü</div>
+<div style="display: flex; flex-direction: column; gap: 3px; margin-top: 6px; font-size: 13px; font-weight: 800; line-height: 1.35"><span>• 1.: 15 Pati Puan, Koşu Şampiyonu çerçevesi, akışta 1 gün vitrin</span><span>• İlk 3: sponsor pet shoptan oyuncak</span><span>• İlk 10: 3 Pati Puan</span></div>
+<div style="font-size: 12px; font-weight: 800; margin-top: 6px">Pazar 21:00'de kapanır. Kediler ve köpekler ayrı yarışır.</div>
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; padding: 16px 16px 8px"><span style="font: 600 18px Fredoka, sans-serif">Haftanın koşucuları</span><span style="font-size: 12px; font-weight: 900; color: #6B5E55">Senin en iyin: 742 m · 9.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 0 16px 16px">
+<sc-for list="{{runners}}" as="r" hint-placeholder-count="8">
+<button onClick="{{r.profile}}" style="border: 0; background: #FFFFFF; padding: 4px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; font-family: Nunito, sans-serif">
+<span style="width: 26px; font: 700 16px Fredoka, sans-serif; {{r.placeColor}}">{{r.place}}</span>
+<div style="width: 48px; height: 48px; border-radius: 16px; position: relative; overflow: hidden; flex: none; background: #F4EFEA">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{r.l}}; top: {{r.t}}"></sc-if>
+</div>
+<span style="flex: 1; font-size: 15px; font-weight: 900; color: #1F1A17">{{r.name}}</span>
+<span style="font: 600 16px Fredoka, sans-serif; color: #1F1A17">{{r.m}} m</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isProfil}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 16px; padding: 4px 16px 0">
+<div style="width: 96px; height: 96px; border-radius: 999px; padding: 4px; box-sizing: border-box; background: #F26A2E; flex: none"><div style="width: 88px; height: 88px; border-radius: 999px; border: 3px solid #FFFFFF; box-sizing: border-box; position: relative; overflow: hidden; background: #F4EFEA">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{pr.l}}; top: {{pr.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{pr.l}}; top: {{pr.t}}"></sc-if>
+</div></div>
+<div style="flex: 1; min-width: 0">
+<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap"><span style="font: 600 26px Fredoka, sans-serif">{{pr.name}}</span>
+<sc-for list="{{pr.badges}}" as="b" hint-placeholder-count="3"><button onClick="{{b.tap}}" aria-label="{{b.label}} başarımı" style="width: 44px; height: 44px; border-radius: 999px; border: 0; padding: 0; cursor: pointer; background: none; flex: none"><span style="position: relative; display: block; width: 100%; height: 100%; overflow: hidden; border-radius: 999px"><img src="img/rozet_sprite2.webp" alt="" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{b.bl}}; top: {{b.bt}}"></span></button></sc-for>
+</div>
+<div style="font-size: 13px; font-weight: 700; color: #6B5E55">{{pr.meta}}</div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); text-align: center; padding: 14px 8px 0">
+<div><div style="font: 600 19px Fredoka, sans-serif">{{pr.views}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">görüntülenme</div></div>
+<div><div style="font: 600 19px Fredoka, sans-serif">{{pr.visits}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">profil ziyareti</div></div>
+<div><div style="font: 600 19px Fredoka, sans-serif">{{pr.hearts}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">kalp</div></div>
+<div><div style="font: 600 19px Fredoka, sans-serif">{{pr.fans}}</div><div style="font-size: 11px; font-weight: 800; color: #6B5E55">hayran</div></div>
+</div>
+<div style="display: flex; gap: 6px; padding: 12px 16px 0; flex-wrap: wrap">
+<sc-for list="{{reactions}}" as="r" hint-placeholder-count="6">
+<button onClick="{{r.tap}}" aria-label="{{r.label}} tepkisi ver" style="min-height: 36px; padding: 0 10px; border-radius: 999px; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font: 900 13px Nunito, sans-serif; color: #1F1A17; {{r.style}}"><span style="font-size: 17px">{{r.e}}</span>{{r.n}}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 8px; padding: 12px 16px 12px">
+<button onClick="{{follow}}" style="flex: 1; min-height: 44px; border: 0; border-radius: 14px; font: 900 15px Nunito, sans-serif; cursor: pointer; {{followStyle}}">{{followText}}</button>
+<button style="flex: 1; min-height: 44px; border: 0; border-radius: 14px; background: #F4EFEA; color: #1F1A17; font: 900 15px Nunito, sans-serif; cursor: pointer">Mesaj</button>
+<button onClick="{{shareWa}}" aria-label="WhatsApp'ta paylaş" style="width: 48px; min-height: 44px; border: 0; border-radius: 14px; background: #1E7A45; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg></button>
+<button onClick="{{shareIg}}" aria-label="Instagram'da paylaş" style="width: 48px; min-height: 44px; border: 0; border-radius: 14px; background: #C13584; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle></svg></button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px">
+<sc-for list="{{pr.photos}}" as="item" hint-placeholder-count="9">
+<button onClick="{{item.open}}" aria-label="Fotoğrafı aç" style="border: 0; padding: 0; position: relative; aspect-ratio: 1; overflow: hidden; background: #F4EFEA; cursor: pointer">
+<sc-if value="{{isCat}}"><img src="img/kedi_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{item.l}}; top: {{item.t}}"></sc-if>
+<sc-if value="{{isDog}}"><img src="img/kopek_sprite.webp" alt="" style="position: absolute; width: 1000%; height: 500%; max-width: none; left: {{item.l}}; top: {{item.t}}"></sc-if>
+<span style="position: absolute; left: 5px; bottom: 5px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 999px; background: rgba(20,14,10,.62); color: #FFFFFF; font-size: 11px; font-weight: 900"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path></svg>{{item.views}}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{guideOn}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; left: 16px; right: 16px; bottom: 96px; z-index: 25; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 18px; background: #1F1A17; color: #FFFFFF; {{guideGlow}}">
+<img src="img/logo_simge.webp" alt="" style="width: 36px; height: 36px; border-radius: 12px; background: #FFFFFF; flex: none">
+<div style="flex: 1; min-width: 0"><div style="font-size: 11px; font-weight: 900; color: #FFC9A8">İLK GÜN GÖREVİ {{guideStep}}</div><div style="font-size: 14px; font-weight: 900">{{guideText}}</div></div>
+<span style="font-size: 20px" aria-hidden="true">👇</span>
+</div>
+</sc-if>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; left: 50%; bottom: 104px; transform: translateX(-50%); z-index: 30; padding: 10px 18px; border-radius: 999px; background: #1F1A17; color: #FFD35C; font: 900 15px Nunito, sans-serif; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.25)">{{toast}}</div>
+</sc-if>
+
+<sc-if value="{{showSticker}}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{stickerOpen}}" hint-placeholder-val="{{ true }}">
+<div style="position: absolute; right: 8px; top: 318px; z-index: 24; transform: rotate(-4deg)">
+<span aria-hidden="true" style="position: absolute; top: -9px; left: 16px; z-index: 2; width: 36px; height: 15px; border-radius: 2px; background: rgba(255,232,160,.88); transform: rotate(7deg); box-shadow: 0 1px 2px rgba(0,0,0,.15)"></span>
+<button onClick="{{goGame}}" aria-label="Pati Koşusu oyununu aç" style="width: 66px; padding: 10px 0 10px; border: 4px solid #FFFFFF; border-radius: 22px; background: #FF8A4C; color: #2B1405; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 7px 16px rgba(60,30,10,.28), 0 0 0 1px rgba(0,0,0,.06)">
+<span style="width: 46px; height: 46px; border-radius: 999px; overflow: hidden; background: #FFFFFF; border: 2px solid #FFD35C; display: block"><img src="img/tac_ikili.webp" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(1.35)"></span>
+<span style="writing-mode: vertical-rl; transform: rotate(180deg); font: 700 15px Fredoka, sans-serif; letter-spacing: .5px">Pati Koşusu</span>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 2px"><span style="font-size: 14px" aria-hidden="true">🎮</span><span style="min-width: 24px; height: 24px; border-radius: 999px; background: #1F1A17; color: #FFD35C; font: 900 12px Nunito, sans-serif; display: flex; align-items: center; justify-content: center">{{plays}}</span></span>
+</button>
+<button onClick="{{hideSticker}}" aria-label="Etiketi küçült" style="position: absolute; left: -18px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 999px; border: 3px solid #FFFFFF; background: #1F1A17; color: #FFD35C; font: 900 18px Nunito, sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(0,0,0,.25)">›</button>
+</div>
+</sc-if>
+<sc-if value="{{stickerMin}}" hint-placeholder-val="{{ false }}">
+<button onClick="{{showStickerBtn}}" aria-label="Pati Koşusu etiketini aç" style="position: absolute; right: 0; top: 400px; z-index: 24; width: 32px; height: 76px; border: 3px solid #FFFFFF; border-right: 0; border-radius: 16px 0 0 16px; background: #FF8A4C; color: #2B1405; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 900 18px Nunito, sans-serif; box-shadow: -3px 4px 10px rgba(60,30,10,.25)">‹<span style="font-size: 13px" aria-hidden="true">🎮</span></button>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{showGameTut}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 45; background: rgba(15,10,8,.62); display: flex; align-items: center; justify-content: center; padding: 20px">
+<div style="width: 100%; background: #FFFFFF; border-radius: 26px; padding: 20px 18px 16px">
+<img src="img/tac_ikili.webp" alt="" style="display: block; width: 170px; height: auto; margin: 0 auto">
+<div style="font: 600 22px Fredoka, sans-serif; text-align: center; margin-top: 6px">Pati Koşusu nasıl oynanır?</div>
+<div style="display: flex; flex-direction: column; gap: 7px; margin-top: 12px">
+<sc-for list="{{gameTips}}" as="li" hint-placeholder-count="6"><div style="display: flex; align-items: flex-start; gap: 8px; font-size: 14px; font-weight: 800; line-height: 1.35; overflow-wrap: normal; word-break: normal; hyphens: none"><span style="width: 8px; height: 8px; border-radius: 99px; background: #F26A2E; margin-top: 6px; flex: none"></span><span>{{li}}</span></div></sc-for>
+</div>
+<button onClick="{{closeGameTut}}" style="margin-top: 16px; width: 100%; min-height: 50px; border: 0; border-radius: 999px; background: #1F1A17; color: #FFFFFF; font: 900 16px Nunito, sans-serif; cursor: pointer">Anladım, koşalım</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showSplash}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 60; background: #FFF8F0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; box-sizing: border-box">
+<img src="img/logo_simge.webp" alt="" style="width: 150px; height: 150px">
+<img src="img/logo_yatay.webp" alt="miyhav" style="width: 230px; height: auto; margin-top: 8px">
+<div style="margin-top: 70px; font-size: 13px; font-weight: 900; color: #6B5E55; letter-spacing: .5px">BU HAFTANIN SPONSORU</div>
+<div style="margin-top: 10px; width: 220px; height: 80px; border-radius: 20px; border: 2px dashed #D8C8BA; display: flex; align-items: center; justify-content: center; font: 700 16px Fredoka, sans-serif; color: #6B5E55">[SPONSOR LOGOSU]</div>
+<div style="margin-top: 10px; font-size: 13px; font-weight: 700; color: #6B5E55">Haftanın ödülleri onlardan</div>
+<div style="width: 160px; height: 6px; border-radius: 99px; background: #F0E4D8; margin-top: 40px; overflow: hidden"><div style="width: 70%; height: 100%; border-radius: 99px; background: #F26A2E"></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{showTut}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 55; overflow: hidden">
+<div style="position: absolute; border-radius: 18px; box-shadow: 0 0 0 9999px rgba(15,10,8,.74); {{tut.hole}}"></div>
+<button onClick="{{skipTut}}" style="position: absolute; top: 8px; right: 12px; min-height: 36px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(255,255,255,.92); color: #1F1A17; font: 900 13px Nunito, sans-serif; cursor: pointer">Geç</button>
+<div style="position: absolute; left: 16px; right: 16px; background: #FFFFFF; border-radius: 22px; padding: 16px; {{tut.card}}">
+<div style="font-size: 12px; font-weight: 900; color: #8A2E05">{{tut.step}} / 4</div>
+<sc-if value="{{tut.hasImg}}" hint-placeholder-val="{{ false }}"><img src="img/tac_ikili.webp" alt="Taç takmış kedi ve köpek" style="display: block; width: 220px; height: auto; margin: 4px auto 6px"></sc-if>
+<div style="font: 600 20px Fredoka, sans-serif; margin-top: 2px">{{tut.title}}</div>
+<sc-if value="{{tut.hasList}}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px"><sc-for list="{{tut.list}}" as="li" hint-placeholder-count="4"><div style="display: flex; align-items: flex-start; gap: 8px; font-size: 14px; font-weight: 800; color: #1F1A17; line-height: 1.35; overflow-wrap: normal; word-break: normal; hyphens: none"><span style="width: 8px; height: 8px; border-radius: 99px; background: #F26A2E; margin-top: 6px; flex: none"></span><span>{{li}}</span></div></sc-for></div></sc-if>
+<button onClick="{{nextTut}}" style="margin-top: 12px; min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: #1F1A17; color: #FFFFFF; font: 900 14px Nunito, sans-serif; cursor: pointer">{{tut.btn}}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showWelcome}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 55; background: rgba(15,10,8,.6); display: flex; align-items: center; justify-content: center; padding: 24px">
+<div style="width: 100%; background: #FFFFFF; border-radius: 28px; padding: 24px 20px 18px; text-align: center">
+<div style="width: 132px; height: 132px; margin: 0 auto; position: relative; overflow: hidden; border-radius: 999px"><img src="img/rozet_sprite2.webp" alt="İlk Pati" style="position: absolute; width: 500%; height: 500%; max-width: none; left: 0; top: 0"></div>
+<div style="font: 600 26px Fredoka, sans-serif; margin-top: 12px">Hoş geldin!</div>
+<div style="font-size: 15px; font-weight: 700; color: #4A3F38; margin-top: 6px">İlk Pati rozetini ve 10 Mama Puannı kazandın.</div>
+<button onClick="{{closeWelcome}}" style="margin-top: 16px; width: 100%; min-height: 50px; border: 0; border-radius: 999px; background: #FFC83D; color: #3D2B00; font: 900 16px Nunito, sans-serif; cursor: pointer">Başlayalım</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{hasBadge}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; inset: 0; z-index: 40; background: rgba(20,14,10,.55); display: flex; align-items: center; justify-content: center; padding: 24px">
+<div style="width: 100%; background: #FFFFFF; border-radius: 28px; padding: 24px 20px 18px; text-align: center">
+<div style="width: 132px; height: 132px; margin: 0 auto; position: relative; overflow: hidden; border-radius: 999px; {{bd.lockStyle}}"><img src="img/rozet_sprite2.webp" alt="{{bd.label}}" style="position: absolute; width: 500%; height: 500%; max-width: none; left: {{bd.bl}}; top: {{bd.bt}}"></div>
+<div style="display: inline-block; margin-top: 12px; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 900; {{bd.tierStyle}}">{{bd.tier}}</div>
+<div style="font: 600 26px Fredoka, sans-serif; margin-top: 8px">{{bd.label}}</div>
+<div style="font-size: 15px; font-weight: 700; color: #4A3F38; line-height: 1.45; margin-top: 6px">{{bd.how}}</div>
+<div style="font-size: 13px; font-weight: 800; color: #6B5E55; margin-top: 10px">{{bd.status}} · Kullanıcıların %{{bd.pct}}'i sahip</div>
+<button onClick="{{closeBadge}}" style="margin-top: 16px; width: 100%; min-height: 48px; border: 0; border-radius: 999px; background: #1F1A17; color: #FFFFFF; font: 900 15px Nunito, sans-serif; cursor: pointer">Harika</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showBanner}}" hint-placeholder-val="{{ true }}"><div style="height: 50px; flex: none; background: #F4EFEA; border-top: 1px solid #F0E8E1; display: flex; align-items: center; justify-content: center; gap: 8px; color: #6B5E55"><span style="font-size: 10px; font-weight: 900; letter-spacing: .5px; padding: 2px 6px; border-radius: 6px; background: #E6DCD2">REKLAM</span><span style="font-size: 13px; font-weight: 800">320×50 banner alanı</span></div></sc-if>
+<nav aria-label="Ana menü" style="height: 82px; flex: none; display: flex; justify-content: space-around; align-items: flex-start; padding-top: 6px; border-top: 1px solid #F0E8E1; background: #FFFFFF">
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="5">
+<button onClick="{{n.go}}" style="border: 0; background: none; min-width: 52px; min-height: 48px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font: 800 11px Nunito, sans-serif; {{n.color}}">
+<span style="width: 40px; height: 30px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; {{n.pill}}">{{n.icon}}</span>{{n.label}}</button>
+</sc-for>
+</nav>
+</div>
+</template>
+<script>
+class DCLogic{constructor(p){this.props=p||{};this.state={};this._q=false}
+ setState(o){this.state=Object.assign({},this.state,o);if(!this._q){this._q=true;requestAnimationFrame(()=>{this._q=false;render()})}}}
+
+class Component extends DCLogic {
+  componentDidMount() {
+    if (this.props.screen === 'duello') this.setState({ readyAt: Date.now() + 3000 });
+    this._r = setInterval(() => { const x = this.state || {}; const sc = x.screen ?? this.props.screen; if (sc === 'duello' && x.readyAt && Date.now() < x.readyAt + 150) this.setState({ tick: Date.now() }); }, 100);
+    if ((this.props.screen ?? 'akis') === 'akis' && this.props.intro !== false) {
+      this._s = setTimeout(() => this.setState({ splashDone: true }), 2200);
+      this._p = setInterval(() => { const x = this.state || {}; if ((x.welcomeDone || x.tutDone) && (x.guide ?? 0) < 4) this.setState({ pulse: !x.pulse }); }, 700);
+    }
+  }
+  componentWillUnmount() { clearTimeout(this._s); clearTimeout(this._t); clearInterval(this._p); clearInterval(this._r); }
+  renderVals() {
+    const st = this.state || {};
+    const set = (o) => this.setState(o);
+    const startScreen = this.props.screen ?? 'akis';
+    const screen = st.screen ?? (startScreen === 'splash' ? 'akis' : startScreen);
+    const introOn = startScreen === 'splash' || (startScreen === 'akis' && this.props.intro !== false);
+    const showSplash = startScreen === 'splash' || (introOn && !st.splashDone);
+    const tutStep = st.tut ?? 0;
+    const mode = st.mode ?? this.props.mode ?? 'kedi';
+    const isCat = mode === 'kedi';
+    const CAT = ['Pamuk','Tarçın','Duman','Minnoş','Boncuk','Zeytin','Fındık','Lokum','Şeker','Mırnav','Karamel','Bal','Paşa','Gece','Kömür','Sütlaç','Tekir','Maviş','Cimcime','Pofuduk','Limon','Nohut','Badem','Kestane','Leblebi','Mia','Luna','Simba','Oscar','Leo','Bulut','Kurabiye','Zuzu','Pıtırcık','Prenses','Mantı','Pisi','Susam','Haydut','Cesur','Ponçik','Elma','Mocha','Kiki','Lili','Tombi','Gölge','Yumoş','Çiko','Tontiş'];
+    const DOG = ['Karabaş','Çomar','Fıstık','Bulut','Zeus','Lucky','Maya','Badem','Kurabiye','Max','Rocky','Bella','Daisy','Cookie','Toprak','Duman','Aslan','Kont','Lord','Hera','Lessie','Pamuk','Sarıkız','Odin','Thor','Bobi','Rex','Ares','Mocha','Bal','Tarçın','Cesur','Dost','Yumak','Panda','Benekli','Kahve','Zeytin','Leo','Luna','Şans','Kuki','Pati','Oreo','Bıdık','Tosun','Kara','Sultan','Efe','Paşa'];
+    const names = isCat ? CAT : DOG;
+    const fmt = (n) => n >= 1000 ? (Math.round(n / 100) / 10).toString().replace('.', ',') + 'B' : String(n);
+    const seed = (i, k) => { const x = Math.sin((i + 1) * (isCat ? 12.9898 : 78.233) * k) * 43758.5453; return x - Math.floor(x); };
+    const T = { b: ['Bronz', 'background: #FBE2D3; box-shadow: inset 0 0 0 3px #D9895B', 'background: #FBE2D3; color: #7A3A14', 31], g: ['Gümüş', 'background: #EEF0F4; box-shadow: inset 0 0 0 3px #9AA3B2', 'background: #EEF0F4; color: #3E4654', 14], a: ['Altın', 'background: #FFE7A3; box-shadow: inset 0 0 0 3px #F2B731', 'background: #FFE7A3; color: #5C4300', 5], e: ['Efsane', 'background: #E6E0FF; box-shadow: inset 0 0 0 3px #7C5CFF', 'background: #E6E0FF; color: #3B2A8A', 1] };
+    const ACH = [
+      ['🐾','İlk Pati','İlk fotoğrafını yükledi.','b'],['📸','Albüm Sahibi','Profiline 4 fotoğraf ekledi.','b'],['👑','Haftanın Yıldızı','Haftalık sıralamada 1. oldu.','a'],['🥉','Podyum','Haftalık sıralamada ilk 3e girdi.','g'],
+      ['💖','Kalp Mıknatısı','Toplam 1.000 kalp topladı.','g'],['💘','Kalp Fırtınası','Bir günde 100 kalp aldı.','g'],['👀','Göz Bebeği','Fotoğrafları 10.000 kez görüntülendi.','g'],['⭐','Ünlü Pati','Profili 1.000 kez ziyaret edildi.','a'],
+      ['🫶','Hayran Kulübü','100 hayran topladı.','g'],['🔥','Ateşli Seri','7 gün üst üste uygulamaya girdi.','b'],['💎','Demir İrade','30 gün üst üste uygulamaya girdi.','a'],['⚔️','Düello Ustası','500 düelloda oy verdi.','g'],
+      ['🛡️','Yenilmez','Bir fotoğrafı arka arkaya 10 düello kazandı.','a'],['⚡','Kombo Kralı','25 oyluk düello kombosu yaptı.','g'],['⚖️','Jüri Üyesi','Toplam 1.000 oy verdi.','a'],['😻','Tepki Ustası','500 emoji tepkisi bıraktı.','b'],
+      ['🌹','Mahalle Gülü','Mahallesinde haftanın en çok kalp alan patisi oldu.','g'],['🦸','Sokak Kahramanı','Bir sokak dostunu sahiplendi ya da profilini yönetip haftada 3 kez mama götürdü.','a'],['🌅','Erken Kuş','Haftalık yarışmaya ilk saatte katıldı.','b'],['🏆','Efsane','Seviye 10a ulaştı.','e'],['📣','Sosyal Pati','Miyhavı WhatsApp ya da Instagramda paylaştı.','g']
+    ].map(([icon, label, how, t], k) => ({ k, icon, label, how: how.replace('3e', "3'e").replace('10a', "10'a").replace('Miyhavı', "Miyhav'ı").replace('Instagramda', "Instagram'da"), style: T[t][1], tier: T[t][0] + ' başarım', tierStyle: T[t][2], pct: T[t][3], date: (3 + k) + ' Kasım 2026', bl: '-' + (k % 5) * 100 + '%', bt: '-' + Math.floor(k / 5) * 100 + '%', tap: () => set({ badge: k, fromGallery: false }) }));
+    const earned = [0, 1, 4, 9, 11, 15, 18].concat((this.state || {}).shared ? [20] : []);
+    const data = names.map((nm, i) => {
+      const views = Math.floor(400 + seed(i, 1) * 9000);
+      const hearts = Math.floor(views * (0.12 + seed(i, 2) * 0.2));
+      const n = 2 + Math.floor(seed(i, 3) * 3);
+      const badges = Array.from({ length: n }, (_, q) => ACH[Math.floor(seed(i, 4 + q) * 20)]).filter((x, q, arr) => arr.indexOf(x) === q);
+      return { i, name: nm, views, hearts, badges, l: '-' + (i % 10) * 100 + '%', t: '-' + Math.floor(i / 10) * 100 + '%', pl: '-' + (i % 10) * 390 + 'px', pt: '-' + (Math.floor(i / 10) * 390 + 64) + 'px' };
+    });
+    const pack = (d) => ({ ...d, views: fmt(d.views), hearts: fmt(d.hearts), open: () => set({ screen: 'foto', sel: d.i, showHelp: false }), profile: () => set({ screen: 'profil', sel: d.i, showHelp: false }) });
+    const list = data.map(pack);
+    const ranked = [...data].sort((a, b) => b.hearts - a.hearts);
+    const selI = st.sel ?? 0;
+    const sd = data[selI];
+    const toast = (msg) => { set({ toast: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: '' }), 1600); };
+    const rx = st.rx || {};
+    const EMO = [['❤️','Kalp'],['😍','Bayıldım'],['😻','Tatlış'],['🐾','Pati'],['🏆','Şampiyon'],['🔥','Ateş']];
+    const reactions = EMO.map(([e, label], k) => {
+      const key = selI + '-' + k;
+      const base = Math.floor(sd.hearts * [1, 0.4, 0.3, 0.2, 0.08, 0.15][k]);
+      const mine = !!rx[key];
+      return { e, label, n: fmt(base + (mine ? 1 : 0)), style: mine ? 'background: #FFE1D2; box-shadow: inset 0 0 0 2px #F26A2E' : 'background: #F4EFEA', tap: () => { set({ rx: { ...rx, [key]: !mine }, xp: (st.xp ?? 640) + (mine ? 0 : 2) }); if (!mine) toast(e + ' gönderildi · +2 XP'); } };
+    });
+    const xp = st.xp ?? 640;
+    const level = Math.floor(xp / 100);
+    const LN = ['Yavru','Meraklı','Oyuncu','Mahalle Sevgilisi','Sokak Yıldızı','Pati Ustası','Jüri','Kanaat Önderi','Efsane','Ünlü','Süperstar'];
+    const d = st.duel ?? 0;
+    const A = data[(d * 2) % 50], Bb = data[(d * 2 + 7) % 50];
+    const combo = st.combo ?? 0;
+    const vote = () => { if (!ready) { toast('Önce iki fotoğrafa da bak'); return; } const c = combo + 1; const nv = votes - 1; set({ duel: d + 1, combo: c, xp: xp + 10, coins: coins + 1, votes: nv, readyAt: Date.now() + 3000 }); toast(nv === 0 ? 'Bu turun oy hakları bitti' : '+10 XP · +1 Mama Puan'); };
+    const days = ['1. gün','2. gün','3. gün','4. gün','5. gün','6. gün','7. gün'];
+    const rew = ['10','15','20','30','40','50','100'];
+    const claimed = !!st.claimed;
+    const today = 4;
+    const helps = {
+      akis: ['Akış', 'Kediler ve köpekler ayrı dünyalarda yarışır. Bir fotoğrafa dokun: büyür, tepki bırakırsın. Her fotoğrafın kaç kez açıldığı herkese görünür.'],
+      foto: ['Fotoğraf', 'Emojiye dokunarak tepki ver; her tepki +2 XP. Görüntülenme ve profil ziyareti sayıları herkese açık.'],
+      duello: ['Düello', 'İki fotoğrafa bak; ortadaki halka 3 saniyede yeşile dolunca sevdiğine dokun. Bir turda 15 oy hakkın var, her 12 dakikada 1 hak dolar. Her oy +10 XP ve +1 Mama Puan.'],
+      sira: ['Sıralama', 'Haftanın en çok kalp alan patileri. Pazar akşamı kapanır; ilk üç profil bir hafta vitrine çıkar.'],
+      oyun: ['Pati Koşusu', 'Zıpla, eğil, mama ve kalp topla. Günde 3 koşu hakkın var; her 100 metre 1 Mama Puan, günde en çok 45. Haftanın en uzun koşanları ödül kazanır.'],
+      dukkan: ['Dükkan', 'Topladığın Mama Puanlarını indirim kuponu, patinin 3D figürü, profil süsleri ve sokak dostlarına mama için harca. Günde en fazla 200 Mama Puan kazanılır. Puan parayla satılmaz, sadece uygulamada kazanılır.'],
+      odul: ['Ödüller', 'Her gün gir, ödülünü al, serini büyüt. Ödüller önceden bellidir; şans yoktur. Görevler gece yarısı yenilenir.'],
+      profil: ['Profil', 'Rozetler adının yanında görünür. Görüntülenme, profil ziyareti ve kalp sayıları herkese açıktır. Profile de emoji bırakabilirsin.']
+    };
+    const NAV = [['akis','🏠','Akış'],['duello','⚔️','Düello'],['sira','🏆','Sıralama'],['odul','🎁','Ödül'],['dukkan','🛍️','Dükkan'],['profil','🐾','Profil']];
+    const coins = st.coins ?? 1240; const pati = st.pati ?? 46;
+    const votes = st.votes ?? 9; const now = Date.now(); const readyAt = st.readyAt ?? 0; const left = Math.max(0, readyAt - now); const ready = left === 0;
+    const dayPts = st.today ?? 90; const adsLeft = st.adsLeft ?? 3;
+    const share = (ch) => { if (!st.shared) { set({ shared: true, coins: coins + 20, badge: 20, fromGallery: false }); toast(ch + ' açıldı · +20 puan'); } else { set({ coins: coins + 5 }); toast(ch + ' açıldı · +5 puan'); } };
+    const owned = st.owned || {};
+    const SHOP = [
+      ['Mama Puan ile · sponsor karşılar', [['🎾','Köpek oyuncağı: kauçuk top','Haftanın sponsor pet shopundan',400,'#E3F6F2','pts'],['🧶','Kedi oyuncağı: tüylü olta','Haftanın sponsor pet shopundan',400,'#E3F6F2','pts'],['🦴','Kemirme oyuncağı','Diş sağlığı için, sponsordan',500,'#E3F6F2','pts'],['🏷️','Sponsor mamada %10 indirim','Haftanın sponsorunda geçerli',300,'#FFE1D2','pts'],['🏷️','Sponsor mamada %20 indirim','Ayda 1 kez',800,'#FFE1D2','pts'],['🥫','Ücretsiz deneme maması','Sponsor numunesi, kargo bedava',600,'#FFE1D2','pts'],['✂️','Pet kuaförde %25 indirim','Anlaşmalı kuaförlerde',600,'#E6E0FF','pts'],['🩺','Veteriner kontrolünde %30 indirim','Anlaşmalı klinikte',1200,'#E3F6F2','pts']]],
+      ['Takas', [['🔁','500 Mama Puan → 1 Pati Puan','Haftada en fazla 3 kez',500,'#FFE3E5','swap']]],
+      ['Premium · Pati Puan + TL', [['☕','Fotoğraf baskılı kupa','Patinin fotoğrafı ve adıyla',40,'#FFE7A3','mix',149],['🔑','3D anahtarlık','Silüeti ve adı kabartmalı',30,'#FFE7A3','mix',99],['🖼️','Baskılı poster 30×30','En sevilen fotoğrafın',50,'#FFE7A3','mix',179]]],
+      ['Sadece kazananlara', [['🗿','Patinin 3D figürü','Haftalık sıralamada 1. olana hediye. Şu an 14. sıradasın.',0,'#FFE7A3','win']]],
+      ['Sipariş ver', [['🗿','Patinin 3D figürü','Fotoğrafından modellenir, basılıp kargolanır. 120 Pati Puan ile 150 TL indirim.',120,'#FFE7A3','paid',699]]],
+      ['Profilini parlat', [['🌟','Altın profil çerçevesi','Avatarın etrafında 30 gün',200,'#FFF4CC','pts'],['🎨','İsim rengi','Adın 30 gün renkli görünür',250,'#FFF4CC','pts'],['📷','Ekstra fotoğraf yuvası','Profiline +3 fotoğraf',300,'#FFF4CC','pts'],['📣','24 saat Öne Çıkanlar','Akışın başında görünür, sıralamayı etkilemez',400,'#FFE0E8','pts'],['✨','Hareketli profil kapağı','30 gün',500,'#FFE0E8','pts'],['😸','Özel emoji paketi','12 yeni tepki emojisi',150,'#FFE0E8','pts'],['🧊','Seri dondurucu','Bir günü kaçırsan da serin bozulmaz',100,'#E3F6F2','pts']]],
+      ['İyilik yap · sponsor ikiye katlar', [['🥣','Sokak dostuna 1 kg mama','Sponsor 1 kg daha ekler',250,'#E3F6F2','pts'],['🏠','Barınağa 5 kg mama','Adına bağış rozeti',1000,'#E3F6F2','pts']]]
+    ];
+    const TUT = [
+      { hole: 'left: 12px; top: 96px; width: 318px; height: 52px', card: 'top: 160px', title: 'Kedi mi, köpek mi? Kimsin?', hasImg: true, list: ['Favorini seç', 'Kediler ve köpekler ayrı yarışır', 'İki tarafta aynı anda yarışabilir ve oy verebilirsin'] },
+      { hole: 'left: 0; top: 300px; width: 132px; height: 132px; border-radius: 6px', card: 'top: 446px', title: 'Dokun, sev, bak', list: ['Oy ver', 'Kedinin/köpeğinin profilini oluştur', 'Rozet kazan', 'Eş bul', 'Mesaj at'] },
+      { hole: 'left: 228px; top: 46px; width: 152px; height: 44px; border-radius: 999px', card: 'top: 110px', title: 'Her gün gel', list: ['Yarışma ve oylamaya katıl', 'Mama Puan topla', 'İndirim kazan', 'Kedinin/köpeğinin oyuncağını al', 'Pati Puan ile premium hediyeleri aç'] },
+      { hole: 'left: 300px; top: 300px; width: 96px; height: 272px; border-radius: 24px', card: 'top: 230px; right: 110px', title: 'Pati Koşusu', list: ['Sağdaki etikete bas, her ekrandan oyna', 'Günde 3 koşu hakkın var', 'Koştuğun metreler Mama Puan olur', 'Haftanın en iyi koşucusu ödül kazanır'] }
+    ];
+    const GUIDE = [['profil', 'Patinin profilini oluştur', 50], ['duello', 'İlk düellonda oy ver', 20], ['odul', 'Günlük ödülünü al', 10], ['dukkan', 'Puanlarınla neler alacağına bak', 10]];
+    const gi = st.guide ?? 0;
+    const guideOn = introOn && !!(st.welcomeDone || st.tutDone) && gi < GUIDE.length;
+    const glowOn = 'box-shadow: 0 0 0 3px #FF8A4C, 0 0 20px 8px rgba(255,138,76,.7); transition: box-shadow .6s ease';
+    const glowOff = 'box-shadow: 0 0 0 2px #FFC9A8, 0 0 6px 2px rgba(255,138,76,.25); transition: box-shadow .6s ease';
+    const go = (k) => { const o = { screen: k, showHelp: false }; if (k === 'duello') o.readyAt = Date.now() + 3000; if (guideOn && GUIDE[gi][0] === k) { o.guide = gi + 1; o.coins = coins + GUIDE[gi][2]; set(o); toast(gi + 1 < GUIDE.length ? '+' + GUIDE[gi][2] + ' puan · Sıradaki: ' + GUIDE[gi + 1][1] : '+' + GUIDE[gi][2] + ' puan · İlk gün tamam!'); } else set(o); };
+    const prI = st.sel ?? (isCat ? 3 : 2);
+    const pd = data[prI];
+    const following = !!st.follow;
+    return {
+      isCat, isDog: !isCat,
+      isAkis: screen === 'akis', isFoto: screen === 'foto', isDuello: screen === 'duello', isSira: screen === 'sira', isOdul: screen === 'odul', isProfil: screen === 'profil',
+      catTab: isCat ? 'background: #FFFFFF; color: #1F1A17; box-shadow: 0 1px 3px rgba(0,0,0,.12)' : 'background: transparent; color: #6B5E55',
+      dogTab: !isCat ? 'background: #FFFFFF; color: #1F1A17; box-shadow: 0 1px 3px rgba(0,0,0,.12)' : 'background: transparent; color: #6B5E55',
+      toCat: () => set({ mode: 'kedi', sel: 0, duel: 0 }), toDog: () => set({ mode: 'kopek', sel: 0, duel: 0 }),
+      showSplash, showTut: introOn && !showSplash && tutStep < 4 && !st.tutDone, showWelcome: introOn && !showSplash && tutStep >= 4 && !st.welcomeDone && !st.tutDone,
+      tut: { ...TUT[Math.min(tutStep, 3)], hasList: true, step: Math.min(tutStep, 3) + 1, btn: tutStep >= 3 ? 'Bitir' : 'İleri' },
+      guideOn, guideText: guideOn ? GUIDE[gi][1] + ' · +' + GUIDE[gi][2] + ' puan' : '', guideStep: (gi + 1) + ' / ' + GUIDE.length, guideGlow: st.pulse ? glowOn : glowOff,
+      nextTut: () => set({ tut: tutStep + 1 }), skipTut: () => set({ tutDone: true }),
+      closeWelcome: () => set({ welcomeDone: true, coins: coins + 10 }),
+      pati, votes, hasVotes: votes > 0, noVotes: votes <= 0, goOdul: () => go('odul'),
+      ringDeg: Math.round((1 - left / 3000) * 360), vsStyle: ready ? 'background: #19A38F; color: #FFFFFF' : 'background: #1F1A17; color: #FFD35C',
+      duelHint: ready ? 'Hazır! Sevdiğine dokun.' : 'Yeşil halka dolunca oy verebilirsin.',
+      noonText: st.noon ? 'Alındı · yarın 12:00' : '12:00–14:00 · Aç, +20 Mama Puan', noonStyle: st.noon ? 'background: #E3F6F2; color: #0B5247' : 'background: #FFC83D; color: #3D2B00',
+      claimNoon: () => { if (!st.noon) { set({ noon: true, coins: coins + 20 }); toast('+20 Mama Puan'); } },
+      isOyun: screen === 'oyun', plays: st.plays ?? 3, canPlay: (st.plays ?? 3) > 0, noPlays: (st.plays ?? 3) <= 0,
+      play: () => { const pl = st.plays ?? 3; if (pl > 0) { set({ plays: pl - 1 }); toast('Koşu başladı · kalan hak ' + (pl - 1)); } },
+      goGame: () => go('oyun'), showSticker: !showSplash && screen !== 'oyun', stickerOpen: !st.stickerMin, stickerMin: !!st.stickerMin, hideSticker: () => set({ stickerMin: true }), showStickerBtn: () => set({ stickerMin: false }),
+      showGameTut: screen === 'oyun' && !st.gameTutDone && !showSplash, closeGameTut: () => set({ gameTutDone: true }),
+      gameTips: ['Zıplamak için ekrana dokun ya da ZIPLA tuşuna bas; basılı tutarsan daha yükseğe zıplarsın', 'Eğilmek için aşağı kaydır ya da EĞİL tuşuna bas', 'Araba gelmeden korna çalar ve kırmızı ünlem yanar: hemen eğil', 'Su birikintisi, çöp kutusu ve kutuların üstünden zıpla', 'Mama ve kalp topla; ' + (isCat ? 'balık' : 'kemik') + ' sana güç verir', 'Her 100 metre 1 Mama Puan; günde 3 koşu hakkın var'],
+      runners: [...data].map((x) => ({ x, m: 300 + Math.floor(seed(x.i, 9) * 1700) })).sort((a, b) => b.m - a.m).slice(0, 10).map((o, k) => ({ ...pack(o.x), m: o.m.toLocaleString('tr-TR'), place: k + 1, placeColor: k < 3 ? 'color: #B4470C' : 'color: #6B5E55' })),
+      capFull: dayPts >= 200,
+      shareWa: () => share('WhatsApp'), shareIg: () => share('Instagram'),
+      today: dayPts, todayPct: Math.min(100, Math.round(dayPts / 2)) + '%',
+      adText: adsLeft > 0 ? 'Kısa reklam izle · +15 Mama Puan (' + adsLeft + ' hak)' : 'Bugünkü reklam hakların bitti',
+      adStyle: adsLeft > 0 ? 'background: #1F1A17; color: #FFFFFF' : 'background: #EDE5DD; color: #6B5E55',
+      watchAd: () => { if (adsLeft > 0 && dayPts < 200) { set({ adsLeft: adsLeft - 1, coins: coins + 15, today: Math.min(200, dayPts + 15) }); toast('+15 Mama Puan'); } },
+      chunks: Array.from({ length: Math.ceil(list.length / 12) }, (_, c) => ({ items: list.slice(c * 12, c * 12 + 12), ad: c * 12 + 12 < list.length })),
+      showBanner: screen !== 'dukkan' && !showSplash,
+      isDukkan: screen === 'dukkan', goShop: () => set({ screen: 'dukkan', showHelp: false }),
+      shop: SHOP.map(([title, items], si) => ({ title, items: items.map(([icon, t, sub, cost, bg, mode, tl], ii) => {
+        const key = si + '-' + ii; const have = !!owned[key]; const prem = mode === 'mix' || mode === 'paid'; const bal = prem ? pati : coins; const can = bal >= cost;
+        const isFig = icon === '🗿' || icon === '🔑', isMama = icon === '🥣' || icon === '🏠' || icon === '🥫', isInd = icon === '🏷️';
+        const base = { icon, isFig, isMama, isInd, isEmoji: !(isFig || isMama || isInd), title: t, sub, bg: (isFig || isMama || isInd) ? 'background: #FFFFFF' : 'background: ' + bg, pct: (mode === 'win' ? 0 : Math.min(100, Math.round(bal / cost * 100))) + '%' };
+        const gold = 'background: #FFC83D; color: #3D2B00', grey = 'background: #EDE5DD; color: #6B5E55', done = 'background: #E3F6F2; color: #0B5247', dark = 'background: #1F1A17; color: #FFFFFF';
+        if (mode === 'swap') { const sw = st.swaps ?? 0; const ok = coins >= 500 && sw < 3; return { ...base, btn: sw >= 3 ? 'Bu hafta bitti' : ok ? 'Takas et (' + (3 - sw) + ')' : (500 - coins) + ' kaldı', btnStyle: ok ? 'background: #D62F3C; color: #FFFFFF' : grey, buy: () => { if (ok) { set({ coins: coins - 500, pati: pati + 1, swaps: sw + 1 }); toast('+1 Pati Puan'); } } }; }
+        if (mode === 'win') return { ...base, btn: 'Sıralamaya git', btnStyle: dark, buy: () => go('sira') };
+        if (mode === 'paid') return { ...base, btn: have ? 'Sipariş verildi' : can ? (tl - 150) + ' TL' : tl + ' TL', btnStyle: have ? done : dark, buy: () => { if (!have) { set({ owned: { ...owned, [key]: true }, pati: can ? pati - cost : pati }); toast(can ? 'Figür siparişi: ' + (tl - 150) + ' TL, Pati Puan ile 150 TL indirim' : 'Figür siparişi: ' + tl + ' TL'); } } };
+        if (mode === 'mix') return { ...base, btn: have ? 'Sepette' : can ? cost + ' Pati + ' + tl + ' TL' : (cost - pati) + ' Pati kaldı', btnStyle: have ? done : can ? 'background: #D62F3C; color: #FFFFFF' : grey, buy: () => { if (!have && can) { set({ pati: pati - cost, owned: { ...owned, [key]: true } }); toast(icon + ' Sepete eklendi · ' + tl + ' TL ödenecek'); } } };
+        return { ...base, btn: have ? 'Cüzdanda' : can ? cost + ' puan' : (cost - coins) + ' kaldı', btnStyle: have ? done : can ? gold : grey, buy: () => { if (!have && can) { set({ coins: coins - cost, owned: { ...owned, [key]: true } }); toast(icon + ' Cüzdanına eklendi'); } } };
+      }) })),
+      showHelp: !!st.showHelp, toggleHelp: () => set({ showHelp: !st.showHelp }),
+      helpTitle: helps[screen][0], helpText: helps[screen][1],
+      streak: claimed ? 13 : 12, coins,
+      me: { name: isCat ? 'Minnoş' : 'Fıstık' }, todayViews: 312,
+      stars: ranked.slice(0, 10).map(pack), list,
+      sel: { ...pack(sd), visits: fmt(Math.floor(sd.views * 0.31)), today: Math.floor(sd.views * 0.04), rank: ranked.indexOf(sd) + 1, badges: sd.badges },
+      reactions, goAkis: () => set({ screen: 'akis' }),
+      a: A, b: Bb, voteA: vote, voteB: vote, combo,
+      level, levelName: LN[Math.min(level, LN.length - 1)], xpIn: xp % 100, xpPct: (xp % 100) + '%',
+      podium: [1, 0, 2].map((k) => { const p = pack(ranked[k]); const sz = k === 0 ? 112 : 92; return { ...p, place: k + 1, ring: 'width: ' + sz + 'px; height: ' + sz + 'px; border: 4px solid ' + ['#F2B731', '#B9C0CC', '#D9895B'][k], block: 'height: ' + [96, 70, 54][k] + 'px; background: ' + ['#FFE7A3', '#EEF0F4', '#FBE2D3'][k] + '; color: #1F1A17' }; }),
+      rest: ranked.slice(3, 15).map((r, k) => ({ ...pack(r), place: k + 4 })),
+      days: days.map((lb, k) => ({ label: lb.replace('. gün', ''), reward: rew[k], style: k < today || (k === today && claimed) ? 'background: #19A38F; color: #FFFFFF' : k === today ? 'background: #FF8A4C; color: #2B1405; box-shadow: 0 0 0 3px #FFD35C' : 'background: #3A322D; color: #E9DED5' })),
+      claim: () => { if (!claimed) { set({ claimed: true, coins: coins + 40 }); toast('+40 Mama Puan · Seri 13 gün!'); } },
+      claimText: claimed ? 'Yarın 50 puan seni bekliyor' : 'Bugünün ödülünü al: 40 puan',
+      claimStyle: claimed ? 'background: #3A322D; color: #E9DED5' : 'background: #FFC83D; color: #3D2B00',
+      quests: [
+        { icon: '⚔️', title: '20 düelloda oy ver', pct: Math.min(100, (d % 21) * 5) + '%', coins: 20, bg: 'background: #E6E0FF' },
+        { icon: '📸', title: 'Yeni bir fotoğraf ekle', pct: '0%', coins: 15, bg: 'background: #FFE1D2' },
+        { icon: '👀', title: '5 profil ziyaret et', pct: '60%', coins: 10, bg: 'background: #E3F6F2' },
+        { icon: '📣', title: '1 kez paylaş', pct: st.shared ? '100%' : '0%', coins: 20, bg: 'background: #E3F6F2' },
+        { icon: '😻', title: '10 tepki bırak', pct: Math.min(100, Object.values(rx).filter(Boolean).length * 10) + '%', coins: 10, bg: 'background: #FFE0E8' }
+      ],
+      pr: { ...pack(pd), name: pd.name, badges: pd.badges, meta: (isCat ? 'Tekir' : 'Golden') + ' · 3 yaş · Eskişehir, Sultandere', visits: fmt(Math.floor(pd.views * 0.31)), fans: fmt(Math.floor(pd.views * 0.05)), views: fmt(pd.views * 9), hearts: fmt(pd.hearts * 9), photos: Array.from({ length: 9 }, (_, k) => pack(data[(prI + k * 5) % 50])) },
+      follow: () => { set({ follow: !following }); if (!following) toast('Takip ediyorsun · +5 XP'); },
+      followText: following ? 'Takip ediliyor' : 'Takip et',
+      followStyle: following ? 'background: #F4EFEA; color: #1F1A17' : 'background: #1F1A17; color: #FFFFFF',
+      nav: NAV.map(([k, icon, label]) => ({ icon, label, go: () => go(k), color: (screen === k || (screen === 'foto' && k === 'akis')) ? 'color: #8A2E05' : 'color: #6B5E55', pill: (guideOn && GUIDE[gi][0] === k ? (st.pulse ? glowOn : glowOff) + '; background: #FFEDE3' : (screen === k || (screen === 'foto' && k === 'akis')) ? 'background: #FFEDE3' : 'background: transparent') })),
+      hasBadge: st.badge != null, bd: (() => { const x = ACH[st.badge ?? 0]; const own = st.fromGallery ? earned.includes(x.k) : true; return { ...x, lockStyle: own ? '' : 'filter: grayscale(1); opacity: .45', status: own ? 'Kazanıldı: ' + x.date : 'Henüz kazanılmadı' }; })(),
+      achAll: ACH.map((x) => ({ ...x, lockStyle: earned.includes(x.k) ? '' : 'filter: grayscale(1); opacity: .4', tap: () => set({ badge: x.k, fromGallery: true }) })), earnedCount: earned.length, closeBadge: () => set({ badge: null }),
+      hasToast: !!st.toast, toast: st.toast || ''
+    };
+  }
+}
+
+const params=new URLSearchParams(location.search);
+const comp=new Component({screen:params.get('ekran')||'akis',mode:params.get('tur')||'kedi',intro:params.get('intro')==='0'?false:undefined});
+const tpl=document.getElementById('tpl').content;const app=document.getElementById('app');
+function look(path,scope){path=path.trim();if(path==='true')return true;if(path==='false')return false;if(/^-?\d+(\.\d+)?$/.test(path))return +path;
+ const parts=path.split('.');for(let i=scope.length-1;i>=0;i--){if(parts[0] in scope[i]){let v=scope[i][parts[0]];for(let k=1;k<parts.length&&v!=null;k++)v=v[parts[k]];return v}}return undefined}
+const WHOLE=/^\s*\{\{([^}]+)\}\}\s*$/;
+function interp(str,scope){return str.replace(/\{\{([^}]+)\}\}/g,(m,p)=>{const v=look(p,scope);return v==null?'':v})}
+function build(node,scope,parent){
+ if(node.nodeType===3){parent.appendChild(document.createTextNode(interp(node.nodeValue,scope)));return}
+ if(node.nodeType!==1)return;
+ const tag=node.tagName.toLowerCase();
+ if(tag==='sc-if'){const m=WHOLE.exec(node.getAttribute('value')||'');if(m&&look(m[1],scope))node.childNodes.forEach(c=>build(c,scope,parent));return}
+ if(tag==='sc-for'){const m=WHOLE.exec(node.getAttribute('list')||'');const list=(m&&look(m[1],scope))||[];const as=node.getAttribute('as')||'item';
+  list.forEach((it,i)=>{const sc=scope.concat([{[as]:it,$index:i}]);node.childNodes.forEach(c=>build(c,sc,parent))});return}
+ const SVGNS='http://www.w3.org/2000/svg';const el=(node.namespaceURI===SVGNS||tag==='svg'||(parent.namespaceURI===SVGNS))?document.createElementNS(SVGNS,tag==='svg'?'svg':node.localName):document.createElement(tag);
+ for(const a of node.attributes){const n=a.name;if(n.startsWith('hint-'))continue;
+  if(/^on[a-z]/i.test(n)){const m=WHOLE.exec(a.value);const fn=m&&look(m[1],scope);if(typeof fn==='function')el.addEventListener(n.slice(2).toLowerCase(),e=>{fn(e)});continue}
+  el.setAttribute(n,interp(a.value,scope))}
+ node.childNodes.forEach(c=>build(c,scope,el));parent.appendChild(el)}
+let lastScr;function render(){const sc=app.querySelector('[style*="overflow-y: auto"]');let top=sc?sc.scrollTop:0;const scr=comp.state.screen;if(scr!==lastScr){top=0;lastScr=scr}
+ const vals=comp.renderVals();const frag=document.createDocumentFragment();tpl.childNodes.forEach(c=>build(c,[vals],frag));app.replaceChildren(frag);
+ const sc2=app.querySelector('[style*="overflow-y: auto"]');if(sc2)sc2.scrollTop=top}
+function fit(){const s=Math.min(innerWidth/390,innerHeight/844);app.style.transform='scale('+s+')'}
+addEventListener('resize',fit);fit();render();if(comp.componentDidMount)comp.componentDidMount();
+</script>
+</body>
+</html>
