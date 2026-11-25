@@ -568,7 +568,7 @@ function drawOb(o,night,sk){const x=o.x,y=o.y;
  const sp=SP[o.type];X.drawImage(sp,x,y,sp.w,sp.h);
  if(sk>.3){X.fillStyle='rgba(255,255,255,'+sk+')';rr(X,x+.6,y+(o.type==='bin'?1.8:2.4),o.w-1.2,1.4,.7);X.fill()}}
 function drawCat(){if(cat.inv>0&&Math.floor(cat.inv*16)%2)return;const im=PIMG[SPEC][grow];if(!im.complete||!im.naturalWidth)return;
- const[w,h]=stageDims(SPEC,grow),hg=GY-cat.y,iw=im.naturalWidth,ih=im.naturalHeight,LF=.31,legH=h*LF,bodyH=h-legH,ov=.04;
+ const[w,h]=stageDims(SPEC,grow),hg=GY-cat.y,iw=im.naturalWidth,ih=im.naturalHeight,LF=.31,legH=h*LF,bodyH=h-legH,ov=.08;
  ell(X,CATX+w/2,GY+.2,Math.max(3,w*.36-hg/8),1,'rgba(40,40,60,'+Math.max(.06,.2-hg/400)+')');
  if(auraT>0){const ca=Math.min(1,auraT/.6),cx=CATX+w/2,cy=cat.y-h*.5,rr2=Math.max(w,h)*.75+Math.sin(t*8)*1.2,ag=X.createRadialGradient(cx,cy,rr2*.2,cx,cy,rr2);ag.addColorStop(0,'rgba(255,226,122,'+.5*ca+')');ag.addColorStop(1,'rgba(255,226,122,0)');X.fillStyle=ag;X.fillRect(cx-rr2,cy-rr2,rr2*2,rr2*2);
   for(let i=0;i<8;i++){const a=t*2.2+i*Math.PI/4,sx=cx+Math.cos(a)*rr2*.8,sy=cy+Math.sin(a)*rr2*.65;X.globalAlpha=ca*(.6+.4*Math.sin(t*10+i));X.fillStyle=i%2?'#FFD24D':'#fff';X.beginPath();for(let k=0;k<8;k++){const b2=k*Math.PI/4,r3=k%2?.35:1.1;X.lineTo(sx+Math.cos(b2)*r3,sy+Math.sin(b2)*r3)}X.fill()}X.globalAlpha=1}
@@ -576,10 +576,10 @@ function drawCat(){if(cat.inv>0&&Math.floor(cat.inv*16)%2)return;const im=PIMG[S
  if(cat.duck){legSY=.42;skB=.75;skF=.95;rot=.2;bodySY=Math.min(1,(10.5-legH*legSY)/bodyH)}
  else if(!cat.ground){legSY=.8;if(cat.vy<0){skB=-.7;skF=.55;rot=-.12}else{skB=.35;skF=-.35;rot=.07}}
  else{const s1=Math.sin(ph),am=.45+speed/230*.35;skB=s1*am;skF=-s1*am;bob=Math.abs(Math.cos(ph))*(.6+speed/230*.6)}
- X.save();X.translate(CATX,cat.y);if(cat.slip)X.rotate(Math.sin(t*14)*.08);
+ X.save();X.translate(CATX,cat.y-bob);if(cat.slip)X.rotate(Math.sin(t*14)*.08);
  const hip=-legH*legSY;
  [[0,skB],[.5,skF]].forEach(([hx2,sk])=>{X.save();X.translate(w*hx2,hip);X.transform(1,0,sk,legSY,0,0);X.drawImage(im,iw*hx2,ih*(1-LF),iw*.5,ih*LF,0,0,w*.5,legH);X.restore()});
- X.save();X.translate(0,hip-bob);X.rotate(rot);X.scale(1,bodySY);X.drawImage(im,0,0,iw,ih*(1-LF+ov),0,-bodyH,w,bodyH+h*ov);
+ X.save();X.translate(0,hip);X.rotate(rot);X.scale(1,bodySY);X.drawImage(im,0,0,iw,ih*(1-LF+ov),0,-bodyH,w,bodyH+h*ov);
  if(cat.snow>.02){const pr=PROF[SPEC][grow]||[],th=cat.snow*1.4,cw=w/18;X.fillStyle='rgba(255,255,255,.95)';for(const[u,v]of pr){if(v>1-LF-.02)continue;ell(X,u*w,-bodyH+v*h-th*.35,cw*.75,th*.7,X.fillStyle)}X.fillStyle='rgba(180,205,235,.5)';for(const[u,v]of pr){if(v>1-LF-.02)continue;ell(X,u*w,-bodyH+v*h+th*.15,cw*.6,th*.2,X.fillStyle)}}
  X.restore();
  X.restore();
