@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/rapor.dart';
+import '../services/disari_ver.dart';
 import '../tema.dart';
 import 'gunluk_ekrani.dart';
 
-class RaporEkrani extends StatelessWidget {
+class RaporEkrani extends StatefulWidget {
   const RaporEkrani({super.key, required this.rapor});
   final Rapor rapor;
 
@@ -18,9 +23,49 @@ class RaporEkrani extends StatelessWidget {
       };
 
   @override
+  State<RaporEkrani> createState() => _RaporEkraniState();
+}
+
+/// Görüntü kaydederken tüm bölümler açık çizilsin diye.
+class _Yakala extends InheritedWidget {
+  const _Yakala({required this.acik, required super.child});
+  final bool acik;
+  static bool of(BuildContext c) => c.dependOnInheritedWidgetOfExactType<_Yakala>()?.acik ?? false;
+  @override
+  bool updateShouldNotify(_Yakala o) => o.acik != acik;
+}
+
+class _RaporEkraniState extends State<RaporEkrani> {
+  final _anahtar = GlobalKey();
+  bool _yakala = false;
+
+  Future<void> _gorselKaydet() async {
+    setState(() => _yakala = true);
+    await WidgetsBinding.instance.endOfFrame;
+    await WidgetsBinding.instance.endOfFrame;
+    try {
+      final sinir = _anahtar.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      final resim = await sinir.toImage(pixelRatio: 2);
+      final veri = await resim.toByteData(format: ui.ImageByteFormat.png);
+      if (veri == null) throw Exception('Görüntü üretilemedi');
+      if (!mounted) return;
+      await dosyaVer(context, veri.buffer.asUint8List(), 'ekspertiz_rapor.png', 'image/png');
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Kaydedilemedi: $e', style: const TextStyle(fontSize: 17))));
+    } finally {
+      if (mounted) setState(() => _yakala = false);
+    }
+  }
+
+  Future<void> _hamKaydet() async {
+    final metin = const JsonEncoder.withIndent('  ').convert(widget.rapor.ham);
+    await dosyaVer(context, Uint8List.fromList(utf8.encode(metin)), 'ekspertiz_rapor.json', 'application/json');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    final r = rapor;
+    final r = widget.rapor;
     final kaporta = r.kaporta;
     final fiyat = r.fiyat;
     final foto = r.fotoKarsilastirma;
@@ -28,6 +73,15 @@ class RaporEkrani extends StatelessWidget {
       appBar: AppBar(
         title: Text(r.aracBasligi.isEmpty ? 'Raporunuz' : r.aracBasligi),
         actions: [
+          PopupMenuButton<String>(
+            tooltip: 'Raporu kaydet',
+            icon: const Icon(Icons.download),
+            onSelected: (v) => v == 'png' ? _gorselKaydet() : _hamKaydet(),
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: 'png', child: Text('Görüntü olarak kaydet')),
+              PopupMenuItem(value: 'json', child: Text('Ham veriyi kaydet')),
+            ],
+          ),
           IconButton(
             tooltip: 'Hata ayıklama günlüğü',
             icon: const Icon(Icons.bug_report),
@@ -36,8 +90,16 @@ class RaporEkrani extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        child: SingleChildScrollView(
+          child: _Yakala(
+            acik: _yakala,
+            child: RepaintBoundary(
+              key: _anahtar,
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (r.sahtelikVar) _SahtelikKarti(rapor: r),
             Card(
@@ -127,6 +189,10 @@ class RaporEkrani extends StatelessWidget {
             const SizedBox(height: 16),
             Text(r.yasalNot, style: t.textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
           ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -218,7 +284,8 @@ class _Bolum extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 6),
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
-        initiallyExpanded: acik,
+        key: ValueKey('$baslik-${_Yakala.of(context)}'),
+        initiallyExpanded: acik || _Yakala.of(context),
         minTileHeight: 64,
         title: Text(baslik, style: Theme.of(context).textTheme.titleLarge),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),

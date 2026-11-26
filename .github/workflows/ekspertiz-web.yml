@@ -19,7 +19,7 @@ jobs:
         run: |
           flutter create . --platforms=web --org com.ozanirmak --project-name ekspertiz_okuyucu
           rm -f test/widget_test.dart
-          flutter pub add file_picker:^10.1.0 http http_parser fetch_client shared_preferences image_picker url_launcher
+          flutter pub add file_picker:^10.1.0 http http_parser fetch_client share_plus web shared_preferences image_picker url_launcher
           flutter analyze --no-fatal-infos --no-fatal-warnings
           flutter build web --release --base-href /ekspertiz/ --dart-define-from-file=ayarlar.json
       - name: Yayin klasorunu guncelle
