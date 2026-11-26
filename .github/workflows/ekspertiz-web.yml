@@ -1,0 +1,32 @@
+name: Ekspertiz web derle
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "ekspertiz-kaynak/**"
+permissions:
+  contents: write
+jobs:
+  derle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Web projesini hazirla ve derle
+        working-directory: ekspertiz-kaynak
+        run: |
+          flutter create . --platforms=web --org com.ozanirmak --project-name ekspertiz_okuyucu
+          flutter pub add file_picker:^10.1.0 http http_parser fetch_client shared_preferences image_picker url_launcher
+          flutter analyze --no-fatal-infos --no-fatal-warnings
+          flutter build web --release --base-href /ekspertiz/ --dart-define-from-file=ayarlar.json
+      - name: Yayin klasorunu guncelle
+        run: |
+          rm -rf ekspertiz
+          cp -r ekspertiz-kaynak/build/web ekspertiz
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add -f ekspertiz
+          git commit -m "Ekspertiz web surumu (otomatik derleme)" || exit 0
+          git push
