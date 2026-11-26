@@ -103,7 +103,7 @@ class _RaporEkraniState extends State<RaporEkrani> {
           children: [
             if (r.sahtelikVar) _SahtelikKarti(rapor: r),
             Card(
-              color: etiketRengi(r.etiket),
+              color: RaporEkrani.etiketRengi(r.etiket),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
