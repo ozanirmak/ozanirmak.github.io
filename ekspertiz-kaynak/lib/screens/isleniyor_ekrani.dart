@@ -82,7 +82,7 @@ class _IsleniyorEkraniState extends State<IsleniyorEkrani> {
           setState(() => _hata = mesaj);
         case Sonuc(:final rapor):
           _durdur();
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => RaporEkrani(rapor: rapor)));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => RaporEkrani(rapor: rapor, fotoKaynakli: widget.dosyalar.any((d) => !d.ad.toLowerCase().endsWith('.pdf')))));
       }
     });
   }

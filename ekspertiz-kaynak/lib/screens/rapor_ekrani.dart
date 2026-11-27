@@ -12,8 +12,10 @@ import '../tema.dart';
 import 'gunluk_ekrani.dart';
 
 class RaporEkrani extends StatefulWidget {
-  const RaporEkrani({super.key, required this.rapor});
+  const RaporEkrani({super.key, required this.rapor, this.fotoKaynakli = false});
   final Rapor rapor;
+  /// Rapor fotoğraftan okunduysa rakamlar kullanıcı onayı olmadan gösterilmez.
+  final bool fotoKaynakli;
 
   static Color etiketRengi(String e) => switch (e) {
         'Temiz görünüyor' => Renk.temiz,
@@ -38,6 +40,64 @@ class _Yakala extends InheritedWidget {
 class _RaporEkraniState extends State<RaporEkrani> {
   final _anahtar = GlobalKey();
   bool _yakala = false;
+  final _onay = <String>{};
+  late bool _kontrolBekliyor = widget.fotoKaynakli;
+
+  List<(String, String)> get _kontrolSatirlari {
+    final a = widget.rapor.arac;
+    String? v(Object? x) => (x == null || '$x'.trim().isEmpty || '$x' == '0') ? null : '$x';
+    final marka = [v(a['marka']), v(a['model'])].whereType<String>().join(' ');
+    return [
+      if (v(a['km']) != null) ('Kilometre', '${a['km']} km'),
+      if (marka.isNotEmpty) ('Marka ve model', marka),
+      if (v(a['model_yili']) != null) ('Model yılı', '${a['model_yili']}'),
+      if (v(a['plaka_maskeli']) != null) ('Plaka', '${a['plaka_maskeli']}'),
+    ];
+  }
+
+  Widget _kontrolSayfasi(BuildContext context) {
+    final t = Theme.of(context);
+    final satirlar = _kontrolSatirlari;
+    final hepsi = satirlar.every((e) => _onay.contains(e.$1));
+    return Scaffold(
+      appBar: AppBar(title: const Text('Önce kontrol edin')),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Text(
+              'Rapor fotoğraftan okundu. Fotoğraftaki rakamlar yanlış okunmuş olabilir. '
+              'Raporunuzun aslına bakın, her satırı karşılaştırın; doğruysa kutuyu işaretleyin.',
+              style: t.textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 16),
+            for (final e in satirlar)
+              Card(
+                child: CheckboxListTile(
+                  value: _onay.contains(e.$1),
+                  onChanged: (d) => setState(() => d == true ? _onay.add(e.$1) : _onay.remove(e.$1)),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: Text(e.$1, style: t.textTheme.bodyMedium),
+                  subtitle: Text(e.$2, style: t.textTheme.titleLarge),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                ),
+              ),
+            if (satirlar.isEmpty) Text('Fotoğraftan okunabilen bilgi yok. Raporun aslıyla karşılaştırarak ilerleyin.', style: t.textTheme.bodyMedium),
+            const SizedBox(height: 20),
+            FilledButton(
+              onPressed: hepsi ? () => setState(() => _kontrolBekliyor = false) : null,
+              child: const Text('Kontrol ettim, raporu göster'),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton(
+              onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst),
+              child: const Text('Yanlış var, fotoğrafı yeniden çekeceğim'),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
 
   Future<void> _gorselKaydet() async {
     setState(() => _yakala = true);
@@ -64,6 +124,7 @@ class _RaporEkraniState extends State<RaporEkrani> {
 
   @override
   Widget build(BuildContext context) {
+    if (_kontrolBekliyor) return _kontrolSayfasi(context);
     final t = Theme.of(context);
     final r = widget.rapor;
     final kaporta = r.kaporta;
