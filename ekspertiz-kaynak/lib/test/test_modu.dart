@@ -75,6 +75,7 @@ List<Kontrol> kaliteKontrol(Rapor r, {required bool fotoKaynakli}) {
   k.add(Kontrol('"Kesin alın/almayın" denmemiş', !_kesin.hasMatch(metin)));
   k.add(Kontrol('Sahtelik sinyali tutarlı', !r.sahtelikVar || r.sahtelikSinyalleri.isNotEmpty));
   k.add(Kontrol('Kaynak bağlantıları https', r.kaynaklar.every((e) => '${e['url']}'.startsWith('https://')), '${r.kaynaklar.length} kaynak'));
+  k.add(Kontrol('Yakıt ile paket uyumlu', r.tutarsizliklar.isEmpty, r.tutarsizliklar.join(' ')));
   k.add(Kontrol('Yasal not var', r.yasalNot.isNotEmpty));
   k.add(Kontrol('Sahtelik sinyali en çok 5', r.sahtelikSinyalleri.length <= 5, '${r.sahtelikSinyalleri.length} sinyal'));
   if (r.fiyat != null) {

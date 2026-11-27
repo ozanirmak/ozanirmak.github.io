@@ -65,6 +65,21 @@ class Rapor {
     return b.toString();
   }
 
+  /// Kodla bulunan, rapor içi uyumsuzluklar. Yapay zeka yok, yanlış alarm riski düşük olanlar.
+  List<String> get tutarsizliklar {
+    final n = <String>[];
+    final yakit = '${arac['yakit'] ?? ''}'.toLowerCase();
+    final ad = '${arac['paket'] ?? ''} ${arac['model'] ?? ''}'.toLowerCase();
+    final dizel = RegExp(r'\b(dsl|dizel|diesel|tdi|dci|crdi|hdi|bluehdi|cdti|tdci|multijet|jtd|d4d)\b').hasMatch(ad);
+    final benzin = RegExp(r'\b(tsi|tfsi|tce|vvt|vtec|mpi|gdi|t-gdi|fsi|ecoboost|puretech|benzin)\b').hasMatch(ad);
+    final yDizel = yakit.contains('dizel') || yakit.contains('diesel');
+    final yBenzin = yakit.contains('benzin');
+    if ((dizel && !benzin && yBenzin) || (benzin && !dizel && yDizel)) {
+      n.add('Rapordaki yakıt bilgisi (${arac['yakit']}) ile paket adı (${arac['paket']}) uyuşmuyor. Ruhsattan yakıt türünü kontrol edin.');
+    }
+    return n;
+  }
+
   String get ozet => _r['ozet'] as String? ?? '';
   String get yasalNot => _r['yasal_not'] as String? ?? '';
   bool get sahtelikVar => _map(_r['sahtelik_uyarisi'])['var_mi'] == true;

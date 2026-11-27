@@ -185,7 +185,7 @@ class _RaporEkraniState extends State<RaporEkrani> {
                   style: monoStil.copyWith(fontSize: 17, color: t.colorScheme.onSurface),
                 ),
               ),
-            for (final n in r.kontrolNotlari) _Not(metin: n),
+            for (final n in [...r.tutarsizliklar, ...r.kontrolNotlari]) _Not(metin: n),
             if (r.ilkBakista.isNotEmpty)
               _Bolum(baslik: r.rol == 'satici' ? 'Alıcı ilk bunlara bakacak' : 'Önce bunlara bakın', acik: true, children: [
                 for (final b in r.ilkBakista)
