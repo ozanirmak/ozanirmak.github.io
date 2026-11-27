@@ -12,3 +12,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install requests
       - run: python3 ekspertiz-test/run_test.py
+        env:
+          SEC: ${{ vars.SEC }}

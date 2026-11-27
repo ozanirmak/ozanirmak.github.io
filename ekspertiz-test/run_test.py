@@ -5,6 +5,8 @@ URL = AYAR["SUPABASE_URL"] + "/functions/v1/analyze-report"
 H = {"Authorization": "Bearer " + AYAR["SUPABASE_ANON_KEY"], "apikey": AYAR["SUPABASE_ANON_KEY"]}
 DIR = "ekspertiz-test/set"
 DOGRU = json.load(open(DIR + "/dogru.json"))
+SEC = os.environ.get("SEC")
+if SEC: DOGRU = [k for k in DOGRU if k["dosya"][:2] in SEC.split(",")]
 ETIKET = {"temiz": ["Temiz görünüyor", "Pazarlıkla değerlendirilebilir"],
           "orta": ["Pazarlıkla değerlendirilebilir", "Dikkatli olun"],
           "agir": ["Dikkatli olun", "Ciddi risk var"]}
@@ -90,6 +92,12 @@ for k, c in zip(DOGRU, cevaplar):
     kalan = [a for a, b in bool_kon.items() if not b]
     print(f"{k['dosya']:36s} {c['sure']:5.1f}sn  {'GECTI' if not kalan else 'KALDI: ' + ','.join(kalan)}  {kon.get('yakalanan','')} {kon.get('etiket','')}")
     if c.get("hata"): print("    hata:", c["hata"][:300])
+    if kalan and c.get("sonuc"):
+        so = c["sonuc"]; ra = so["rapor"]
+        print("    DETAY arac:", json.dumps(so.get("arac"), ensure_ascii=False), "| truth km", k.get("km"), "tramer", k.get("tramer"))
+        print("    DETAY kaporta:", json.dumps(ra["kaporta_ozeti"], ensure_ascii=False)[:600])
+        print("    DETAY tramer_yorumu:", str(ra.get("tramer_yorumu"))[:300])
+        print("    DETAY km_tutarliligi:", str(ra.get("km_tutarliligi"))[:200])
     if m.get("iz"):
         print("    iz:", [(i.get("adim"), i.get("sure_sn"), i.get("sonuc")) for i in m["iz"] if i.get("sonuc") or i.get("adim") == "bitti"])
 print()
