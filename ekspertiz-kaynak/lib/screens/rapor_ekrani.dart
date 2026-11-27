@@ -183,6 +183,23 @@ class _RaporEkraniState extends State<RaporEkrani> {
                 ),
               ),
             for (final n in r.kontrolNotlari) _Not(metin: n),
+            if (r.ilkBakista.isNotEmpty)
+              _Bolum(baslik: r.rol == 'satici' ? 'Alıcı ilk bunlara bakacak' : 'Önce bunlara bakın', acik: true, children: [
+                for (final b in r.ilkBakista)
+                  _Madde(
+                    metin: '${b['konu']}: ${b['aciklama']}',
+                    renk: switch (b['durum']) { 'iyi' => Renk.temiz, 'risk' => Renk.risk, _ => Renk.pazarlik },
+                    ikon: switch (b['durum']) { 'iyi' => Icons.check_circle, 'risk' => Icons.error, _ => Icons.warning_amber },
+                  ),
+              ]),
+            if (r.iyiHaberler.isNotEmpty)
+              _Bolum(baslik: r.rol == 'satici' ? 'Güçlü yanlarınız' : 'İyi haberler', acik: true, children: [
+                for (final h in r.iyiHaberler) _Madde(metin: h, renk: Renk.temiz, ikon: Icons.check_circle),
+              ]),
+            if (r.neYapmali.isNotEmpty)
+              _Bolum(baslik: r.rol == 'satici' ? 'Satıştan önce yapın' : 'Sıradaki adımlar', acik: true, children: [
+                for (var i = 0; i < r.neYapmali.length; i++) _Madde(metin: '${i + 1}. ${r.neYapmali[i]}', ikon: Icons.flag),
+              ]),
             _Bolum(baslik: 'Kaporta ve iskelet', acik: true, children: [
               for (final p in Rapor.liste(kaporta['kritik'])) _Madde(metin: p, renk: Renk.risk, ikon: Icons.error),
               for (final p in Rapor.liste(kaporta['orta'])) _Madde(metin: p, renk: Renk.pazarlik, ikon: Icons.warning_amber),
@@ -227,7 +244,7 @@ class _RaporEkraniState extends State<RaporEkrani> {
                 if ('${fiyat['onerilen_pazarlik_tl'] ?? ''}'.isNotEmpty) _Madde(metin: 'Önerilen pazarlık: ${fiyat['onerilen_pazarlik_tl']}', ikon: Icons.handshake),
               ],
             ]),
-            _Bolum(baslik: 'Satıcıya sorun', acik: true, children: [
+            _Bolum(baslik: r.rol == 'satici' ? 'Alıcının soracakları ve cevaplarınız' : 'Satıcıya sorun', acik: true, children: [
               for (var i = 0; i < r.saticiyaSorulacaklar.length; i++) _Madde(metin: '${i + 1}. ${r.saticiyaSorulacaklar[i]}'),
               if (r.saticiyaSorulacaklar.isNotEmpty)
                 Padding(

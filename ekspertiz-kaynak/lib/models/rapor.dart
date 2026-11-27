@@ -7,6 +7,10 @@ class Rapor {
   Map<String, dynamic> get arac => _map(ham['arac']);
 
   String get etiket => _r['etiket'] as String? ?? '';
+  String get rol => _r['rol'] == 'satici' ? 'satici' : 'alici';
+  List<Map<String, dynamic>> get ilkBakista => _maps(_r['ilk_bakista']);
+  List<String> get iyiHaberler => _str(_r['iyi_haberler']);
+  List<String> get neYapmali => _str(_r['ne_yapmali']);
   String get ozet => _r['ozet'] as String? ?? '';
   String get yasalNot => _r['yasal_not'] as String? ?? '';
   bool get sahtelikVar => _map(_r['sahtelik_uyarisi'])['var_mi'] == true;
