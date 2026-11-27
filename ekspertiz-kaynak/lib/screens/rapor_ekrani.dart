@@ -48,11 +48,12 @@ class _RaporEkraniState extends State<RaporEkrani> {
     final a = widget.rapor.arac;
     String? v(Object? x) => (x == null || '$x'.trim().isEmpty || '$x' == '0') ? null : '$x';
     final marka = [v(a['marka']), v(a['model'])].whereType<String>().join(' ');
+    const yok = 'Okunamadı. Raporun aslına bakın';
     return [
-      if (v(a['km']) != null) ('Kilometre', '${a['km']} km'),
-      if (marka.isNotEmpty) ('Marka ve model', marka),
-      if (v(a['model_yili']) != null) ('Model yılı', '${a['model_yili']}'),
-      if (v(a['plaka_maskeli']) != null) ('Plaka', '${a['plaka_maskeli']}'),
+      ('Kilometre', v(a['km']) != null ? '${a['km']} km' : yok),
+      ('Marka ve model', marka.isNotEmpty ? marka : yok),
+      ('Model yılı', v(a['model_yili']) != null ? '${a['model_yili']}' : yok),
+      ('Plaka', v(a['plaka_maskeli']) != null ? '${a['plaka_maskeli']}' : yok),
     ];
   }
 
@@ -83,7 +84,6 @@ class _RaporEkraniState extends State<RaporEkrani> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 ),
               ),
-            if (satirlar.isEmpty) Text('Fotoğraftan okunabilen bilgi yok. Raporun aslıyla karşılaştırarak ilerleyin.', style: t.textTheme.bodyMedium),
             const SizedBox(height: 20),
             FilledButton(
               onPressed: hepsi ? () => setState(() => _kontrolBekliyor = false) : null,
