@@ -11,6 +11,60 @@ class Rapor {
   List<Map<String, dynamic>> get ilkBakista => _maps(_r['ilk_bakista']);
   List<String> get iyiHaberler => _str(_r['iyi_haberler']);
   List<String> get neYapmali => _str(_r['ne_yapmali']);
+  /// Kaporta değer etkisi yüzdesi: "%10-15 (tahmini)" -> (10, 15); tek değerde (5, 5).
+  (double, double)? get degerEtkisiYuzde {
+    final m = '${kaporta['deger_etkisi_yuzde_araligi'] ?? ''}'.replaceAll(',', '.');
+    final a = RegExp(r'(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)').firstMatch(m);
+    if (a != null) return (double.parse(a.group(1)!), double.parse(a.group(2)!));
+    final b = RegExp(r'(\d+(?:\.\d+)?)').firstMatch(m);
+    return b == null ? null : (double.parse(b.group(1)!), double.parse(b.group(1)!));
+  }
+
+  /// İlan fiyatı (TL), yoksa null.
+  double? get ilanFiyati {
+    final v = fiyat?['ilan_fiyati'];
+    return v is num && v > 0 ? v.toDouble() : null;
+  }
+
+  /// Değer kaybının TL karşılığı (alt, üst), ilan fiyatı ve yüzde varsa.
+  (double, double)? get degerKaybiTl {
+    final f = ilanFiyati, y = degerEtkisiYuzde;
+    if (f == null || y == null) return null;
+    return (f * y.$1 / 100, f * y.$2 / 100);
+  }
+
+  static String tl(double v) {
+    final s = v.round().toString();
+    final b = StringBuffer();
+    for (var i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 == 0) b.write('.');
+      b.write(s[i]);
+    }
+    return '$b TL';
+  }
+
+  /// WhatsApp'a yapıştırılabilecek kısa özet.
+  String paylasimMetni() {
+    final b = StringBuffer()
+      ..writeln('Ekspertiz özeti: ${aracBasligi.isEmpty ? 'Araç' : aracBasligi}')
+      ..writeln(etiket)
+      ..writeln(ozet);
+    if (ilkBakista.isNotEmpty) {
+      b.writeln('\nÖnce bunlara bakın:');
+      for (final x in ilkBakista) {
+        b.writeln('- ${x['konu']}: ${x['aciklama']}');
+      }
+    }
+    if (saticiyaSorulacaklar.isNotEmpty) {
+      b.writeln('\nSorulacaklar:');
+      for (var i = 0; i < saticiyaSorulacaklar.length; i++) {
+        b.writeln('${i + 1}. ${saticiyaSorulacaklar[i]}');
+      }
+    }
+    b.writeln('\n$yasalNot');
+    return b.toString();
+  }
+
   String get ozet => _r['ozet'] as String? ?? '';
   String get yasalNot => _r['yasal_not'] as String? ?? '';
   bool get sahtelikVar => _map(_r['sahtelik_uyarisi'])['var_mi'] == true;

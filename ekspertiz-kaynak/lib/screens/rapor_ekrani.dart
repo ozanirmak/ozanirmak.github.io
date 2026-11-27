@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/rapor.dart';
 import '../services/disari_ver.dart';
 import '../tema.dart';
+import '../test/test_modu.dart';
 import 'gunluk_ekrani.dart';
 
 class RaporEkrani extends StatefulWidget {
@@ -143,6 +144,7 @@ class _RaporEkraniState extends State<RaporEkrani> {
               PopupMenuItem(value: 'json', child: Text('Ham veriyi kaydet')),
             ],
           ),
+          if (kTestModu)
           IconButton(
             tooltip: 'Hata ayıklama günlüğü',
             icon: const Icon(Icons.bug_report),
@@ -152,7 +154,8 @@ class _RaporEkraniState extends State<RaporEkrani> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: _Yakala(
+          child: Column(children: [
+          _Yakala(
             acik: _yakala,
             child: RepaintBoundary(
               key: _anahtar,
@@ -241,6 +244,11 @@ class _RaporEkraniState extends State<RaporEkrani> {
               if (fiyat == null) const _Madde(metin: 'Piyasa fiyatı için yeterli kaynak bulunamadı.', ikon: Icons.help_outline),
               if (fiyat != null) ...[
                 if ('${fiyat['piyasa_araligi'] ?? ''}'.isNotEmpty) _Madde(metin: 'Piyasa aralığı: ${fiyat['piyasa_araligi']}', ikon: Icons.bar_chart),
+                if (r.degerKaybiTl != null)
+                  _Madde(
+                    metin: 'Kaporta kaynaklı değer kaybı: %${r.degerEtkisiYuzde!.$1.toStringAsFixed(0)}-${r.degerEtkisiYuzde!.$2.toStringAsFixed(0)}, ilan fiyatına göre yaklaşık ${Rapor.tl(r.degerKaybiTl!.$1)} - ${Rapor.tl(r.degerKaybiTl!.$2)} (tahmini)',
+                    ikon: Icons.calculate,
+                  ),
                 if ('${fiyat['onerilen_pazarlik_tl'] ?? ''}'.isNotEmpty) _Madde(metin: 'Önerilen pazarlık: ${fiyat['onerilen_pazarlik_tl']}', ikon: Icons.handshake),
               ],
             ]),
@@ -264,6 +272,15 @@ class _RaporEkraniState extends State<RaporEkrani> {
             _Bolum(baslik: 'Kaynaklar', acik: true, children: [
               for (final k in r.kaynaklar.take(8)) _Kaynak(baslik: '${k['baslik']}', url: '${k['url']}'),
             ]),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              icon: const Icon(Icons.share),
+              label: const Text('Özeti kopyala (WhatsApp için)'),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: r.paylasimMetni()));
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Özet kopyalandı, WhatsApp\'a yapıştırabilirsiniz', style: TextStyle(fontSize: 17))));
+              },
+            ),
             const SizedBox(height: 16),
             Text(r.yasalNot, style: t.textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
           ],
@@ -271,6 +288,8 @@ class _RaporEkraniState extends State<RaporEkrani> {
               ),
             ),
           ),
+          if (kTestModu) TestPaneli(rapor: widget.rapor, fotoKaynakli: widget.fotoKaynakli),
+        ]),
         ),
       ),
     );
