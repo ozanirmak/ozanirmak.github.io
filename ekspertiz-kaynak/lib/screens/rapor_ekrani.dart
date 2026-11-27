@@ -238,15 +238,20 @@ class _RaporEkraniState extends State<RaporEkrani> {
               ]),
             if (r.kronikSorunlar.isNotEmpty)
               _Bolum(baslik: 'Bu modelin bilinen sorunları', children: [
+                if (r.kaynaklar.isEmpty) const _Madde(metin: 'Kaynak bulunamadı; bu bilgi doğrulanmamıştır, ustanıza sorun.', ikon: Icons.info_outline),
                 for (final k in r.kronikSorunlar) _Madde(metin: '${k['sorun']}\nNasıl kontrol edilir: ${k['kontrol_yolu']}', ikon: Icons.history),
               ]),
             _Bolum(baslik: 'Fiyat ve pazarlık', acik: true, children: [
               if (fiyat == null) const _Madde(metin: 'Piyasa fiyatı için yeterli kaynak bulunamadı.', ikon: Icons.help_outline),
               if (fiyat != null) ...[
                 if ('${fiyat['piyasa_araligi'] ?? ''}'.isNotEmpty) _Madde(metin: 'Piyasa aralığı: ${fiyat['piyasa_araligi']}', ikon: Icons.bar_chart),
+                if (r.kaynaklar.isEmpty)
+                  const _Madde(metin: 'Bu fiyat aralığı doğrulanmış bir ilan listesine dayanmıyor; yalnızca yön göstericidir. Kendiniz de benzer ilanlara bakın.', ikon: Icons.info_outline),
                 if (r.degerKaybiTl != null)
                   _Madde(
-                    metin: 'Kaporta kaynaklı değer kaybı: %${r.degerEtkisiYuzde!.$1.toStringAsFixed(0)}-${r.degerEtkisiYuzde!.$2.toStringAsFixed(0)}, ilan fiyatına göre yaklaşık ${Rapor.tl(r.degerKaybiTl!.$1)} - ${Rapor.tl(r.degerKaybiTl!.$2)} (tahmini)',
+                    metin: r.degerKaybiTl!.$1 < 1
+                        ? 'Kaporta kaynaklı değer kaybı en çok %${r.degerEtkisiYuzde!.$2.toStringAsFixed(0)}: ilan fiyatına göre yaklaşık ${Rapor.tl(r.degerKaybiTl!.$2)} (tahmini)'
+                        : 'Kaporta kaynaklı değer kaybı: %${r.degerEtkisiYuzde!.$1.toStringAsFixed(0)}-${r.degerEtkisiYuzde!.$2.toStringAsFixed(0)}, ilan fiyatına göre yaklaşık ${Rapor.tl(r.degerKaybiTl!.$1)} - ${Rapor.tl(r.degerKaybiTl!.$2)} (tahmini)',
                     ikon: Icons.calculate,
                   ),
                 if ('${fiyat['onerilen_pazarlik_tl'] ?? ''}'.isNotEmpty) _Madde(metin: 'Önerilen pazarlık: ${fiyat['onerilen_pazarlik_tl']}', ikon: Icons.handshake),

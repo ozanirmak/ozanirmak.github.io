@@ -22,8 +22,25 @@ class Kontrol {
 const _etiketler = ['Temiz görünüyor', 'Pazarlıkla değerlendirilebilir', 'Dikkatli olun', 'Ciddi risk var'];
 final _iyiHaber = RegExp(r'orijinaldir|hasarsız|sorunsuz|temiz|işlem görmemiş', caseSensitive: false);
 final _sizinti = RegExp(r'\bnull\b|undefined|\{|\}|NaN|Instance of', caseSensitive: false);
+
+/// Raporun içindeki yalnızca metin değerlerini toplar (JSON yapısındaki { } sızıntı sayılmaz).
+void _metinler(Object? o, List<String> cikti) {
+  if (o is String) {
+    cikti.add(o);
+  } else if (o is Map) {
+    o.values.forEach((v) => _metinler(v, cikti));
+  } else if (o is List) {
+    o.forEach((v) => _metinler(v, cikti));
+  }
+}
 final _kesin = RegExp(r'kesin (alın|almayın)', caseSensitive: false);
 final _acikPlaka = RegExp(r'\b\d{2}\s?[A-ZÇĞİÖŞÜ]{1,3}\s?\d{2,4}\b');
+
+bool _sizintiVar(Rapor r) {
+  final m = <String>[];
+  _metinler(r.ham['rapor'], m);
+  return m.any(_sizinti.hasMatch);
+}
 
 /// Rapor verisinin mantık ve sağlamlık kontrolleri. Saf fonksiyon, ağ yok.
 List<Kontrol> kaliteKontrol(Rapor r, {required bool fotoKaynakli}) {
@@ -54,11 +71,15 @@ List<Kontrol> kaliteKontrol(Rapor r, {required bool fotoKaynakli}) {
   k.add(Kontrol('Model yılı makul', yil == null || (yil is num && yil >= 1990 && yil <= DateTime.now().year + 1), '$yil'));
   k.add(Kontrol('Plaka maskeli', plaka.isEmpty || RegExp(r'^\d{2} \*{3} \d{2}$').hasMatch(plaka), plaka));
   k.add(Kontrol('Açık plaka sızmamış', !_acikPlaka.hasMatch(metin.replaceAll(plaka, ''))));
-  k.add(Kontrol('Metinlerde sızıntı yok (null, { })', !_sizinti.hasMatch(jsonEncode(r.ham['rapor'] ?? {}))));
+  k.add(Kontrol('Metinlerde sızıntı yok (null, { })', !_sizintiVar(r)));
   k.add(Kontrol('"Kesin alın/almayın" denmemiş', !_kesin.hasMatch(metin)));
   k.add(Kontrol('Sahtelik sinyali tutarlı', !r.sahtelikVar || r.sahtelikSinyalleri.isNotEmpty));
   k.add(Kontrol('Kaynak bağlantıları https', r.kaynaklar.every((e) => '${e['url']}'.startsWith('https://')), '${r.kaynaklar.length} kaynak'));
   k.add(Kontrol('Yasal not var', r.yasalNot.isNotEmpty));
+  k.add(Kontrol('Sahtelik sinyali en çok 5', r.sahtelikSinyalleri.length <= 5, '${r.sahtelikSinyalleri.length} sinyal'));
+  if (r.fiyat != null) {
+    k.add(Kontrol('Fiyat aralığı kaynaklı', r.kaynaklar.isNotEmpty, r.kaynaklar.isEmpty ? 'kaynak yok: yön gösterici' : '${r.kaynaklar.length} kaynak'));
+  }
   if (r.fiyat != null) {
     k.add(Kontrol('Fiyat bölümü dolu', '${r.fiyat!['piyasa_araligi'] ?? ''}'.isNotEmpty));
   }
